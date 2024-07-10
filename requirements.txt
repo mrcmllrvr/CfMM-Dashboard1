@@ -1,0 +1,9 @@
+dash
+dash-bootstrap-components
+dash-dangerously-set-inner-html
+plotly
+pandas
+numpy
+scikit-learn
+wordcloud
+streamlit
