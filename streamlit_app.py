@@ -1,10 +1,24 @@
 import streamlit as st
 
+# Sidebar elements
+st.sidebar.markdown("### Menu")
+st.sidebar.markdown("[Dashboard](#)")
+st.sidebar.markdown("[AI Chat](#)")
+st.sidebar.markdown("### Custom")
+st.sidebar.markdown("[Extra Pages](#)")
+st.sidebar.markdown("[Auth Pages](#)")
+st.sidebar.markdown("[Error Pages](#)")
+st.sidebar.markdown("### Elements")
+st.sidebar.markdown("[Components](#)")
+st.sidebar.markdown("[Forms](#)")
+st.sidebar.markdown("[Maps](#)")
+st.sidebar.markdown("[Tables](#)")
+st.sidebar.markdown("[Chart](#)")
+st.sidebar.markdown("[Level](#)")
+st.sidebar.markdown("[Badge Items](#)")
 
-st.markdown("""
-<Date Today>
-""")
-
+# Main content
+st.markdown("<Date Today>")
 st.title("Today's Insight/Metrics")
 
 # Embed the Dash app using an iframe
