@@ -1,5 +1,7 @@
 import streamlit as st
 
+st. set_page_config(layout="wide")
+
 # Sidebar elements
 st.sidebar.markdown("### Menu")
 st.sidebar.markdown("[Dashboard](#)")
