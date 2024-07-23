@@ -31,48 +31,48 @@ from wordcloud import WordCloud, STOPWORDS
 from sklearn.feature_extraction.text import CountVectorizer
 import urllib.parse
 
-def generate_compare_chart1():
-    # (1) Import results of bias model and topic/location model
-    # drive.mount('/content/gdrive', force_remount=True)
-    # dir = 'gdrive/MyDrive/CfMM/data/'
+# (1) Import results of bias model and topic/location model
+# drive.mount('/content/gdrive', force_remount=True)
+# dir = 'gdrive/MyDrive/CfMM/data/'
 
-    # with open(dir+f'df_topic_and_loc.pkl', 'rb') as pickle_file:
-    #   df_topic_and_loc = pd.compat.pickle_compat.load(pickle_file)
+# with open(dir+f'df_topic_and_loc.pkl', 'rb') as pickle_file:
+#   df_topic_and_loc = pd.compat.pickle_compat.load(pickle_file)
 
-    # with open(dir+f'df_bias.pkl', 'rb') as pickle_file:
-    #   df_bias = pd.compat.pickle_compat.load(pickle_file)
+# with open(dir+f'df_bias.pkl', 'rb') as pickle_file:
+#   df_bias = pd.compat.pickle_compat.load(pickle_file)
 
-    # Import datasets if from local
-    # df_dummy = pd.read_pickle(r"df_dummy.pkl")
-    df_topic_and_loc = pd.read_pickle(r"df_topic_and_loc.pkl")
-    df_bias = pd.read_pickle(r"df_bias.pkl")
+# Import datasets if from local
+# df_dummy = pd.read_pickle(r"df_dummy.pkl")
+df_topic_and_loc = pd.read_pickle(r"df_topic_and_loc.pkl")
+df_bias = pd.read_pickle(r"df_bias.pkl")
 
-    # (2) Join
-    df_corpus = df_topic_and_loc.merge(df_bias, on='article_url')
+# (2) Join
+df_corpus = df_topic_and_loc.merge(df_bias, on='article_url')
 
-    # (3) Get relevant parameters
+# (3) Get relevant parameters
 
-    # # If year to date:
-    start_date = df_corpus['date_published'].min()
-    end_date = df_corpus['date_published'].max()
+# # If year to date:
+start_date = df_corpus['date_published'].min()
+end_date = df_corpus['date_published'].max()
 
-    # # If today only:
-    # start_date = df_corpus['date_published'].max()
-    # end_date = df_corpus['date_published'].max()
+# # If today only:
+# start_date = df_corpus['date_published'].max()
+# end_date = df_corpus['date_published'].max()
 
-    unique_publishers = sorted(df_corpus['publisher'].unique())
-    unique_topics = df_corpus['topic_list'].explode().dropna().unique()
-
+unique_publishers = sorted(df_corpus['publisher'].unique())
+unique_topics = df_corpus['topic_list'].explode().dropna().unique()
 
 
 
 
-    # Initialize the Dash application
-    stylesheets = [dbc.themes.FLATLY] # 'https://codepen.io/chriddyp/pen/bWLwgP.css'
-    app = dash.Dash(__name__, external_stylesheets=stylesheets)
 
-    # Define the comparison layout for Chart 1A and Chart 1B
-    app.layout = html.Div(className='row', children=[
+# Initialize the Dash application
+stylesheets = [dbc.themes.FLATLY] # 'https://codepen.io/chriddyp/pen/bWLwgP.css'
+app = dash.Dash(__name__, external_stylesheets=stylesheets)
+
+# Define the comparison layout for Chart 1A and Chart 1B
+def create_layout():
+    layout = html.Div(className='row', children=[
         html.H1(children="Top Offending Publishers", style={'textAlign': 'center'}),
 
         # Chart 1A vs Chart 1B
@@ -290,6 +290,10 @@ def generate_compare_chart1():
         style={'width': '45%', 'display': 'inline-block'})
     ])
 
+    return layout
+
+
+def register_callbacks(app):
     # Callback for Chart 1A
     @app.callback(
         Output('top-offending-publishers-bar-chart-1a', 'figure'),

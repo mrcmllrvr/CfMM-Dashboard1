@@ -29,6 +29,11 @@ from wordcloud import WordCloud, STOPWORDS
 from sklearn.feature_extraction.text import CountVectorizer
 import urllib.parse
 
+import compare_chart1
+import compare_chart2
+import compare_chart3
+import compare_chart4
+
 # (1) Import results of bias model and topic/location model
 # drive.mount('/content/gdrive', force_remount=True)
 # dir = 'gdrive/MyDrive/CfMM/data/'
@@ -82,8 +87,8 @@ app.layout = html.Div(children=[
 
 # Define the layout for the main page
 main_layout = html.Div(children=[
-    html.H4(date_today, style={'margin': '10px'}),
-    html.H1(children="Today's Insight/Metrics", style={'margin': '10px', 'height': '100px', 'font-weight': 'bolder'}),
+    html.H4(date_today, style={'margin': '20px'}),
+    html.H1(children="Today's Insight/Metrics", style={'margin': '20px', 'height': '100px', 'font-weight': 'bolder'}),
 
 
 
@@ -100,7 +105,7 @@ html.Div(
                 ],
                 style={
                     'width': '300px',
-                    'height': '150px',
+                    'height': '145px',
                     'background-color': '#E7E5E3',
                     'border-radius': '5px',
                     'display': 'flex',
@@ -1900,15 +1905,20 @@ def update_table4(n_clicks_search, n_clicks_clear, selected_start_date, selected
 @app.callback(Output('page-content', 'children'), [Input('url', 'pathname')])
 def display_page(pathname):
     if pathname == '/compare-chart-1':
-        return html.Div(html.Iframe(src='http://127.0.0.1:8051', style={'width': '100%', 'height': '100vh', 'border': 'none'}))
+        return compare_chart1.create_layout()
     elif pathname == '/compare-chart-2':
-        return html.Div(html.Iframe(src='http://127.0.0.1:8052', style={'width': '100%', 'height': '100vh', 'border': 'none'}))
+        return compare_chart2.create_layout()
     elif pathname == '/compare-chart-3':
-        return html.Div(html.Iframe(src='http://127.0.0.1:8053', style={'width': '100%', 'height': '100vh', 'border': 'none'}))
+        return compare_chart3.create_layout()
     elif pathname == '/compare-chart-4':
-        return html.Div(html.Iframe(src='http://127.0.0.1:8054', style={'width': '100%', 'height': '100vh', 'border': 'none'}))
+        return compare_chart4.create_layout()
     else:
         return main_layout
+
+compare_chart1.register_callbacks(app)
+compare_chart2.register_callbacks(app)
+compare_chart3.register_callbacks(app)
+compare_chart4.register_callbacks(app)
 
 if __name__ == '__main__':
     app.run_server(debug=True)

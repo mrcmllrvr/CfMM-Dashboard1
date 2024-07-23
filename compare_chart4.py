@@ -70,916 +70,915 @@ unique_topics = df_corpus['topic_list'].explode().dropna().unique()
 stylesheets = [dbc.themes.FLATLY] # 'https://codepen.io/chriddyp/pen/bWLwgP.css'
 app = dash.Dash(__name__, external_stylesheets=stylesheets)
 
-# Define the comparison layout for Chart 4A and Chart 4B
-app.layout = html.Div(className='row', children=[
-    html.H1(children="Trending Words or Phrases", style={'textAlign': 'center'}),
+# Define the comparison layout for Chart 1A and Chart 1B
+def create_layout():
+    layout = html.Div(className='row', children=[
+        html.H1(children="Trending Words or Phrases", style={'textAlign': 'center'}),
 
-    # Chart 4A vs Chart 4B
-    html.Div([
-
-        # All elements for Chart 4A
-        html.H2("A", style={'textAlign': 'center'}),
-        dbc.Button('Explore', id='explore-button4a', style={'margin-left': '1000px', 'width': '10%', 'display': 'block', 'background-color': '#D90429'}),
-
+        # Chart 4A vs Chart 4B
         html.Div([
-            html.Label(['Filter Date Published:'], style={'font-weight': 'bold', 'width': '20%'}),
-            dcc.DatePickerRange(
-                id='chart4a-datepickerrange',
-                display_format='DD MMM YYYY',
-                clearable=True,
-                with_portal=True,
-                max_date_allowed=datetime.today(),
-                start_date=start_date,
-                end_date=end_date,
-                start_date_placeholder_text='Start date',
-                end_date_placeholder_text='End date',
-                style={'font-size': '15px'}
-            )
-        ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
 
-        html.Div([
-            html.Label(['Filter Publishers:'], style={'font-weight': 'bold', 'width': '20%'}),
-            dcc.Dropdown(
-                id='chart4a-publisher-dropdown',
-                options=[{'label': publisher, 'value': publisher} for publisher in unique_publishers],
-                placeholder='Select Publisher',
-                multi=True,
-                clearable=True,
-                style={'width': '70%'}
-            )
-        ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
+            # All elements for Chart 4A
+            html.H2("A", style={'textAlign': 'center'}),
+            dbc.Button('Explore', id='explore-button4a', style={'margin-left': '1000px', 'width': '10%', 'display': 'block', 'background-color': '#D90429'}),
 
-        html.Div([
-            html.Label(['Filter Bias Rating:'], style={'font-weight': 'bold', 'width': '20%'}),
-            dcc.Dropdown(
-                id='chart4a-bias-rating-dropdown',
+            html.Div([
+                html.Label(['Filter Date Published:'], style={'font-weight': 'bold', 'width': '20%'}),
+                dcc.DatePickerRange(
+                    id='chart4a-datepickerrange',
+                    display_format='DD MMM YYYY',
+                    clearable=True,
+                    with_portal=True,
+                    max_date_allowed=datetime.today(),
+                    start_date=start_date,
+                    end_date=end_date,
+                    start_date_placeholder_text='Start date',
+                    end_date_placeholder_text='End date',
+                    style={'font-size': '15px'}
+                )
+            ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
+
+            html.Div([
+                html.Label(['Filter Publishers:'], style={'font-weight': 'bold', 'width': '20%'}),
+                dcc.Dropdown(
+                    id='chart4a-publisher-dropdown',
+                    options=[{'label': publisher, 'value': publisher} for publisher in unique_publishers],
+                    placeholder='Select Publisher',
+                    multi=True,
+                    clearable=True,
+                    style={'width': '70%'}
+                )
+            ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
+
+            html.Div([
+                html.Label(['Filter Bias Rating:'], style={'font-weight': 'bold', 'width': '20%'}),
+                dcc.Dropdown(
+                    id='chart4a-bias-rating-dropdown',
+                    options=[
+                        {'label': 'Biased', 'value': 2},
+                        {'label': 'Very Biased', 'value': 1},
+                        {'label': 'Not Biased', 'value': 0},
+                        {'label': 'Inconclusive', 'value': -1},
+                    ],
+                    placeholder='Select Bias Rating',
+                    multi=True,
+                    clearable=True,
+                    style={'width': '70%'}
+                )
+            ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
+
+            html.Div([
+                html.Label(['Filter Bias Category:'], style={'font-weight': 'bold', 'width': '20%'}),
+                dcc.Dropdown(
+                    id='chart4a-bias-category-dropdown',
+                    options=[
+                        {'label': 'Generalisation', 'value': 'generalisation'},
+                        {'label': 'Prominence', 'value': 'prominence'},
+                        {'label': 'Negative Behaviour', 'value': 'negative_behaviour'},
+                        {'label': 'Misrepresentation', 'value': 'misrepresentation'},
+                        {'label': 'Headline or Imagery', 'value': 'headline_or_imagery'},
+                    ],
+                    placeholder='Select Bias Category',
+                    multi=True,
+                    clearable=True,
+                    style={'width': '70%'}
+                )
+            ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
+
+            html.Div([
+                html.Label(['Filter Topics:'], style={'font-weight': 'bold', 'width': '20%'}),
+                dcc.Dropdown(
+                    id='chart4a-topic-dropdown',
+                    options=[{'label': topic, 'value': topic} for topic in unique_topics],
+                    placeholder='Select Topic',
+                    multi=True,
+                    clearable=True,
+                    style={'width': '70%'}
+                )
+            ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
+
+            html.Div([
+                html.Label(['Select Word Grouping:'], style={'font-weight': 'bold', 'width': '20%'}),
+                dcc.Dropdown(
+                    id='chart4a-ngram-dropdown',
+                    options=[
+                        {'label': 'Single Word', 'value': 1},
+                        {'label': 'Two-Word Phrases', 'value': 2},
+                        {'label': 'Three-Word Phrases', 'value': 3}
+                    ],
+                    value=1,  # default value on load
+                    clearable=False,
+                    style={'width': '70%'}
+                )
+            ], style={'display': 'flex', 'margin-bottom': '30px', 'align-items': 'center'}),
+
+            # Toggle for headline-only or full-text word clouds
+            dcc.RadioItems(
+                id='chart4a-text-toggle',
                 options=[
-                    {'label': 'Biased', 'value': 2},
-                    {'label': 'Very Biased', 'value': 1},
-                    {'label': 'Not Biased', 'value': 0},
-                    {'label': 'Inconclusive', 'value': -1},
+                    {'label': '    Headline-only', 'value': 'title'},
+                    {'label': '    Full-text', 'value': 'text'}
                 ],
-                placeholder='Select Bias Rating',
-                multi=True,
-                clearable=True,
-                style={'width': '70%'}
-            )
-        ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
-
-        html.Div([
-            html.Label(['Filter Bias Category:'], style={'font-weight': 'bold', 'width': '20%'}),
-            dcc.Dropdown(
-                id='chart4a-bias-category-dropdown',
-                options=[
-                    {'label': 'Generalisation', 'value': 'generalisation'},
-                    {'label': 'Prominence', 'value': 'prominence'},
-                    {'label': 'Negative Behaviour', 'value': 'negative_behaviour'},
-                    {'label': 'Misrepresentation', 'value': 'misrepresentation'},
-                    {'label': 'Headline or Imagery', 'value': 'headline_or_imagery'},
-                ],
-                placeholder='Select Bias Category',
-                multi=True,
-                clearable=True,
-                style={'width': '70%'}
-            )
-        ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
-
-        html.Div([
-            html.Label(['Filter Topics:'], style={'font-weight': 'bold', 'width': '20%'}),
-            dcc.Dropdown(
-                id='chart4a-topic-dropdown',
-                options=[{'label': topic, 'value': topic} for topic in unique_topics],
-                placeholder='Select Topic',
-                multi=True,
-                clearable=True,
-                style={'width': '70%'}
-            )
-        ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
-
-        html.Div([
-            html.Label(['Select Word Grouping:'], style={'font-weight': 'bold', 'width': '20%'}),
-            dcc.Dropdown(
-                id='chart4a-ngram-dropdown',
-                options=[
-                    {'label': 'Single Word', 'value': 1},
-                    {'label': 'Two-Word Phrases', 'value': 2},
-                    {'label': 'Three-Word Phrases', 'value': 3}
-                ],
-                value=1,  # default value on load
-                clearable=False,
-                style={'width': '70%'}
-            )
-        ], style={'display': 'flex', 'margin-bottom': '30px', 'align-items': 'center'}),
-
-        # Toggle for headline-only or full-text word clouds
-        dcc.RadioItems(
-            id='chart4a-text-toggle',
-            options=[
-                {'label': '    Headline-only', 'value': 'title'},
-                {'label': '    Full-text', 'value': 'text'}
-            ],
-            value='title',  # default value on load
-            labelStyle={'display': 'inline-block'},
-            inputStyle={"margin-left": "10px"},
-            style={'margin-bottom': '50px'}
-        ),
-
-
-        # Word search input and button
-        html.Div([
-            html.Label(['Word Search:'], style={'font-weight': 'bold', 'width': '20%', 'display': 'block'}),
-            dcc.Input(id='word-search-4a', type='text', style={'width': '49%', 'display': 'block'}),
-            dbc.Button('Search', id='search-button4a', style={'margin-left': '30px', 'width': '10%', 'display': 'block'})
-        ], style={'display': 'flex', 'margin-top': '30px', 'margin-bottom': '30px', 'align-items': 'center'}),
-
-        # Graph for displaying the word cloud
-        dcc.Graph(id='wordcloud-container-4a'),
-
-        # Table for displaying the result for word search
-        html.Div(id='table4a-title', style={'fontSize': 20, 'color': '#2E2C2B', 'margin-bottom': '20px'}),
-        html.Div(id='table4a'),
-        html.Div([
-            dbc.Button('Clear Table', id='clear-button4a', style={'display': 'none'}),
-            dbc.Button('Export to CSV', id='export-button4a', style={'display': 'none'})
-        ], style={'display': 'flex', 'margin-top': '10px', 'align-items': 'center'}),
-    ],
-    style={'width': '45%', 'display': 'inline-block'}),
-
-    # All elements for Chart 4B
-    html.Div([
-        html.H2("B", style={'textAlign': 'center'}),
-        dbc.Button('Explore', id='explore-button4b', style={'margin-left': '1000px', 'width': '10%', 'display': 'block', 'background-color': '#D90429'}),
-
-        html.Div([
-            html.Label(['Filter Date Published:'], style={'font-weight': 'bold', 'width': '20%'}),
-            dcc.DatePickerRange(
-                id='chart4b-datepickerrange',
-                display_format='DD MMM YYYY',
-                clearable=True,
-                with_portal=True,
-                max_date_allowed=datetime.today(),
-                start_date=start_date,
-                end_date=end_date,
-                start_date_placeholder_text='Start date',
-                end_date_placeholder_text='End date',
-                style={'font-size': '15px'}
-            )
-        ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
-
-        html.Div([
-            html.Label(['Filter Publishers:'], style={'font-weight': 'bold', 'width': '20%'}),
-            dcc.Dropdown(
-                id='chart4b-publisher-dropdown',
-                options=[{'label': publisher, 'value': publisher} for publisher in unique_publishers],
-                placeholder='Select Publisher',
-                multi=True,
-                clearable=True,
-                style={'width': '70%'}
-            )
-        ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
-
-        html.Div([
-            html.Label(['Filter Bias Rating:'], style={'font-weight': 'bold', 'width': '20%'}),
-            dcc.Dropdown(
-                id='chart4b-bias-rating-dropdown',
-                options=[
-                    {'label': 'Biased', 'value': 2},
-                    {'label': 'Very Biased', 'value': 1},
-                    {'label': 'Not Biased', 'value': 0},
-                    {'label': 'Inconclusive', 'value': -1},
-                ],
-                placeholder='Select Bias Rating',
-                multi=True,
-                clearable=True,
-                style={'width': '70%'}
-            )
-        ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
-
-        html.Div([
-            html.Label(['Filter Bias Category:'], style={'font-weight': 'bold', 'width': '20%'}),
-            dcc.Dropdown(
-                id='chart4b-bias-category-dropdown',
-                options=[
-                    {'label': 'Generalisation', 'value': 'generalisation'},
-                    {'label': 'Prominence', 'value': 'prominence'},
-                    {'label': 'Negative Behaviour', 'value': 'negative_behaviour'},
-                    {'label': 'Misrepresentation', 'value': 'misrepresentation'},
-                    {'label': 'Headline or Imagery', 'value': 'headline_or_imagery'},
-                ],
-                placeholder='Select Bias Category',
-                multi=True,
-                clearable=True,
-                style={'width': '70%'}
-            )
-        ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
-
-        html.Div([
-            html.Label(['Filter Topics:'], style={'font-weight': 'bold', 'width': '20%'}),
-            dcc.Dropdown(
-                id='chart4b-topic-dropdown',
-                options=[{'label': topic, 'value': topic} for topic in unique_topics],
-                placeholder='Select Topic',
-                multi=True,
-                clearable=True,
-                style={'width': '70%'}
-            )
-        ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
-
-        html.Div([
-            html.Label(['Select Word Grouping:'], style={'font-weight': 'bold', 'width': '20%'}),
-            dcc.Dropdown(
-                id='chart4b-ngram-dropdown',
-                options=[
-                    {'label': 'Single Word', 'value': 1},
-                    {'label': 'Two-Word Phrases', 'value': 2},
-                    {'label': 'Three-Word Phrases', 'value': 3}
-                ],
-                value=1,  # default value on load
-                clearable=False,
-                style={'width': '70%'}
-            )
-        ], style={'display': 'flex', 'margin-bottom': '30px', 'align-items': 'center'}),
-
-        # Toggle for headline-only or full-text word clouds
-        dcc.RadioItems(
-            id='chart4b-text-toggle',
-            options=[
-                {'label': '    Headline-only', 'value': 'title'},
-                {'label': '    Full-text', 'value': 'text'}
-            ],
-            value='title',  # default value on load
-            labelStyle={'display': 'inline-block'},
-            inputStyle={"margin-left": "10px"},
-            style={'margin-bottom': '50px'}
-        ),
-
-        # Word search input and button
-        html.Div([
-            html.Label(['Word Search:'], style={'font-weight': 'bold', 'width': '20%', 'display': 'block'}),
-            dcc.Input(id='word-search-4b', type='text', style={'width': '49%', 'display': 'block'}),
-            dbc.Button('Search', id='search-button4b', style={'margin-left': '30px', 'width': '10%', 'display': 'block'})
-        ], style={'display': 'flex', 'margin-top': '30px', 'margin-bottom': '30px', 'align-items': 'center'}),
-
-        # Graph for displaying the word cloud
-        dcc.Graph(id='wordcloud-container-4b'),
-
-        # Table for displaying the result for word search
-        html.Div(id='table4b-title', style={'fontSize': 20, 'color': '#2E2C2B', 'margin-bottom': '20px'}),
-        html.Div(id='table4b'),
-        html.Div([
-            dbc.Button('Clear Table', id='clear-button4b', style={'display': 'none'}),
-            dbc.Button('Export to CSV', id='export-button4b', style={'display': 'none'})
-        ], style={'display': 'flex', 'margin-top': '10px', 'align-items': 'center'}),
-    ],
-    style={'width': '45%', 'display': 'inline-block'}),
-])
-
-
-# Callback for Chart 4A
-@app.callback(
-    Output('wordcloud-container-4a', 'figure'),
-    [
-        Input('chart4a-datepickerrange', 'start_date'),
-        Input('chart4a-datepickerrange', 'end_date'),
-        Input('chart4a-publisher-dropdown', 'value'),
-        Input('chart4a-topic-dropdown', 'value'),
-        Input('chart4a-bias-category-dropdown', 'value'),
-        Input('chart4a-bias-rating-dropdown', 'value'),
-        Input('chart4a-text-toggle', 'value'),
-        Input('chart4a-ngram-dropdown', 'value')
-    ]
-)
-def update_chart4a(selected_start_date, selected_end_date, selected_publishers, selected_topics, selected_bias_categories, selected_bias_ratings, text_by, ngram_value):
-    filtered_df = df_corpus.copy()
-
-    # Apply filters for dates, publishers, and topics
-    if selected_start_date and selected_end_date:
-        start_date = pd.to_datetime(selected_start_date)
-        end_date = pd.to_datetime(selected_end_date)
-        filtered_df = filtered_df[(filtered_df['date_published'] >= start_date) & (filtered_df['date_published'] <= end_date)]
-    if selected_publishers:
-        filtered_df = filtered_df[filtered_df['publisher'].isin(selected_publishers)]
-    if selected_topics:
-        filtered_df = filtered_df[filtered_df['topic'].str.contains('|'.join(selected_topics))]
-    if selected_bias_ratings:
-        filtered_df = filtered_df[filtered_df['bias_rating'].isin(selected_bias_ratings)]
-    if selected_bias_categories:
-        filtered_df = filtered_df[filtered_df[selected_bias_categories].sum(axis=1) > 0]
-
-    # If chart is empty, show text instead
-    if filtered_df.shape[0]==0:
-        data = []
-        layout = {
-            'xaxis': {'visible': False},
-            'yaxis': {'visible': False},
-            'template': 'simple_white',
-            'height': 400,
-            'annotations': [{
-                'text': 'No articles found in the current selection.',
-                'showarrow': False,
-                'xref': 'paper',
-                'yref': 'paper',
-                'x': 0.5,
-                'y': 0.5,
-                'font': {'size': 20, 'color': '#2E2C2B'}
-            }]
-        }
-        fig = go.Figure(data=data, layout=layout)
-
-    else:
-        # Generate n-grams
-        text = ' '.join(filtered_df[text_by].dropna().values)
-        vectorizer = CountVectorizer(ngram_range=(ngram_value, ngram_value), stop_words='english')
-        ngram_counts = vectorizer.fit_transform([text])
-        ngram_freq = ngram_counts.toarray().flatten()
-        ngram_names = vectorizer.get_feature_names_out()
-        word_counts = dict(zip(ngram_names, ngram_freq))
-
-        total_words = sum(word_counts.values())
-        wc = WordCloud(background_color='white',
-                      max_words=100,
-                      width=1600,
-                      height=1200,
-                      scale=1.5,
-                      margin=100,
-                      max_font_size=100,
-                      stopwords=set(STOPWORDS)
-                      ).generate_from_frequencies(word_counts)
-
-        # Get word positions and frequencies
-        word_positions = wc.layout_
-
-        # Extract positions and other data for Scatter plot
-        words = []
-        x = []
-        y = []
-        sizes = []
-        hover_texts = []
-        frequencies = []
-
-        for (word, freq), font_size, position, orientation, color in word_positions:
-            words.append(word)
-            x.append(position[0])
-            y.append(position[1])
-            sizes.append(font_size)
-            frequencies.append(freq)
-            raw_count = word_counts[word]
-            percentage = (raw_count / total_words) * 100
-            hover_texts.append(f"<b>Word: </b>{word}<br>"
-                              f"The word <b>'{word}'</b> appeared <b>{raw_count}</b> times across all articles in the current selection.<br>"
-                              f"This accounts for <b>{percentage:.2f}%</b> of the total available word/phrases.<br>"
-                              f"<br>"
-                              f"Type <b>'{word}'</b> in the Word Search below to find out which articles used this word.")
-
-        # Identify top 10 words by frequency
-        top_10_indices = np.argsort(frequencies)[-10:]
-        colors = ['#CFCFCF'] * len(words)
-        custom_colors = [
-            '#413F42', # top 10
-
-            '#6B2C32', # top 9
-            '#6B2C32', # top 8
-
-            '#983835', # top 7
-            '#983835', # top 6
-
-            '#BF4238', # top 5
-            '#BF4238', # top 4
-
-            '#C42625', #top 3
-            '#C42625', #top 2
-            '#C42625', #top 1
-        ]
-
-        # Apply custom colors to the top 10 words
-        for i, idx in enumerate(top_10_indices):
-            colors[idx] = custom_colors[i % len(custom_colors)]
-
-        # Sort words by frequency to ensure top words appear on top
-        sorted_indices = np.argsort(frequencies)
-        words = [words[i] for i in sorted_indices]
-        x = [x[i] for i in sorted_indices]
-        y = [y[i] for i in sorted_indices]
-        sizes = [sizes[i] for i in sorted_indices]
-        hover_texts = [hover_texts[i] for i in sorted_indices]
-        colors = [colors[i] for i in sorted_indices]
-
-        # Create the Plotly figure with Scatter plot
-        fig = go.Figure()
-
-        # Add words as Scatter plot points
-        fig.add_trace(go.Scatter(
-            x=x,
-            y=y,
-            mode='text',
-            text=words,
-            textfont=dict(size=sizes, color=colors),
-            hovertext=hover_texts,
-            hoverinfo='text'
-        ))
-
-        # Update the layout
-        fig.update_layout(
-            title='<b>What are the trending words or phrases?</b>',
-            xaxis=dict(showgrid=False, zeroline=False, visible=False),
-            yaxis=dict(showgrid=False, zeroline=False, visible=False),
-            hovermode='closest',
-            barmode='stack',
-            showlegend=False,
-            hoverlabel=dict(
-                align='left'
+                value='title',  # default value on load
+                labelStyle={'display': 'inline-block'},
+                inputStyle={"margin-left": "10px"},
+                style={'margin-bottom': '50px'}
             ),
-            template="simple_white",
-            plot_bgcolor='white',
-            paper_bgcolor='white',
-            font_color='#2E2C2B',
-            font_size=14,
-            height=800,
-            margin={'l': 150, 'r': 20, 'b': 40, 't': 40}
-        )
-        # Reverse the y-axis to match the word cloud orientation
-        fig.update_yaxes(autorange="reversed")
-
-    return fig
 
 
-# Callback for Chart 4B
-@app.callback(
-    Output('wordcloud-container-4b', 'figure'),
-    [
-        Input('chart4b-datepickerrange', 'start_date'),
-        Input('chart4b-datepickerrange', 'end_date'),
-        Input('chart4b-publisher-dropdown', 'value'),
-        Input('chart4b-topic-dropdown', 'value'),
-        Input('chart4b-bias-category-dropdown', 'value'),
-        Input('chart4b-bias-rating-dropdown', 'value'),
-        Input('chart4b-text-toggle', 'value'),
-        Input('chart4b-ngram-dropdown', 'value')
-    ]
-)
-def update_chart4b(selected_start_date, selected_end_date, selected_publishers, selected_topics, selected_bias_categories, selected_bias_ratings, text_by, ngram_value):
-    filtered_df = df_corpus.copy()
+            # Word search input and button
+            html.Div([
+                html.Label(['Word Search:'], style={'font-weight': 'bold', 'width': '20%', 'display': 'block'}),
+                dcc.Input(id='word-search-4a', type='text', style={'width': '49%', 'display': 'block'}),
+                dbc.Button('Search', id='search-button4a', style={'margin-left': '30px', 'width': '10%', 'display': 'block'})
+            ], style={'display': 'flex', 'margin-top': '30px', 'margin-bottom': '30px', 'align-items': 'center'}),
 
-    # Apply filters for dates, publishers, and topics
-    if selected_start_date and selected_end_date:
-        start_date = pd.to_datetime(selected_start_date)
-        end_date = pd.to_datetime(selected_end_date)
-        filtered_df = filtered_df[(filtered_df['date_published'] >= start_date) & (filtered_df['date_published'] <= end_date)]
-    if selected_publishers:
-        filtered_df = filtered_df[filtered_df['publisher'].isin(selected_publishers)]
-    if selected_topics:
-        filtered_df = filtered_df[filtered_df['topic'].str.contains('|'.join(selected_topics))]
-    if selected_bias_ratings:
-        filtered_df = filtered_df[filtered_df['bias_rating'].isin(selected_bias_ratings)]
-    if selected_bias_categories:
-        filtered_df = filtered_df[filtered_df[selected_bias_categories].sum(axis=1) > 0]
+            # Graph for displaying the word cloud
+            dcc.Graph(id='wordcloud-container-4a'),
 
-    # If chart is empty, show text instead
-    if filtered_df.shape[0]==0:
-        data = []
-        layout = {
-            'xaxis': {'visible': False},
-            'yaxis': {'visible': False},
-            'template': 'simple_white',
-            'height': 400,
-            'annotations': [{
-                'text': 'No articles found in the current selection.',
-                'showarrow': False,
-                'xref': 'paper',
-                'yref': 'paper',
-                'x': 0.5,
-                'y': 0.5,
-                'font': {'size': 20, 'color': '#2E2C2B'}
-            }]
-        }
-        fig = go.Figure(data=data, layout=layout)
+            # Table for displaying the result for word search
+            html.Div(id='table4a-title', style={'fontSize': 20, 'color': '#2E2C2B', 'margin-bottom': '20px'}),
+            html.Div(id='table4a'),
+            html.Div([
+                dbc.Button('Clear Table', id='clear-button4a', style={'display': 'none'}),
+                dbc.Button('Export to CSV', id='export-button4a', style={'display': 'none'})
+            ], style={'display': 'flex', 'margin-top': '10px', 'align-items': 'center'}),
+        ],
+        style={'width': '45%', 'display': 'inline-block'}),
 
-    else:
-        # Generate n-grams
-        text = ' '.join(filtered_df[text_by].dropna().values)
-        vectorizer = CountVectorizer(ngram_range=(ngram_value, ngram_value), stop_words='english')
-        ngram_counts = vectorizer.fit_transform([text])
-        ngram_freq = ngram_counts.toarray().flatten()
-        ngram_names = vectorizer.get_feature_names_out()
-        word_counts = dict(zip(ngram_names, ngram_freq))
+        # All elements for Chart 4B
+        html.Div([
+            html.H2("B", style={'textAlign': 'center'}),
+            dbc.Button('Explore', id='explore-button4b', style={'margin-left': '1000px', 'width': '10%', 'display': 'block', 'background-color': '#D90429'}),
 
-        total_words = sum(word_counts.values())
-        wc = WordCloud(background_color='white',
-                      max_words=100,
-                      width=1600,
-                      height=1200,
-                      scale=1.5,
-                      margin=100,
-                      max_font_size=100,
-                      stopwords=set(STOPWORDS)
-                      ).generate_from_frequencies(word_counts)
+            html.Div([
+                html.Label(['Filter Date Published:'], style={'font-weight': 'bold', 'width': '20%'}),
+                dcc.DatePickerRange(
+                    id='chart4b-datepickerrange',
+                    display_format='DD MMM YYYY',
+                    clearable=True,
+                    with_portal=True,
+                    max_date_allowed=datetime.today(),
+                    start_date=start_date,
+                    end_date=end_date,
+                    start_date_placeholder_text='Start date',
+                    end_date_placeholder_text='End date',
+                    style={'font-size': '15px'}
+                )
+            ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
 
-        # Get word positions and frequencies
-        word_positions = wc.layout_
+            html.Div([
+                html.Label(['Filter Publishers:'], style={'font-weight': 'bold', 'width': '20%'}),
+                dcc.Dropdown(
+                    id='chart4b-publisher-dropdown',
+                    options=[{'label': publisher, 'value': publisher} for publisher in unique_publishers],
+                    placeholder='Select Publisher',
+                    multi=True,
+                    clearable=True,
+                    style={'width': '70%'}
+                )
+            ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
 
-        # Extract positions and other data for Scatter plot
-        words = []
-        x = []
-        y = []
-        sizes = []
-        hover_texts = []
-        frequencies = []
+            html.Div([
+                html.Label(['Filter Bias Rating:'], style={'font-weight': 'bold', 'width': '20%'}),
+                dcc.Dropdown(
+                    id='chart4b-bias-rating-dropdown',
+                    options=[
+                        {'label': 'Biased', 'value': 2},
+                        {'label': 'Very Biased', 'value': 1},
+                        {'label': 'Not Biased', 'value': 0},
+                        {'label': 'Inconclusive', 'value': -1},
+                    ],
+                    placeholder='Select Bias Rating',
+                    multi=True,
+                    clearable=True,
+                    style={'width': '70%'}
+                )
+            ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
 
-        for (word, freq), font_size, position, orientation, color in word_positions:
-            words.append(word)
-            x.append(position[0])
-            y.append(position[1])
-            sizes.append(font_size)
-            frequencies.append(freq)
-            raw_count = word_counts[word]
-            percentage = (raw_count / total_words) * 100
-            hover_texts.append(f"<b>Word: </b>{word}<br>"
-                              f"The word <b>'{word}'</b> appeared <b>{raw_count}</b> times across all articles in the current selection.<br>"
-                              f"This accounts for <b>{percentage:.2f}%</b> of the total available word/phrases.<br>"
-                              f"<br>"
-                              f"Type <b>'{word}'</b> in the Word Search below to find out which articles used this word.")
-#                               f"<b>Percentage of Total: x</b>{percentage:.2f}%")
+            html.Div([
+                html.Label(['Filter Bias Category:'], style={'font-weight': 'bold', 'width': '20%'}),
+                dcc.Dropdown(
+                    id='chart4b-bias-category-dropdown',
+                    options=[
+                        {'label': 'Generalisation', 'value': 'generalisation'},
+                        {'label': 'Prominence', 'value': 'prominence'},
+                        {'label': 'Negative Behaviour', 'value': 'negative_behaviour'},
+                        {'label': 'Misrepresentation', 'value': 'misrepresentation'},
+                        {'label': 'Headline or Imagery', 'value': 'headline_or_imagery'},
+                    ],
+                    placeholder='Select Bias Category',
+                    multi=True,
+                    clearable=True,
+                    style={'width': '70%'}
+                )
+            ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
 
-        # Identify top 10 words by frequency
-        top_10_indices = np.argsort(frequencies)[-10:]
-        colors = ['#CFCFCF'] * len(words)
-        custom_colors = [
-            '#413F42', # top 10
+            html.Div([
+                html.Label(['Filter Topics:'], style={'font-weight': 'bold', 'width': '20%'}),
+                dcc.Dropdown(
+                    id='chart4b-topic-dropdown',
+                    options=[{'label': topic, 'value': topic} for topic in unique_topics],
+                    placeholder='Select Topic',
+                    multi=True,
+                    clearable=True,
+                    style={'width': '70%'}
+                )
+            ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
 
-            '#6B2C32', # top 9
-            '#6B2C32', # top 8
+            html.Div([
+                html.Label(['Select Word Grouping:'], style={'font-weight': 'bold', 'width': '20%'}),
+                dcc.Dropdown(
+                    id='chart4b-ngram-dropdown',
+                    options=[
+                        {'label': 'Single Word', 'value': 1},
+                        {'label': 'Two-Word Phrases', 'value': 2},
+                        {'label': 'Three-Word Phrases', 'value': 3}
+                    ],
+                    value=1,  # default value on load
+                    clearable=False,
+                    style={'width': '70%'}
+                )
+            ], style={'display': 'flex', 'margin-bottom': '30px', 'align-items': 'center'}),
 
-            '#983835', # top 7
-            '#983835', # top 6
-
-            '#BF4238', # top 5
-            '#BF4238', # top 4
-
-            '#C42625', #top 3
-            '#C42625', #top 2
-            '#C42625', #top 1
-        ]
-
-        # Apply custom colors to the top 10 words
-        for i, idx in enumerate(top_10_indices):
-            colors[idx] = custom_colors[i % len(custom_colors)]
-
-        # Sort words by frequency to ensure top words appear on top
-        sorted_indices = np.argsort(frequencies)
-        words = [words[i] for i in sorted_indices]
-        x = [x[i] for i in sorted_indices]
-        y = [y[i] for i in sorted_indices]
-        sizes = [sizes[i] for i in sorted_indices]
-        hover_texts = [hover_texts[i] for i in sorted_indices]
-        colors = [colors[i] for i in sorted_indices]
-
-        # Create the Plotly figure with Scatter plot
-        fig = go.Figure()
-
-        # Add words as Scatter plot points
-        fig.add_trace(go.Scatter(
-            x=x,
-            y=y,
-            mode='text',
-            text=words,
-            textfont=dict(size=sizes, color=colors),
-            hovertext=hover_texts,
-            hoverinfo='text'
-        ))
-
-        # Update the layout
-        fig.update_layout(
-            title='<b>What are the trending words or phrases?</b>',
-            xaxis=dict(showgrid=False, zeroline=False, visible=False),
-            yaxis=dict(showgrid=False, zeroline=False, visible=False),
-            hovermode='closest',
-            barmode='stack',
-            showlegend=False,
-            hoverlabel=dict(
-                align='left'
-            ),
-            template="simple_white",
-            plot_bgcolor='white',
-            paper_bgcolor='white',
-            font_color='#2E2C2B',
-            font_size=14,
-            height=800,
-            margin={'l': 150, 'r': 20, 'b': 40, 't': 40}
-        )
-
-        # Reverse the y-axis to match the word cloud orientation
-        fig.update_yaxes(autorange="reversed")
-
-    return fig
-
-
-# Callback for Table 4A
-@app.callback(
-    [
-        Output('table4a-title', 'children'),
-        Output('table4a', 'children'),
-        Output('clear-button4a', 'style'),
-        Output('export-button4a', 'style'),
-        Output('export-button4a', 'href')
-    ],
-    [
-        Input('search-button4a', 'n_clicks'),
-        Input('clear-button4a', 'n_clicks'),
-
-        Input('chart4a-datepickerrange', 'start_date'),
-        Input('chart4a-datepickerrange', 'end_date'),
-        Input('chart4a-publisher-dropdown', 'value'),
-        Input('chart4a-topic-dropdown', 'value'),
-        Input('chart4a-bias-category-dropdown', 'value'),
-        Input('chart4a-bias-rating-dropdown', 'value'),
-        Input('chart4a-ngram-dropdown', 'value'),
-        Input('chart4a-text-toggle', 'value'),
-
-        Input('word-search-4a', 'value')
-    ]
-)
-
-def update_table4a(n_clicks_search, n_clicks_clear, selected_start_date, selected_end_date, selected_publishers, selected_topics, selected_bias_categories, selected_bias_ratings, selected_ngrams, text_by, search_word):
-    triggered = dash.callback_context.triggered
-    topics = ''
-
-    if triggered:
-        id = triggered[0]['prop_id'].split('.')[0]
-
-        if id == 'search-button4a':
-            filtered_df = df_corpus.copy()
-
-            # Apply filters for dates, publishers, and topics
-            if selected_start_date and selected_end_date:
-                start_date = pd.to_datetime(str(selected_start_date))
-                end_date = pd.to_datetime(str(selected_end_date))
-                filtered_df = filtered_df[(filtered_df['date_published'] >= start_date) & (filtered_df['date_published'] <= end_date)]
-            if selected_publishers:
-                filtered_df = filtered_df[filtered_df['publisher'].isin(selected_publishers)]
-            if selected_topics:
-                filtered_df = filtered_df[filtered_df['topic'].str.contains('|'.join(selected_topics))]
-                topics = 'having any of the selected topics'
-            if selected_bias_ratings:
-                filtered_df = filtered_df[filtered_df['bias_rating'].isin(selected_bias_ratings)]
-            if selected_bias_categories:
-                filtered_df = filtered_df[filtered_df[selected_bias_categories].sum(axis=1) > 0]
-            if search_word:
-                if text_by ==  'title':
-                    filtered_df = filtered_df[filtered_df['title'].str.contains(search_word, case=False, na=False)]
-                    text = 'headline'
-                elif text_by == 'text':
-                    filtered_df = filtered_df[filtered_df['text'].str.contains(search_word, case=False, na=False)]
-                    text = 'full-text content'
-
-            # Title
-            title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(f"Showing {filtered_df.shape[0]} articles having <b>'{search_word}'</b> in their <b>{text}</b>")
-
-            # Formatting
-            filtered_df['color'] = np.select(
-                [
-                    filtered_df['bias_rating'] == 2,
-                    filtered_df['bias_rating'] == 1
+            # Toggle for headline-only or full-text word clouds
+            dcc.RadioItems(
+                id='chart4b-text-toggle',
+                options=[
+                    {'label': '    Headline-only', 'value': 'title'},
+                    {'label': '    Full-text', 'value': 'text'}
                 ],
-                [
-                    'white',
+                value='title',  # default value on load
+                labelStyle={'display': 'inline-block'},
+                inputStyle={"margin-left": "10px"},
+                style={'margin-bottom': '50px'}
+            ),
+
+            # Word search input and button
+            html.Div([
+                html.Label(['Word Search:'], style={'font-weight': 'bold', 'width': '20%', 'display': 'block'}),
+                dcc.Input(id='word-search-4b', type='text', style={'width': '49%', 'display': 'block'}),
+                dbc.Button('Search', id='search-button4b', style={'margin-left': '30px', 'width': '10%', 'display': 'block'})
+            ], style={'display': 'flex', 'margin-top': '30px', 'margin-bottom': '30px', 'align-items': 'center'}),
+
+            # Graph for displaying the word cloud
+            dcc.Graph(id='wordcloud-container-4b'),
+
+            # Table for displaying the result for word search
+            html.Div(id='table4b-title', style={'fontSize': 20, 'color': '#2E2C2B', 'margin-bottom': '20px'}),
+            html.Div(id='table4b'),
+            html.Div([
+                dbc.Button('Clear Table', id='clear-button4b', style={'display': 'none'}),
+                dbc.Button('Export to CSV', id='export-button4b', style={'display': 'none'})
+            ], style={'display': 'flex', 'margin-top': '10px', 'align-items': 'center'}),
+        ],
+        style={'width': '45%', 'display': 'inline-block'}),
+    ])
+
+    return layout
+
+def register_callbacks(app):
+    # Callback for Chart 4A
+    @app.callback(
+        Output('wordcloud-container-4a', 'figure'),
+        [
+            Input('chart4a-datepickerrange', 'start_date'),
+            Input('chart4a-datepickerrange', 'end_date'),
+            Input('chart4a-publisher-dropdown', 'value'),
+            Input('chart4a-topic-dropdown', 'value'),
+            Input('chart4a-bias-category-dropdown', 'value'),
+            Input('chart4a-bias-rating-dropdown', 'value'),
+            Input('chart4a-text-toggle', 'value'),
+            Input('chart4a-ngram-dropdown', 'value')
+        ]
+    )
+    def update_chart4a(selected_start_date, selected_end_date, selected_publishers, selected_topics, selected_bias_categories, selected_bias_ratings, text_by, ngram_value):
+        filtered_df = df_corpus.copy()
+
+        # Apply filters for dates, publishers, and topics
+        if selected_start_date and selected_end_date:
+            start_date = pd.to_datetime(selected_start_date)
+            end_date = pd.to_datetime(selected_end_date)
+            filtered_df = filtered_df[(filtered_df['date_published'] >= start_date) & (filtered_df['date_published'] <= end_date)]
+        if selected_publishers:
+            filtered_df = filtered_df[filtered_df['publisher'].isin(selected_publishers)]
+        if selected_topics:
+            filtered_df = filtered_df[filtered_df['topic'].str.contains('|'.join(selected_topics))]
+        if selected_bias_ratings:
+            filtered_df = filtered_df[filtered_df['bias_rating'].isin(selected_bias_ratings)]
+        if selected_bias_categories:
+            filtered_df = filtered_df[filtered_df[selected_bias_categories].sum(axis=1) > 0]
+
+        # If chart is empty, show text instead
+        if filtered_df.shape[0]==0:
+            data = []
+            layout = {
+                'xaxis': {'visible': False},
+                'yaxis': {'visible': False},
+                'template': 'simple_white',
+                'height': 400,
+                'annotations': [{
+                    'text': 'No articles found in the current selection.',
+                    'showarrow': False,
+                    'xref': 'paper',
+                    'yref': 'paper',
+                    'x': 0.5,
+                    'y': 0.5,
+                    'font': {'size': 20, 'color': '#2E2C2B'}
+                }]
+            }
+            fig = go.Figure(data=data, layout=layout)
+
+        else:
+            # Generate n-grams
+            text = ' '.join(filtered_df[text_by].dropna().values)
+            vectorizer = CountVectorizer(ngram_range=(ngram_value, ngram_value), stop_words='english')
+            ngram_counts = vectorizer.fit_transform([text])
+            ngram_freq = ngram_counts.toarray().flatten()
+            ngram_names = vectorizer.get_feature_names_out()
+            word_counts = dict(zip(ngram_names, ngram_freq))
+
+            total_words = sum(word_counts.values())
+            wc = WordCloud(background_color='white',
+                        max_words=100,
+                        width=1600,
+                        height=1200,
+                        scale=1.5,
+                        margin=100,
+                        max_font_size=100,
+                        stopwords=set(STOPWORDS)
+                        ).generate_from_frequencies(word_counts)
+
+            # Get word positions and frequencies
+            word_positions = wc.layout_
+
+            # Extract positions and other data for Scatter plot
+            words = []
+            x = []
+            y = []
+            sizes = []
+            hover_texts = []
+            frequencies = []
+
+            for (word, freq), font_size, position, orientation, color in word_positions:
+                words.append(word)
+                x.append(position[0])
+                y.append(position[1])
+                sizes.append(font_size)
+                frequencies.append(freq)
+                raw_count = word_counts[word]
+                percentage = (raw_count / total_words) * 100
+                hover_texts.append(f"<b>Word: </b>{word}<br>"
+                                f"The word <b>'{word}'</b> appeared <b>{raw_count}</b> times across all articles in the current selection.<br>"
+                                f"This accounts for <b>{percentage:.2f}%</b> of the total available word/phrases.<br>"
+                                f"<br>"
+                                f"Type <b>'{word}'</b> in the Word Search below to find out which articles used this word.")
+
+            # Identify top 10 words by frequency
+            top_10_indices = np.argsort(frequencies)[-10:]
+            colors = ['#CFCFCF'] * len(words)
+            custom_colors = [
+                '#413F42', # top 10
+
+                '#6B2C32', # top 9
+                '#6B2C32', # top 8
+
+                '#983835', # top 7
+                '#983835', # top 6
+
+                '#BF4238', # top 5
+                '#BF4238', # top 4
+
+                '#C42625', #top 3
+                '#C42625', #top 2
+                '#C42625', #top 1
+            ]
+
+            # Apply custom colors to the top 10 words
+            for i, idx in enumerate(top_10_indices):
+                colors[idx] = custom_colors[i % len(custom_colors)]
+
+            # Sort words by frequency to ensure top words appear on top
+            sorted_indices = np.argsort(frequencies)
+            words = [words[i] for i in sorted_indices]
+            x = [x[i] for i in sorted_indices]
+            y = [y[i] for i in sorted_indices]
+            sizes = [sizes[i] for i in sorted_indices]
+            hover_texts = [hover_texts[i] for i in sorted_indices]
+            colors = [colors[i] for i in sorted_indices]
+
+            # Create the Plotly figure with Scatter plot
+            fig = go.Figure()
+
+            # Add words as Scatter plot points
+            fig.add_trace(go.Scatter(
+                x=x,
+                y=y,
+                mode='text',
+                text=words,
+                textfont=dict(size=sizes, color=colors),
+                hovertext=hover_texts,
+                hoverinfo='text'
+            ))
+
+            # Update the layout
+            fig.update_layout(
+                title='<b>What are the trending words or phrases?</b>',
+                xaxis=dict(showgrid=False, zeroline=False, visible=False),
+                yaxis=dict(showgrid=False, zeroline=False, visible=False),
+                hovermode='closest',
+                barmode='stack',
+                showlegend=False,
+                hoverlabel=dict(
+                    align='left'
+                ),
+                template="simple_white",
+                plot_bgcolor='white',
+                paper_bgcolor='white',
+                font_color='#2E2C2B',
+                font_size=14,
+                height=800,
+                margin={'l': 150, 'r': 20, 'b': 40, 't': 40}
+            )
+            # Reverse the y-axis to match the word cloud orientation
+            fig.update_yaxes(autorange="reversed")
+
+        return fig
+
+
+    # Callback for Chart 4B
+    @app.callback(
+        Output('wordcloud-container-4b', 'figure'),
+        [
+            Input('chart4b-datepickerrange', 'start_date'),
+            Input('chart4b-datepickerrange', 'end_date'),
+            Input('chart4b-publisher-dropdown', 'value'),
+            Input('chart4b-topic-dropdown', 'value'),
+            Input('chart4b-bias-category-dropdown', 'value'),
+            Input('chart4b-bias-rating-dropdown', 'value'),
+            Input('chart4b-text-toggle', 'value'),
+            Input('chart4b-ngram-dropdown', 'value')
+        ]
+    )
+    def update_chart4b(selected_start_date, selected_end_date, selected_publishers, selected_topics, selected_bias_categories, selected_bias_ratings, text_by, ngram_value):
+        filtered_df = df_corpus.copy()
+
+        # Apply filters for dates, publishers, and topics
+        if selected_start_date and selected_end_date:
+            start_date = pd.to_datetime(selected_start_date)
+            end_date = pd.to_datetime(selected_end_date)
+            filtered_df = filtered_df[(filtered_df['date_published'] >= start_date) & (filtered_df['date_published'] <= end_date)]
+        if selected_publishers:
+            filtered_df = filtered_df[filtered_df['publisher'].isin(selected_publishers)]
+        if selected_topics:
+            filtered_df = filtered_df[filtered_df['topic'].str.contains('|'.join(selected_topics))]
+        if selected_bias_ratings:
+            filtered_df = filtered_df[filtered_df['bias_rating'].isin(selected_bias_ratings)]
+        if selected_bias_categories:
+            filtered_df = filtered_df[filtered_df[selected_bias_categories].sum(axis=1) > 0]
+
+        # If chart is empty, show text instead
+        if filtered_df.shape[0]==0:
+            data = []
+            layout = {
+                'xaxis': {'visible': False},
+                'yaxis': {'visible': False},
+                'template': 'simple_white',
+                'height': 400,
+                'annotations': [{
+                    'text': 'No articles found in the current selection.',
+                    'showarrow': False,
+                    'xref': 'paper',
+                    'yref': 'paper',
+                    'x': 0.5,
+                    'y': 0.5,
+                    'font': {'size': 20, 'color': '#2E2C2B'}
+                }]
+            }
+            fig = go.Figure(data=data, layout=layout)
+
+        else:
+            # Generate n-grams
+            text = ' '.join(filtered_df[text_by].dropna().values)
+            vectorizer = CountVectorizer(ngram_range=(ngram_value, ngram_value), stop_words='english')
+            ngram_counts = vectorizer.fit_transform([text])
+            ngram_freq = ngram_counts.toarray().flatten()
+            ngram_names = vectorizer.get_feature_names_out()
+            word_counts = dict(zip(ngram_names, ngram_freq))
+
+            total_words = sum(word_counts.values())
+            wc = WordCloud(background_color='white',
+                        max_words=100,
+                        width=1600,
+                        height=1200,
+                        scale=1.5,
+                        margin=100,
+                        max_font_size=100,
+                        stopwords=set(STOPWORDS)
+                        ).generate_from_frequencies(word_counts)
+
+            # Get word positions and frequencies
+            word_positions = wc.layout_
+
+            # Extract positions and other data for Scatter plot
+            words = []
+            x = []
+            y = []
+            sizes = []
+            hover_texts = []
+            frequencies = []
+
+            for (word, freq), font_size, position, orientation, color in word_positions:
+                words.append(word)
+                x.append(position[0])
+                y.append(position[1])
+                sizes.append(font_size)
+                frequencies.append(freq)
+                raw_count = word_counts[word]
+                percentage = (raw_count / total_words) * 100
+                hover_texts.append(f"<b>Word: </b>{word}<br>"
+                                f"The word <b>'{word}'</b> appeared <b>{raw_count}</b> times across all articles in the current selection.<br>"
+                                f"This accounts for <b>{percentage:.2f}%</b> of the total available word/phrases.<br>"
+                                f"<br>"
+                                f"Type <b>'{word}'</b> in the Word Search below to find out which articles used this word.")
+    #                               f"<b>Percentage of Total: x</b>{percentage:.2f}%")
+
+            # Identify top 10 words by frequency
+            top_10_indices = np.argsort(frequencies)[-10:]
+            colors = ['#CFCFCF'] * len(words)
+            custom_colors = [
+                '#413F42', # top 10
+
+                '#6B2C32', # top 9
+                '#6B2C32', # top 8
+
+                '#983835', # top 7
+                '#983835', # top 6
+
+                '#BF4238', # top 5
+                '#BF4238', # top 4
+
+                '#C42625', #top 3
+                '#C42625', #top 2
+                '#C42625', #top 1
+            ]
+
+            # Apply custom colors to the top 10 words
+            for i, idx in enumerate(top_10_indices):
+                colors[idx] = custom_colors[i % len(custom_colors)]
+
+            # Sort words by frequency to ensure top words appear on top
+            sorted_indices = np.argsort(frequencies)
+            words = [words[i] for i in sorted_indices]
+            x = [x[i] for i in sorted_indices]
+            y = [y[i] for i in sorted_indices]
+            sizes = [sizes[i] for i in sorted_indices]
+            hover_texts = [hover_texts[i] for i in sorted_indices]
+            colors = [colors[i] for i in sorted_indices]
+
+            # Create the Plotly figure with Scatter plot
+            fig = go.Figure()
+
+            # Add words as Scatter plot points
+            fig.add_trace(go.Scatter(
+                x=x,
+                y=y,
+                mode='text',
+                text=words,
+                textfont=dict(size=sizes, color=colors),
+                hovertext=hover_texts,
+                hoverinfo='text'
+            ))
+
+            # Update the layout
+            fig.update_layout(
+                title='<b>What are the trending words or phrases?</b>',
+                xaxis=dict(showgrid=False, zeroline=False, visible=False),
+                yaxis=dict(showgrid=False, zeroline=False, visible=False),
+                hovermode='closest',
+                barmode='stack',
+                showlegend=False,
+                hoverlabel=dict(
+                    align='left'
+                ),
+                template="simple_white",
+                plot_bgcolor='white',
+                paper_bgcolor='white',
+                font_color='#2E2C2B',
+                font_size=14,
+                height=800,
+                margin={'l': 150, 'r': 20, 'b': 40, 't': 40}
+            )
+
+            # Reverse the y-axis to match the word cloud orientation
+            fig.update_yaxes(autorange="reversed")
+
+        return fig
+
+
+    # Callback for Table 4A
+    @app.callback(
+        [
+            Output('table4a-title', 'children'),
+            Output('table4a', 'children'),
+            Output('clear-button4a', 'style'),
+            Output('export-button4a', 'style'),
+            Output('export-button4a', 'href')
+        ],
+        [
+            Input('search-button4a', 'n_clicks'),
+            Input('clear-button4a', 'n_clicks'),
+
+            Input('chart4a-datepickerrange', 'start_date'),
+            Input('chart4a-datepickerrange', 'end_date'),
+            Input('chart4a-publisher-dropdown', 'value'),
+            Input('chart4a-topic-dropdown', 'value'),
+            Input('chart4a-bias-category-dropdown', 'value'),
+            Input('chart4a-bias-rating-dropdown', 'value'),
+            Input('chart4a-ngram-dropdown', 'value'),
+            Input('chart4a-text-toggle', 'value'),
+
+            Input('word-search-4a', 'value')
+        ]
+    )
+
+    def update_table4a(n_clicks_search, n_clicks_clear, selected_start_date, selected_end_date, selected_publishers, selected_topics, selected_bias_categories, selected_bias_ratings, selected_ngrams, text_by, search_word):
+        triggered = dash.callback_context.triggered
+        topics = ''
+
+        if triggered:
+            id = triggered[0]['prop_id'].split('.')[0]
+
+            if id == 'search-button4a':
+                filtered_df = df_corpus.copy()
+
+                # Apply filters for dates, publishers, and topics
+                if selected_start_date and selected_end_date:
+                    start_date = pd.to_datetime(str(selected_start_date))
+                    end_date = pd.to_datetime(str(selected_end_date))
+                    filtered_df = filtered_df[(filtered_df['date_published'] >= start_date) & (filtered_df['date_published'] <= end_date)]
+                if selected_publishers:
+                    filtered_df = filtered_df[filtered_df['publisher'].isin(selected_publishers)]
+                if selected_topics:
+                    filtered_df = filtered_df[filtered_df['topic'].str.contains('|'.join(selected_topics))]
+                    topics = 'having any of the selected topics'
+                if selected_bias_ratings:
+                    filtered_df = filtered_df[filtered_df['bias_rating'].isin(selected_bias_ratings)]
+                if selected_bias_categories:
+                    filtered_df = filtered_df[filtered_df[selected_bias_categories].sum(axis=1) > 0]
+                if search_word:
+                    if text_by ==  'title':
+                        filtered_df = filtered_df[filtered_df['title'].str.contains(search_word, case=False, na=False)]
+                        text = 'headline'
+                    elif text_by == 'text':
+                        filtered_df = filtered_df[filtered_df['text'].str.contains(search_word, case=False, na=False)]
+                        text = 'full-text content'
+
+                # Title
+                title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(f"Showing {filtered_df.shape[0]} articles having <b>'{search_word}'</b> in their <b>{text}</b>")
+
+                # Formatting
+                filtered_df['color'] = np.select(
+                    [
+                        filtered_df['bias_rating'] == 2,
+                        filtered_df['bias_rating'] == 1
+                    ],
+                    [
+                        'white',
+                        '#2E2C2B'
+                    ],
                     '#2E2C2B'
-                ],
-                '#2E2C2B'
-            )
-            filtered_df['title_label'] = "<a href='" + filtered_df['article_url'] + "' target='_blank' style='color:" + filtered_df['color'] + ";'>" + filtered_df['title'] + "</a>"
-            filtered_df['bias_rating_label'] = np.select(
-                [
-                    filtered_df['bias_rating'] == -1,
-                    filtered_df['bias_rating'] == 0,
-                    filtered_df['bias_rating'] == 1,
-                    filtered_df['bias_rating'] == 2
-                ],
-                [
-                    'Inconclusive',
-                    'Not Biased',
-                    'Biased',
-                    'Very Biased'
-                ],
-                default='Unknown'
-            )
-            filtered_df['date_published_label_(yyyy-mm-dd)'] = filtered_df['date_published'].dt.date
-            # filtered_df['explore_further'] = "<a href='" + filtered_df['explainability_url'] + "' target='_blank' style='color:#2E2C2B;'>" + "<b>Explore model results ➡️</b>" + "</a>"
-            filtered_df['explore_further'] = "<a href='" + '' + "' target='_blank' style='color:#2E2C2B;'>" + "<b>Explore model results ➡️</b>" + "</a>" # CHANGE THIS TO URL LATER
+                )
+                filtered_df['title_label'] = "<a href='" + filtered_df['article_url'] + "' target='_blank' style='color:" + filtered_df['color'] + ";'>" + filtered_df['title'] + "</a>"
+                filtered_df['bias_rating_label'] = np.select(
+                    [
+                        filtered_df['bias_rating'] == -1,
+                        filtered_df['bias_rating'] == 0,
+                        filtered_df['bias_rating'] == 1,
+                        filtered_df['bias_rating'] == 2
+                    ],
+                    [
+                        'Inconclusive',
+                        'Not Biased',
+                        'Biased',
+                        'Very Biased'
+                    ],
+                    default='Unknown'
+                )
+                filtered_df['date_published_label_(yyyy-mm-dd)'] = filtered_df['date_published'].dt.date
+                # filtered_df['explore_further'] = "<a href='" + filtered_df['explainability_url'] + "' target='_blank' style='color:#2E2C2B;'>" + "<b>Explore model results ➡️</b>" + "</a>"
+                filtered_df['explore_further'] = "<a href='" + '' + "' target='_blank' style='color:#2E2C2B;'>" + "<b>Explore model results ➡️</b>" + "</a>" # CHANGE THIS TO URL LATER
 
-            # Save to csv
-            csv_df = filtered_df[['publisher', 'title', 'article_url', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label']]
-            csv_df.columns = ['Publisher', 'Title', 'Article URL', 'Date Published (YYYY-MM-DD)', 'Topic', 'Bias Rating']
-            csv_string = "data:text/csv;charset=utf-8,%EF%BB%BF" + urllib.parse.quote(csv_df.to_csv(index=False, encoding='utf-8'))
+                # Save to csv
+                csv_df = filtered_df[['publisher', 'title', 'article_url', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label']]
+                csv_df.columns = ['Publisher', 'Title', 'Article URL', 'Date Published (YYYY-MM-DD)', 'Topic', 'Bias Rating']
+                csv_string = "data:text/csv;charset=utf-8,%EF%BB%BF" + urllib.parse.quote(csv_df.to_csv(index=False, encoding='utf-8'))
 
-            # Dash
-            filtered_df = filtered_df.sort_values('date_published_label_(yyyy-mm-dd)', ascending=False)[['title_label', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label', 'explore_further']]
-            table = dash_table.DataTable(
-                css=[dict(selector="p", rule="margin: 0; text-align: left")],
-                columns=[{'id': x, 'name': x.replace('_', ' ').title(), 'presentation': 'markdown'} if 'title' or 'explore' in x else {'id': x, 'name': x.replace('_', ' ').replace('label', '').title().replace('Or', 'or').replace('Yyyy-Mm-Dd', 'yyyy-mm-dd')} for x in filtered_df.columns],
-                markdown_options={"html": True},
-                data=filtered_df.to_dict('records'),
-                sort_action='native',
-                filter_action='native',
-                filter_options={'case': 'insensitive'},
+                # Dash
+                filtered_df = filtered_df.sort_values('date_published_label_(yyyy-mm-dd)', ascending=False)[['title_label', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label', 'explore_further']]
+                table = dash_table.DataTable(
+                    css=[dict(selector="p", rule="margin: 0; text-align: left")],
+                    columns=[{'id': x, 'name': x.replace('_', ' ').title(), 'presentation': 'markdown'} if 'title' or 'explore' in x else {'id': x, 'name': x.replace('_', ' ').replace('label', '').title().replace('Or', 'or').replace('Yyyy-Mm-Dd', 'yyyy-mm-dd')} for x in filtered_df.columns],
+                    markdown_options={"html": True},
+                    data=filtered_df.to_dict('records'),
+                    sort_action='native',
+                    filter_action='native',
+                    filter_options={'case': 'insensitive'},
 
-                page_current=0,
-                page_size=20,
-                style_table={'margin': 'auto', 'padding': '0 5px', 'overflowX': 'auto', 'overflowY': 'auto'},
-                style_header={'textAlign': 'center', 'fontWeight': 'bold'},
-                style_data={'minWidth': '120px', 'maxWidth': '120px', 'width': '120px'},
-                style_data_conditional=[
-                    {
-                        'if': {
-                            'filter_query': '{bias_rating_label}="Very Biased"',
-                            'column_id': ['title_label', 'bias_rating_label']
+                    page_current=0,
+                    page_size=20,
+                    style_table={'margin': 'auto', 'padding': '0 5px', 'overflowX': 'auto', 'overflowY': 'auto'},
+                    style_header={'textAlign': 'center', 'fontWeight': 'bold'},
+                    style_data={'minWidth': '120px', 'maxWidth': '120px', 'width': '120px'},
+                    style_data_conditional=[
+                        {
+                            'if': {
+                                'filter_query': '{bias_rating_label}="Very Biased"',
+                                'column_id': ['title_label', 'bias_rating_label']
+                            },
+                            'backgroundColor': '#C22625',
+                            'color': 'white'
                         },
-                        'backgroundColor': '#C22625',
-                        'color': 'white'
-                    },
-                    {
-                        'if': {
-                            'filter_query': '{bias_rating_label}="Biased"',
-                            'column_id': ['title_label', 'bias_rating_label']
-                        },
-                        'backgroundColor': '#eb8483',
-                        'color': '#2E2C2B'
-                    }
-                ],
-                style_cell={'textAlign': 'left', 'padding': '5px', 'font-family': 'sans-serif', 'whiteSpace': 'normal', 'height': 'auto', 'minWidth': '180px', 'maxWidth': '180px', 'width': '180px'},
-                style_cell_conditional=[
-                    {
-                        'if': {
-                            'column_id': ['topic', 'title']
-                        },
-                        'width': '600px'
-                    }
-                ]
-            )
+                        {
+                            'if': {
+                                'filter_query': '{bias_rating_label}="Biased"',
+                                'column_id': ['title_label', 'bias_rating_label']
+                            },
+                            'backgroundColor': '#eb8483',
+                            'color': '#2E2C2B'
+                        }
+                    ],
+                    style_cell={'textAlign': 'left', 'padding': '5px', 'font-family': 'sans-serif', 'whiteSpace': 'normal', 'height': 'auto', 'minWidth': '180px', 'maxWidth': '180px', 'width': '180px'},
+                    style_cell_conditional=[
+                        {
+                            'if': {
+                                'column_id': ['topic', 'title']
+                            },
+                            'width': '600px'
+                        }
+                    ]
+                )
 
-            if id == 'export-button4a':
+                if id == 'export-button4a':
+                    return [title], table, {'fontSize': 14, 'display': 'block'}, {'fontSize': 14, 'display': 'block', 'margin-left': '10px'}, csv_string
+
                 return [title], table, {'fontSize': 14, 'display': 'block'}, {'fontSize': 14, 'display': 'block', 'margin-left': '10px'}, csv_string
 
-            return [title], table, {'fontSize': 14, 'display': 'block'}, {'fontSize': 14, 'display': 'block', 'margin-left': '10px'}, csv_string
+            elif id in ['chart4a-datepickerrange', 'chart4a-publisher-dropdown', 'chart4a-bias-rating-dropdown', 'chart4a-bias-category-dropdown', 'chart4a-topic-dropdown', 'chart4a-ngram-dropdown', 'chart4a-text-toggle', 'clear-button4a']:
+                return [], None, {'display': 'none'}, {'display': 'none'}, ''
 
-        elif id in ['chart4a-datepickerrange', 'chart4a-publisher-dropdown', 'chart4a-bias-rating-dropdown', 'chart4a-bias-category-dropdown', 'chart4a-topic-dropdown', 'chart4a-ngram-dropdown', 'chart4a-text-toggle', 'clear-button4a']:
-            return [], None, {'display': 'none'}, {'display': 'none'}, ''
-
-    return [], None, {'display': 'none'}, {'display': 'none'}, ''
+        return [], None, {'display': 'none'}, {'display': 'none'}, ''
 
 
-# Callback for Table 4B
-@app.callback(
-    [
-        Output('table4b-title', 'children'),
-        Output('table4b', 'children'),
-        Output('clear-button4b', 'style'),
-        Output('export-button4b', 'style'),
-        Output('export-button4b', 'href')
-    ],
-    [
-        Input('search-button4b', 'n_clicks'),
-        Input('clear-button4b', 'n_clicks'),
+    # Callback for Table 4B
+    @app.callback(
+        [
+            Output('table4b-title', 'children'),
+            Output('table4b', 'children'),
+            Output('clear-button4b', 'style'),
+            Output('export-button4b', 'style'),
+            Output('export-button4b', 'href')
+        ],
+        [
+            Input('search-button4b', 'n_clicks'),
+            Input('clear-button4b', 'n_clicks'),
 
-        Input('chart4b-datepickerrange', 'start_date'),
-        Input('chart4b-datepickerrange', 'end_date'),
-        Input('chart4b-publisher-dropdown', 'value'),
-        Input('chart4b-topic-dropdown', 'value'),
-        Input('chart4b-bias-category-dropdown', 'value'),
-        Input('chart4b-bias-rating-dropdown', 'value'),
-        Input('chart4b-ngram-dropdown', 'value'),
-        Input('chart4b-text-toggle', 'value'),
+            Input('chart4b-datepickerrange', 'start_date'),
+            Input('chart4b-datepickerrange', 'end_date'),
+            Input('chart4b-publisher-dropdown', 'value'),
+            Input('chart4b-topic-dropdown', 'value'),
+            Input('chart4b-bias-category-dropdown', 'value'),
+            Input('chart4b-bias-rating-dropdown', 'value'),
+            Input('chart4b-ngram-dropdown', 'value'),
+            Input('chart4b-text-toggle', 'value'),
 
-        Input('word-search-4b', 'value')
-    ]
-)
+            Input('word-search-4b', 'value')
+        ]
+    )
 
-def update_table4b(n_clicks_search, n_clicks_clear, selected_start_date, selected_end_date, selected_publishers, selected_topics, selected_bias_categories, selected_bias_ratings, selected_ngrams, text_by, search_word):
-    triggered = dash.callback_context.triggered
-    topics = ''
+    def update_table4b(n_clicks_search, n_clicks_clear, selected_start_date, selected_end_date, selected_publishers, selected_topics, selected_bias_categories, selected_bias_ratings, selected_ngrams, text_by, search_word):
+        triggered = dash.callback_context.triggered
+        topics = ''
 
-    if triggered:
-        id = triggered[0]['prop_id'].split('.')[0]
+        if triggered:
+            id = triggered[0]['prop_id'].split('.')[0]
 
-        if id == 'search-button4b':
-            filtered_df = df_corpus.copy()
+            if id == 'search-button4b':
+                filtered_df = df_corpus.copy()
 
-            # Apply filters for dates, publishers, and topics
-            if selected_start_date and selected_end_date:
-                start_date = pd.to_datetime(str(selected_start_date))
-                end_date = pd.to_datetime(str(selected_end_date))
-                filtered_df = filtered_df[(filtered_df['date_published'] >= start_date) & (filtered_df['date_published'] <= end_date)]
-            if selected_publishers:
-                filtered_df = filtered_df[filtered_df['publisher'].isin(selected_publishers)]
-            if selected_topics:
-                filtered_df = filtered_df[filtered_df['topic'].str.contains('|'.join(selected_topics))]
-                topics = 'having any of the selected topics'
-            if selected_bias_ratings:
-                filtered_df = filtered_df[filtered_df['bias_rating'].isin(selected_bias_ratings)]
-            if selected_bias_categories:
-                filtered_df = filtered_df[filtered_df[selected_bias_categories].sum(axis=1) > 0]
-            if search_word:
-                if text_by ==  'title':
-                    filtered_df = filtered_df[filtered_df['title'].str.contains(search_word, case=False, na=False)]
-                    text = 'headline'
-                elif text_by == 'text':
-                    filtered_df = filtered_df[filtered_df['text'].str.contains(search_word, case=False, na=False)]
-                    text = 'full-text content'
+                # Apply filters for dates, publishers, and topics
+                if selected_start_date and selected_end_date:
+                    start_date = pd.to_datetime(str(selected_start_date))
+                    end_date = pd.to_datetime(str(selected_end_date))
+                    filtered_df = filtered_df[(filtered_df['date_published'] >= start_date) & (filtered_df['date_published'] <= end_date)]
+                if selected_publishers:
+                    filtered_df = filtered_df[filtered_df['publisher'].isin(selected_publishers)]
+                if selected_topics:
+                    filtered_df = filtered_df[filtered_df['topic'].str.contains('|'.join(selected_topics))]
+                    topics = 'having any of the selected topics'
+                if selected_bias_ratings:
+                    filtered_df = filtered_df[filtered_df['bias_rating'].isin(selected_bias_ratings)]
+                if selected_bias_categories:
+                    filtered_df = filtered_df[filtered_df[selected_bias_categories].sum(axis=1) > 0]
+                if search_word:
+                    if text_by ==  'title':
+                        filtered_df = filtered_df[filtered_df['title'].str.contains(search_word, case=False, na=False)]
+                        text = 'headline'
+                    elif text_by == 'text':
+                        filtered_df = filtered_df[filtered_df['text'].str.contains(search_word, case=False, na=False)]
+                        text = 'full-text content'
 
-            # Title
-            title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(f"Showing {filtered_df.shape[0]} articles having <b>'{search_word}'</b> in their <b>{text}</b>")
+                # Title
+                title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(f"Showing {filtered_df.shape[0]} articles having <b>'{search_word}'</b> in their <b>{text}</b>")
 
-            # Formatting
-            filtered_df['color'] = np.select(
-                [
-                    filtered_df['bias_rating'] == 2,
-                    filtered_df['bias_rating'] == 1
-                ],
-                [
-                    'white',
+                # Formatting
+                filtered_df['color'] = np.select(
+                    [
+                        filtered_df['bias_rating'] == 2,
+                        filtered_df['bias_rating'] == 1
+                    ],
+                    [
+                        'white',
+                        '#2E2C2B'
+                    ],
                     '#2E2C2B'
-                ],
-                '#2E2C2B'
-            )
-            filtered_df['title_label'] = "<a href='" + filtered_df['article_url'] + "' target='_blank' style='color:" + filtered_df['color'] + ";'>" + filtered_df['title'] + "</a>"
-            filtered_df['bias_rating_label'] = np.select(
-                [
-                    filtered_df['bias_rating'] == -1,
-                    filtered_df['bias_rating'] == 0,
-                    filtered_df['bias_rating'] == 1,
-                    filtered_df['bias_rating'] == 2
-                ],
-                [
-                    'Inconclusive',
-                    'Not Biased',
-                    'Biased',
-                    'Very Biased'
-                ],
-                default='Unknown'
-            )
-            filtered_df['date_published_label_(yyyy-mm-dd)'] = filtered_df['date_published'].dt.date
-            # filtered_df['explore_further'] = "<a href='" + filtered_df['explainability_url'] + "' target='_blank' style='color:#2E2C2B;'>" + "<b>Explore model results ➡️</b>" + "</a>"
-            filtered_df['explore_further'] = "<a href='" + '' + "' target='_blank' style='color:#2E2C2B;'>" + "<b>Explore model results ➡️</b>" + "</a>" # CHANGE THIS TO URL LATER
+                )
+                filtered_df['title_label'] = "<a href='" + filtered_df['article_url'] + "' target='_blank' style='color:" + filtered_df['color'] + ";'>" + filtered_df['title'] + "</a>"
+                filtered_df['bias_rating_label'] = np.select(
+                    [
+                        filtered_df['bias_rating'] == -1,
+                        filtered_df['bias_rating'] == 0,
+                        filtered_df['bias_rating'] == 1,
+                        filtered_df['bias_rating'] == 2
+                    ],
+                    [
+                        'Inconclusive',
+                        'Not Biased',
+                        'Biased',
+                        'Very Biased'
+                    ],
+                    default='Unknown'
+                )
+                filtered_df['date_published_label_(yyyy-mm-dd)'] = filtered_df['date_published'].dt.date
+                # filtered_df['explore_further'] = "<a href='" + filtered_df['explainability_url'] + "' target='_blank' style='color:#2E2C2B;'>" + "<b>Explore model results ➡️</b>" + "</a>"
+                filtered_df['explore_further'] = "<a href='" + '' + "' target='_blank' style='color:#2E2C2B;'>" + "<b>Explore model results ➡️</b>" + "</a>" # CHANGE THIS TO URL LATER
 
-            # Save to csv
-            csv_df = filtered_df[['publisher', 'title', 'article_url', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label']]
-            csv_df.columns = ['Publisher', 'Title', 'Article URL', 'Date Published (YYYY-MM-DD)', 'Topic', 'Bias Rating']
-            csv_string = "data:text/csv;charset=utf-8,%EF%BB%BF" + urllib.parse.quote(csv_df.to_csv(index=False, encoding='utf-8'))
+                # Save to csv
+                csv_df = filtered_df[['publisher', 'title', 'article_url', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label']]
+                csv_df.columns = ['Publisher', 'Title', 'Article URL', 'Date Published (YYYY-MM-DD)', 'Topic', 'Bias Rating']
+                csv_string = "data:text/csv;charset=utf-8,%EF%BB%BF" + urllib.parse.quote(csv_df.to_csv(index=False, encoding='utf-8'))
 
-            # Dash
-            filtered_df = filtered_df.sort_values('date_published_label_(yyyy-mm-dd)', ascending=False)[['title_label', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label', 'explore_further']]
-            table = dash_table.DataTable(
-                css=[dict(selector="p", rule="margin: 0; text-align: left")],
-                columns=[{'id': x, 'name': x.replace('_', ' ').title(), 'presentation': 'markdown'} if 'title' or 'explore' in x else {'id': x, 'name': x.replace('_', ' ').replace('label', '').title().replace('Or', 'or').replace('Yyyy-Mm-Dd', 'yyyy-mm-dd')} for x in filtered_df.columns],
-                markdown_options={"html": True},
-                data=filtered_df.to_dict('records'),
-                sort_action='native',
-                filter_action='native',
-                filter_options={'case': 'insensitive'},
+                # Dash
+                filtered_df = filtered_df.sort_values('date_published_label_(yyyy-mm-dd)', ascending=False)[['title_label', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label', 'explore_further']]
+                table = dash_table.DataTable(
+                    css=[dict(selector="p", rule="margin: 0; text-align: left")],
+                    columns=[{'id': x, 'name': x.replace('_', ' ').title(), 'presentation': 'markdown'} if 'title' or 'explore' in x else {'id': x, 'name': x.replace('_', ' ').replace('label', '').title().replace('Or', 'or').replace('Yyyy-Mm-Dd', 'yyyy-mm-dd')} for x in filtered_df.columns],
+                    markdown_options={"html": True},
+                    data=filtered_df.to_dict('records'),
+                    sort_action='native',
+                    filter_action='native',
+                    filter_options={'case': 'insensitive'},
 
-                page_current=0,
-                page_size=20,
-                style_table={'margin': 'auto', 'padding': '0 5px', 'overflowX': 'auto', 'overflowY': 'auto'},
-                style_header={'textAlign': 'center', 'fontWeight': 'bold'},
-                style_data={'minWidth': '120px', 'maxWidth': '120px', 'width': '120px'},
-                style_data_conditional=[
-                    {
-                        'if': {
-                            'filter_query': '{bias_rating_label}="Very Biased"',
-                            'column_id': ['title_label', 'bias_rating_label']
+                    page_current=0,
+                    page_size=20,
+                    style_table={'margin': 'auto', 'padding': '0 5px', 'overflowX': 'auto', 'overflowY': 'auto'},
+                    style_header={'textAlign': 'center', 'fontWeight': 'bold'},
+                    style_data={'minWidth': '120px', 'maxWidth': '120px', 'width': '120px'},
+                    style_data_conditional=[
+                        {
+                            'if': {
+                                'filter_query': '{bias_rating_label}="Very Biased"',
+                                'column_id': ['title_label', 'bias_rating_label']
+                            },
+                            'backgroundColor': '#C22625',
+                            'color': 'white'
                         },
-                        'backgroundColor': '#C22625',
-                        'color': 'white'
-                    },
-                    {
-                        'if': {
-                            'filter_query': '{bias_rating_label}="Biased"',
-                            'column_id': ['title_label', 'bias_rating_label']
-                        },
-                        'backgroundColor': '#eb8483',
-                        'color': '#2E2C2B'
-                    }
-                ],
-                style_cell={'textAlign': 'left', 'padding': '5px', 'font-family': 'sans-serif', 'whiteSpace': 'normal', 'height': 'auto', 'minWidth': '180px', 'maxWidth': '180px', 'width': '180px'},
-                style_cell_conditional=[
-                    {
-                        'if': {
-                            'column_id': ['topic', 'title']
-                        },
-                        'width': '600px'
-                    }
-                ]
-            )
+                        {
+                            'if': {
+                                'filter_query': '{bias_rating_label}="Biased"',
+                                'column_id': ['title_label', 'bias_rating_label']
+                            },
+                            'backgroundColor': '#eb8483',
+                            'color': '#2E2C2B'
+                        }
+                    ],
+                    style_cell={'textAlign': 'left', 'padding': '5px', 'font-family': 'sans-serif', 'whiteSpace': 'normal', 'height': 'auto', 'minWidth': '180px', 'maxWidth': '180px', 'width': '180px'},
+                    style_cell_conditional=[
+                        {
+                            'if': {
+                                'column_id': ['topic', 'title']
+                            },
+                            'width': '600px'
+                        }
+                    ]
+                )
 
-            if id == 'export-button4b':
+                if id == 'export-button4b':
+                    return [title], table, {'fontSize': 14, 'display': 'block'}, {'fontSize': 14, 'display': 'block', 'margin-left': '10px'}, csv_string
+
                 return [title], table, {'fontSize': 14, 'display': 'block'}, {'fontSize': 14, 'display': 'block', 'margin-left': '10px'}, csv_string
 
-            return [title], table, {'fontSize': 14, 'display': 'block'}, {'fontSize': 14, 'display': 'block', 'margin-left': '10px'}, csv_string
+            elif id in ['chart4b-datepickerrange', 'chart4b-publisher-dropdown', 'chart4b-bias-rating-dropdown', 'chart4b-bias-category-dropdown', 'chart4b-topic-dropdown', 'chart4b-ngram-dropdown', 'chart4b-text-toggle', 'clear-button4b']:
+                return [], None, {'display': 'none'}, {'display': 'none'}, ''
 
-        elif id in ['chart4b-datepickerrange', 'chart4b-publisher-dropdown', 'chart4b-bias-rating-dropdown', 'chart4b-bias-category-dropdown', 'chart4b-topic-dropdown', 'chart4b-ngram-dropdown', 'chart4b-text-toggle', 'clear-button4b']:
-            return [], None, {'display': 'none'}, {'display': 'none'}, ''
-
-    return [], None, {'display': 'none'}, {'display': 'none'}, ''
-
-
-if __name__ == '__main__':
-    app.run_server(debug=True, port=8054)
+        return [], None, {'display': 'none'}, {'display': 'none'}, ''
