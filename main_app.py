@@ -76,6 +76,7 @@ date_today = datetime.today().strftime('%B %d, %Y')
 # Initialize the Dash application
 stylesheets = [dbc.themes.FLATLY] # 'https://codepen.io/chriddyp/pen/bWLwgP.css'
 app = dash.Dash(__name__, external_stylesheets=stylesheets, suppress_callback_exceptions=True)
+server = app.server
 
 
 
