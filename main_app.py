@@ -1107,7 +1107,7 @@ def update_chart4(selected_start_date, selected_end_date, selected_publishers, s
                               f"The word <b>'{word}'</b> appeared <b>{raw_count}</b> times across all articles in the current selection.<br>"
                               f"This accounts for <b>{percentage:.2f}%</b> of the total available word/phrases.<br>"
                               f"<br>"
-                              f"Type <b>'{word}'</b> in the Word Search below to find out which articles used this word.")
+                              f"Type <b>'{word}'</b> in the Word Search above to find out which articles used this word.")
 #                               f"<b>Percentage of Total: x</b>{percentage:.2f}%")
 
         # Identify top 10 words by frequency
