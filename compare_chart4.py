@@ -432,7 +432,7 @@ def register_callbacks(app):
                                 f"The word <b>'{word}'</b> appeared <b>{raw_count}</b> times across all articles in the current selection.<br>"
                                 f"This accounts for <b>{percentage:.2f}%</b> of the total available word/phrases.<br>"
                                 f"<br>"
-                                f"Type <b>'{word}'</b> in the Word Search below to find out which articles used this word.")
+                                f"Type <b>'{word}'</b> in the Word Search above to find out which articles used this word.")
 
             # Identify top 10 words by frequency
             top_10_indices = np.argsort(frequencies)[-10:]
