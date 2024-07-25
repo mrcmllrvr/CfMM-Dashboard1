@@ -825,70 +825,90 @@ def update_chart1(selected_start_date, selected_end_date, selected_publishers, s
             )
 
         elif color_by == 'bias_categories':
-            categories = ['generalisation', 'prominence', 'negative_behaviour', 'misrepresentation', 'headline_or_imagery']
-            category_colors = ['#4185A0', '#AA4D71', '#B85C3B', '#C5BE71', '#7658A0']  # example colors
+            # If chart is empty, show text instead
+            if filtered_df.shape[0]==0:
+                data = []
+                layout = {
+                    'xaxis': {'visible': False},
+                    'yaxis': {'visible': False},
+                    'template': 'simple_white',
+                    'height': 400,
+                    'annotations': [{
+                        'text': 'No articles found in the current selection.',
+                        'showarrow': False,
+                        'xref': 'paper',
+                        'yref': 'paper',
+                        'x': 0.5,
+                        'y': 0.5,
+                        'font': {'size': 20, 'color': '#2E2C2B'}
+                    }]
+                }
 
-            # Prepare legend tracking
-            legend_added = set()
-            data = []
-            filtered_df['total_bias_category'] = filtered_df[categories].sum(axis=1)
-
-            for i, category in enumerate(categories):
-                articles_list = []
-                tooltip_text_list = []
-                for publisher in filtered_df['publisher'].unique():
-                    # Summing the 'total_bias_category' column which was pre-calculated
-                    total_biased_articles = filtered_df[filtered_df['publisher'] == publisher].shape[0]
-
-                    # Count the number of rows where the category column has a 1 for this publisher
-                    articles = filtered_df[(filtered_df['publisher'] == publisher) & (filtered_df[category] == 1)].shape[0]
-                    articles_list += [articles]
-
-                    # Calculate the percentage of total articles for the current category
-                    percentage_of_total = (articles / total_biased_articles * 100) if total_biased_articles > 0 else 0
-                    tooltip_text = (
-                            f"<b>Publisher: </b>{publisher}<br>"
-                            f"<b>Bias Category: </b>{category.replace('_', ' ').title().replace('Or', 'or')}<br>"
-                            f"Of the {total_biased_articles} articles, <b>{articles}</b> of them committed <b>{category.replace('_', ' ').title().replace('Or', 'or')}</b>.<br>"
-                            f"This accounts for <b>{percentage_of_total:.2f}%</b> of the total available articles for <b>{category.replace('_', ' ').title().replace('Or', 'or')}</b>.<br>"
-                            # f"<b>Percentage of Total: </b>{percentage_of_total:.2f}%"
-                    )
-                    tooltip_text_list += [tooltip_text]
-
-                showlegend = category not in legend_added  # determine showlegend based on current category
-                legend_added.add(category)
-
-                data.append(go.Bar(
-                    x=articles_list,
-                    y=top_publishers,
-                    name=category.replace('_', ' ').title().replace('Or', 'or'),
-                    orientation='h',
-                    marker=dict(color=category_colors[i]),
-                    showlegend=showlegend,
-                    text=tooltip_text_list,
-                    hoverinfo='text',
-                    textposition='none'
-                ))
-
-            # Update the layout
-            layout = go.Layout(
-                title=f"""<b>Who are the top offending publishers?</b>""",
-                xaxis=dict(title='Number of Articles'),
-                yaxis=dict(title='Publisher'),
-                hovermode='closest',
-                barmode='group',
-                showlegend=True,
-                hoverlabel=dict(
-                    align='left'
-                ),
-                template="simple_white",
-                plot_bgcolor='white',
-                paper_bgcolor='white',
-                font_color='#2E2C2B',
-                font_size=14,
-                height=800,
-                margin={'l': 150, 'r': 20, 'b': 40, 't': 40}
-            )
+            else:
+                categories = ['generalisation', 'prominence', 'negative_behaviour', 'misrepresentation', 'headline_or_imagery']
+                category_colors = ['#4185A0', '#AA4D71', '#B85C3B', '#C5BE71', '#7658A0']  # example colors
+    
+                # Prepare legend tracking
+                legend_added = set()
+                data = []
+                filtered_df['total_bias_category'] = filtered_df[categories].sum(axis=1)
+    
+                for i, category in enumerate(categories):
+                    articles_list = []
+                    tooltip_text_list = []
+                    for publisher in filtered_df['publisher'].unique():
+                        # Summing the 'total_bias_category' column which was pre-calculated
+                        total_biased_articles = filtered_df[filtered_df['publisher'] == publisher].shape[0]
+    
+                        # Count the number of rows where the category column has a 1 for this publisher
+                        articles = filtered_df[(filtered_df['publisher'] == publisher) & (filtered_df[category] == 1)].shape[0]
+                        articles_list += [articles]
+    
+                        # Calculate the percentage of total articles for the current category
+                        percentage_of_total = (articles / total_biased_articles * 100) if total_biased_articles > 0 else 0
+                        tooltip_text = (
+                                f"<b>Publisher: </b>{publisher}<br>"
+                                f"<b>Bias Category: </b>{category.replace('_', ' ').title().replace('Or', 'or')}<br>"
+                                f"Of the {total_biased_articles} articles, <b>{articles}</b> of them committed <b>{category.replace('_', ' ').title().replace('Or', 'or')}</b>.<br>"
+                                f"This accounts for <b>{percentage_of_total:.2f}%</b> of the total available articles for <b>{category.replace('_', ' ').title().replace('Or', 'or')}</b>.<br>"
+                                # f"<b>Percentage of Total: </b>{percentage_of_total:.2f}%"
+                        )
+                        tooltip_text_list += [tooltip_text]
+    
+                    showlegend = category not in legend_added  # determine showlegend based on current category
+                    legend_added.add(category)
+    
+                    data.append(go.Bar(
+                        x=articles_list,
+                        y=top_publishers,
+                        name=category.replace('_', ' ').title().replace('Or', 'or'),
+                        orientation='h',
+                        marker=dict(color=category_colors[i]),
+                        showlegend=showlegend,
+                        text=tooltip_text_list,
+                        hoverinfo='text',
+                        textposition='none'
+                    ))
+    
+                # Update the layout
+                layout = go.Layout(
+                    title=f"""<b>Who are the top offending publishers?</b>""",
+                    xaxis=dict(title='Number of Articles'),
+                    yaxis=dict(title='Publisher'),
+                    hovermode='closest',
+                    barmode='group',
+                    showlegend=True,
+                    hoverlabel=dict(
+                        align='left'
+                    ),
+                    template="simple_white",
+                    plot_bgcolor='white',
+                    paper_bgcolor='white',
+                    font_color='#2E2C2B',
+                    font_size=14,
+                    height=800,
+                    margin={'l': 150, 'r': 20, 'b': 40, 't': 40}
+                )
 
     return {'data': data, 'layout': layout}
 
