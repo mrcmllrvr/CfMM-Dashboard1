@@ -78,8 +78,6 @@ stylesheets = [dbc.themes.FLATLY] # 'https://codepen.io/chriddyp/pen/bWLwgP.css'
 app = dash.Dash(__name__, external_stylesheets=stylesheets, suppress_callback_exceptions=True)
 server = app.server
 
-
-
 # Define the main layout of the application
 app.layout = html.Div(children=[
     dcc.Location(id='url', refresh=False),
@@ -91,10 +89,422 @@ main_layout = html.Div(children=[
     html.H4(date_today, style={'margin': '20px'}),
     html.H1(children="Today's Insight/Metrics", style={'margin': '20px', 'height': '100px', 'font-weight': 'bolder'}),
 
+    # Modals
+    # Modal for Chart 1
+    dbc.Modal(
+            [
+                dbc.ModalHeader(),
+                dbc.ModalBody(children=[
+                    html.Div([
+                        html.Label(['Filter Date Published:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        dcc.DatePickerRange(
+                            id='chart1-datepickerrange',
+                            display_format='DD MMM YYYY',
+                            clearable=True,
+                            with_portal=True,
+                            max_date_allowed=datetime.today(),
+                            start_date=start_date,
+                            end_date=end_date,
+                            start_date_placeholder_text='Start date',
+                            end_date_placeholder_text='End date',
+                            style = {'font-size':'15px'}
+                        )
+                    ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
+                    html.Div([
+                        html.Label(['Filter Publishers:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        dcc.Dropdown(
+                        id='chart1-publisher-dropdown',
+                        options=[{'label': publisher, 'value': publisher} for publisher in unique_publishers],
+                        placeholder='Select Publisher',
+                        multi=True,
+                        clearable=True,
+                        style = {'width': '70%'})
+                    ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
-# Boxes
-html.Div(
+                    html.Div([
+                        html.Label(['Filter Bias Ratings:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        dcc.Dropdown(
+                        id='chart1-bias-rating-dropdown',
+                        options=[
+                            {'label': 'Inconclusive', 'value':-1},
+                            {'label': 'Biased', 'value': 1},
+                            {'label': 'Very Biased', 'value': 2},
+                            {'label': 'Not Biased', 'value': 0},
+                        ],
+                        placeholder='Select Bias Rating',
+                        multi=True,
+                        clearable=True,
+                        style = {'width': '70%'})
+                    ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
+
+                    html.Div([
+                        html.Label(['Filter Bias Category:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        dcc.Dropdown(
+                        id='chart1-bias-category-dropdown',
+                        options=[
+                            {'label': 'Generalisation', 'value': 'generalisation'},
+                            {'label': 'Prominence', 'value': 'prominence'},
+                            {'label': 'Negative Behaviour', 'value': 'negative_behaviour'},
+                            {'label': 'Misrepresentation', 'value': 'misrepresentation'},
+                            {'label': 'Headline or Imagery', 'value': 'headline_or_imagery'},
+                        ],
+                        placeholder='Select Bias Category',
+                        multi=True,
+                        clearable=True,
+                        style = {'width': '70%'})
+                    ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
+
+                    html.Div([
+                        html.Label(['Filter Topics:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        dcc.Dropdown(
+                        id='chart1-topic-dropdown',
+                        options=[{'label': topic, 'value': topic} for topic in unique_topics],
+                        placeholder='Select Topic',
+                        multi=True,
+                        clearable=True,
+                        style = {'width': '70%'})
+                    ], style={'display':'flex', 'margin-bottom':'30px', 'align-items': 'center'}),
+
+                    # Toggle for color by bias ratings or bias categories
+                    dcc.RadioItems(
+                        id='chart1-color-toggle',
+                        options=[
+                            {'label': '    Show bias ratings', 'value': 'bias_ratings'},
+                            {'label': '    Show bias categories', 'value': 'bias_categories'}
+                        ],
+                        value='bias_ratings',  # default value on load
+                        labelStyle={'display': 'inline-block'},
+                        inputStyle={"margin-left": "10px"},
+                        style = {'margin-bottom': '50px'}
+                    ),
+
+                    # Graph for displaying the top offending publishers
+                    dcc.Graph(id='top-offending-publishers-bar-chart', style = {'margin-bottom': '50px'}),
+
+                    # Table for displaying the top offending publishers
+                    html.Div(id='table1-title', style={'fontSize': 20, 'fontColor': '#2E2C2B', 'margin-bottom': '20px'}),
+                    html.Div(id='table1'),
+                    html.Div([
+                        dbc.Button('Clear Table', id='clear-button1', style = {'display': 'none'}),
+                        dbc.Button('Export to CSV', id='export-button1', style = {'display': 'none'})
+                    ], style={'display':'flex', 'margin-top': '10px', 'align-items': 'center'}),
+                ])
+            ],
+            id="modal_1",
+            centered=True,
+            scrollable=True,
+            backdrop="static",
+            fullscreen=True,
+            is_open=False,
+    ),
+
+    # Modal for Chart 2
+    dbc.Modal(
+            [
+                dbc.ModalHeader(),
+                dbc.ModalBody(children=[
+                    html.Div([
+                        html.Label(['Filter Date Published:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        dcc.DatePickerRange(
+                            id='chart2-datepickerrange',
+                            display_format='DD MMM YYYY',
+                            clearable=True,
+                            with_portal=True,
+                            max_date_allowed=datetime.today(),
+                            start_date=start_date,
+                            end_date=end_date,
+                            start_date_placeholder_text='Start date',
+                            end_date_placeholder_text='End date',
+                            style = {'font-size':'15px'}
+                        )
+                    ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
+
+                    html.Div([
+                        html.Label(['Filter Publishers:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        dcc.Dropdown(
+                        id='chart2-publisher-dropdown',
+                        options=[{'label': publisher, 'value': publisher} for publisher in unique_publishers],
+                        placeholder='Select Publisher',
+                        multi=True,
+                        clearable=True,
+                        style = {'width': '70%'})
+                    ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
+
+                    html.Div([
+                        html.Label(['Filter Bias Ratings:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        dcc.Dropdown(
+                        id='chart2-bias-rating-dropdown',
+                        options=[
+                            {'label': 'Inconclusive', 'value':-1},
+                            {'label': 'Biased', 'value': 1},
+                            {'label': 'Very Biased', 'value': 2},
+                            {'label': 'Not Biased', 'value': 0},
+                        ],
+                        placeholder='Select Bias Rating',
+                        multi=True,
+                        clearable=True,
+                        style = {'width': '70%'})
+                    ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
+
+                    html.Div([
+                        html.Label(['Filter Bias Category:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        dcc.Dropdown(
+                        id='chart2-bias-category-dropdown',
+                        options=[
+                            {'label': 'Generalisation', 'value': 'generalisation'},
+                            {'label': 'Prominence', 'value': 'prominence'},
+                            {'label': 'Negative Behaviour', 'value': 'negative_behaviour'},
+                            {'label': 'Misrepresentation', 'value': 'misrepresentation'},
+                            {'label': 'Headline or Imagery', 'value': 'headline_or_imagery'},
+                        ],
+                        placeholder='Select Bias Category',
+                        multi=True,
+                        clearable=True,
+                        style = {'width': '70%'})
+                    ], style={'display':'flex', 'margin-bottom':'50px', 'align-items': 'center'}),
+
+                    # Graph for displaying the top topics
+                    dcc.Graph(id='top-topics-bar-chart', style = {'margin-bottom': '50px'}),
+
+                    # Table for displaying the top topics
+                    html.Div(id='table2-title', style={'fontSize': 20, 'fontColor': '#2E2C2B', 'margin-bottom': '20px'}),
+                    html.Div(id='table2'),
+                    html.Div([
+                        dbc.Button('Clear Table', id='clear-button2', style = {'display': 'none'}),
+                        dbc.Button('Export to CSV', id='export-button2', style = {'display': 'none'})
+                    ], style={'display':'flex', 'margin-top': '10px', 'align-items': 'center'}),
+                ])
+            ],
+            id="modal_2",
+            centered=True,
+            scrollable=True,
+            backdrop="static",
+            fullscreen=True,
+            is_open=False,
+    ),
+
+    # Modal for Chart 3
+    dbc.Modal(
+            [
+                dbc.ModalHeader(),
+                dbc.ModalBody(children=[
+                    html.Div([
+                        html.Label(['Filter Date Published:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        dcc.DatePickerRange(
+                            id='chart3-datepickerrange',
+                            display_format='DD MMM YYYY',
+                            clearable=True,
+                            with_portal=True,
+                            max_date_allowed=datetime.today(),
+                            start_date=start_date,
+                            end_date=end_date,
+                            start_date_placeholder_text='Start date',
+                            end_date_placeholder_text='End date',
+                            style = {'font-size':'15px'}
+                        )
+                    ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
+
+                    html.Div([
+                        html.Label(['Filter Publishers:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        dcc.Dropdown(
+                        id='chart3-publisher-dropdown',
+                        options=[{'label': publisher, 'value': publisher} for publisher in unique_publishers],
+                        placeholder='Select Publisher',
+                        multi=True,
+                        clearable=True,
+                        style = {'width': '70%'}
+                        )
+                    ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
+
+                    html.Div([
+                        html.Label(['Filter Bias Category:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        dcc.Dropdown(
+                        id='chart3-bias-category-dropdown',
+                        options=[
+                            {'label': 'Generalisation', 'value': 'generalisation'},
+                            {'label': 'Prominence', 'value': 'prominence'},
+                            {'label': 'Negative Behaviour', 'value': 'negative_behaviour'},
+                            {'label': 'Misrepresentation', 'value': 'misrepresentation'},
+                            {'label': 'Headline or Imagery', 'value': 'headline_or_imagery'},
+                        ],
+                        placeholder='Select Bias Category',
+                        multi=True,
+                        clearable=True,
+                        style = {'width': '70%'}
+                        )
+                    ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
+
+                    html.Div([
+                        html.Label(['Filter Topics:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        dcc.Dropdown(
+                        id='chart3-topic-dropdown',
+                        options=[{'label': topic, 'value': topic} for topic in unique_topics],
+                        placeholder='Select Topic',
+                        multi=True,
+                        clearable=True,
+                        style = {'width': '70%'}
+                        )
+                    ], style={'display':'flex', 'margin-bottom':'50px', 'align-items': 'center'}),
+
+                    # Graph for displaying the top topics
+                    dcc.Graph(id='top-offending-articles-bar-chart', style = {'margin-bottom': '50px'}),
+
+                    # Table for displaying the top topics
+                    html.Div(id='table3-title', style={'fontSize': 20, 'fontColor': '#2E2C2B', 'margin-bottom': '20px'}),
+                    html.Div(id='table3'),
+                    html.Div([
+                        dbc.Button('Clear Table', id='clear-button3', style = {'display': 'none'}),
+                        dbc.Button('Export to CSV', id='export-button3', style = {'display': 'none'}
+                                )
+                    ], style={'display':'flex', 'margin-top': '10px', 'align-items': 'center'}),
+                ])
+            ],
+            id="modal_3",
+            centered=True,
+            scrollable=True,
+            backdrop="static",
+            fullscreen=True,
+            is_open=False,
+    ),
+
+    # Modal for Chart 4
+    dbc.Modal(
+            [
+                dbc.ModalHeader(),
+                dbc.ModalBody(children=[
+                    html.Div([
+                        html.Label(['Filter Date Published:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        dcc.DatePickerRange(
+                            id='chart4-datepickerrange',
+                            display_format='DD MMM YYYY',
+                            clearable=True,
+                            with_portal=True,
+                            max_date_allowed=datetime.today(),
+                            start_date=start_date,
+                            end_date=end_date,
+                            start_date_placeholder_text='Start date',
+                            end_date_placeholder_text='End date',
+                            style={'font-size': '15px'}
+                        )
+                    ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
+
+                    html.Div([
+                        html.Label(['Filter Publishers:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        dcc.Dropdown(
+                            id='chart4-publisher-dropdown',
+                            options=[{'label': publisher, 'value': publisher} for publisher in unique_publishers],
+                            placeholder='Select Publisher',
+                            multi=True,
+                            clearable=True,
+                            style={'width': '70%'}
+                        )
+                    ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
+
+                    html.Div([
+                        html.Label(['Filter Bias Rating:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        dcc.Dropdown(
+                            id='chart4-bias-rating-dropdown',
+                            options=[
+                                {'label': 'Biased', 'value': 2},
+                                {'label': 'Very Biased', 'value': 1},
+                                {'label': 'Not Biased', 'value': 0},
+                                {'label': 'Inconclusive', 'value': -1},
+                            ],
+                            placeholder='Select Bias Rating',
+                            multi=True,
+                            clearable=True,
+                            style={'width': '70%'}
+                        )
+                    ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
+
+                    html.Div([
+                        html.Label(['Filter Bias Category:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        dcc.Dropdown(
+                            id='chart4-bias-category-dropdown',
+                            options=[
+                                {'label': 'Generalisation', 'value': 'generalisation'},
+                                {'label': 'Prominence', 'value': 'prominence'},
+                                {'label': 'Negative Behaviour', 'value': 'negative_behaviour'},
+                                {'label': 'Misrepresentation', 'value': 'misrepresentation'},
+                                {'label': 'Headline or Imagery', 'value': 'headline_or_imagery'},
+                            ],
+                            placeholder='Select Bias Category',
+                            multi=True,
+                            clearable=True,
+                            style={'width': '70%'}
+                        )
+                    ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
+
+                    html.Div([
+                        html.Label(['Filter Topics:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        dcc.Dropdown(
+                            id='chart4-topic-dropdown',
+                            options=[{'label': topic, 'value': topic} for topic in unique_topics],
+                            placeholder='Select Topic',
+                            multi=True,
+                            clearable=True,
+                            style={'width': '70%'}
+                        )
+                    ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
+
+                    html.Div([
+                        html.Label(['Select Word Grouping:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        dcc.Dropdown(
+                            id='chart4-ngram-dropdown',
+                            options=[
+                                {'label': 'Single Word', 'value': 1},
+                                {'label': 'Two-Word Phrases', 'value': 2},
+                                {'label': 'Three-Word Phrases', 'value': 3}
+                            ],
+                            value=1,  # default value on load
+                            clearable=False,
+                            style={'width': '70%'}
+                        )
+                    ], style={'display': 'flex', 'margin-bottom': '30px', 'align-items': 'center'}),
+
+                    # Toggle for headline-only or full-text word clouds
+                    dcc.RadioItems(
+                        id='chart4-text-toggle',
+                        options=[
+                            {'label': '    Headline-only', 'value': 'title'},
+                            {'label': '    Full-text', 'value': 'text'}
+                        ],
+                        value='title',  # default value on load
+                        labelStyle={'display': 'inline-block'},
+                        inputStyle={"margin-left": "10px"},
+                        style={'margin-bottom': '50px'}
+                    ),
+
+                    # Word search input and button
+                    html.Div([
+                        html.Label(['Word Search:'], style={'font-weight': 'bold', 'width': '20%', 'display': 'block'}),
+                        dcc.Input(id='word-search', type='text', style={'width': '49%', 'display': 'block'}),
+                        dbc.Button('Search', id='search-button4', style={'margin-left': '30px', 'width': '10%', 'display': 'block'})
+                    ], style={'display': 'flex', 'margin-top': '30px', 'margin-bottom': '30px', 'align-items': 'center'}),
+
+                    # Graph for displaying the word cloud
+                    dcc.Graph(id='wordcloud-container'),
+
+                    # Table for displaying the result for word search
+                    html.Div(id='table4-title', style={'fontSize': 20, 'color': '#2E2C2B', 'margin-bottom': '20px'}),
+                    html.Div(id='table4'),
+                    html.Div([
+                        dbc.Button('Clear Table', id='clear-button4', style={'display': 'none'}),
+                        dbc.Button('Export to CSV', id='export-button4', style={'display': 'none'})
+                    ], style={'display': 'flex', 'margin-top': '10px', 'align-items': 'center'}),
+                ])
+            ],
+            id="modal_4",
+            centered=True,
+            scrollable=True,
+            backdrop="static",
+            fullscreen=True,
+            is_open=False,
+    ),
+
+    # Boxes
+    html.Div(
         id='left-column',
         style={'width': '13%', 'float': 'left'},
         children=[
@@ -168,193 +578,33 @@ html.Div(
             # All elements for Chart 1
             html.Div([
                 html.A(dbc.Button('Explore', id='explore-button1', style={'margin-left': '750px', 'width': '10%', 'display': 'block', 'background-color': '#D90429'}),
-                    href='#', target="_blank",
-                    style={'text-decoration': 'none'}),
+                    target="_blank",
+                    style={'text-decoration': 'none'},
+                    n_clicks=0),
 
                 html.A(dbc.Button('Compare', id='compare-button1', style={'margin-left': '750px', 'width': '10%', 'display': 'block', 'background-color': '#D90429'}),
                     href='/compare-chart-1', target="_blank",
                     style={'text-decoration': 'none'}),
 
-                html.Div([
-                    html.Label(['Filter Date Published:'], style={'font-weight': 'bold', 'width': '20%'}),
-                    dcc.DatePickerRange(
-                        id='chart1-datepickerrange',
-                        display_format='DD MMM YYYY',
-                        clearable=True,
-                        with_portal=True,
-                        max_date_allowed=datetime.today(),
-                        start_date=start_date,
-                        end_date=end_date,
-                        start_date_placeholder_text='Start date',
-                        end_date_placeholder_text='End date',
-                        style = {'font-size':'15px'}
-                    )
-                ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
-
-                html.Div([
-                    html.Label(['Filter Publishers:'], style={'font-weight': 'bold', 'width': '20%'}),
-                    dcc.Dropdown(
-                    id='chart1-publisher-dropdown',
-                    options=[{'label': publisher, 'value': publisher} for publisher in unique_publishers],
-                    placeholder='Select Publisher',
-                    multi=True,
-                    clearable=True,
-                    style = {'width': '70%'})
-                ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
-
-                html.Div([
-                    html.Label(['Filter Bias Ratings:'], style={'font-weight': 'bold', 'width': '20%'}),
-                    dcc.Dropdown(
-                    id='chart1-bias-rating-dropdown',
-                    options=[
-                        {'label': 'Inconclusive', 'value':-1},
-                        {'label': 'Biased', 'value': 1},
-                        {'label': 'Very Biased', 'value': 2},
-                        {'label': 'Not Biased', 'value': 0},
-                    ],
-                    placeholder='Select Bias Rating',
-                    multi=True,
-                    clearable=True,
-                    style = {'width': '70%'})
-                ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
-
-                html.Div([
-                    html.Label(['Filter Bias Category:'], style={'font-weight': 'bold', 'width': '20%'}),
-                    dcc.Dropdown(
-                    id='chart1-bias-category-dropdown',
-                    options=[
-                        {'label': 'Generalisation', 'value': 'generalisation'},
-                        {'label': 'Prominence', 'value': 'prominence'},
-                        {'label': 'Negative Behaviour', 'value': 'negative_behaviour'},
-                        {'label': 'Misrepresentation', 'value': 'misrepresentation'},
-                        {'label': 'Headline or Imagery', 'value': 'headline_or_imagery'},
-                    ],
-                    placeholder='Select Bias Category',
-                    multi=True,
-                    clearable=True,
-                    style = {'width': '70%'})
-                ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
-
-                html.Div([
-                    html.Label(['Filter Topics:'], style={'font-weight': 'bold', 'width': '20%'}),
-                    dcc.Dropdown(
-                    id='chart1-topic-dropdown',
-                    options=[{'label': topic, 'value': topic} for topic in unique_topics],
-                    placeholder='Select Topic',
-                    multi=True,
-                    clearable=True,
-                    style = {'width': '70%'})
-                ], style={'display':'flex', 'margin-bottom':'30px', 'align-items': 'center'}),
-
-                # Toggle for color by bias ratings or bias categories
-                dcc.RadioItems(
-                    id='chart1-color-toggle',
-                    options=[
-                        {'label': '    Show bias ratings', 'value': 'bias_ratings'},
-                        {'label': '    Show bias categories', 'value': 'bias_categories'}
-                    ],
-                    value='bias_ratings',  # default value on load
-                    labelStyle={'display': 'inline-block'},
-                    inputStyle={"margin-left": "10px"},
-                    style = {'margin-bottom': '50px'}
-                ),
-
-                # Graph for displaying the top offending publishers
-                dcc.Graph(id='top-offending-publishers-bar-chart', style = {'margin-bottom': '50px'}),
-
-                # Table for displaying the top offending publishers
-                html.Div(id='table1-title', style={'fontSize': 20, 'fontColor': '#2E2C2B', 'margin-bottom': '20px'}),
-                html.Div(id='table1'),
-                html.Div([
-                    dbc.Button('Clear Table', id='clear-button1', style = {'display': 'none'}),
-                    dbc.Button('Export to CSV', id='export-button1', style = {'display': 'none'})
-                ], style={'display':'flex', 'margin-top': '10px', 'align-items': 'center'}),
-            ],
-                style={'width': '45%', 'display': 'inline-block','border': '1px solid black', 'border-radius': '5px', 'padding': '10px'},
+                ## TODO: Place Homepage Chart 1 elements here
+                
+            ],style={'width': '45%', 'display': 'inline-block','border': '1px solid black', 'border-radius': '5px', 'padding': '10px'},
             ),
 
 
             # All elements for Chart 2
             html.Div([
                 html.A(dbc.Button('Explore', id='explore-button2', style={'margin-left': '750px', 'width': '10%', 'display': 'block', 'background-color': '#D90429'}),
-                    href='#', target="_blank",
-                    style={'text-decoration': 'none'}),
+                    target="_blank",
+                    style={'text-decoration': 'none'},
+                    n_clicks=0),
 
                 html.A(dbc.Button('Compare', id='compare-button2', style={'margin-left': '750px', 'width': '10%', 'display': 'block', 'background-color': '#D90429'}),
                     href='/compare-chart-2', target="_blank",
                     style={'text-decoration': 'none'}),
 
 
-                html.Div([
-                    html.Label(['Filter Date Published:'], style={'font-weight': 'bold', 'width': '20%'}),
-                    dcc.DatePickerRange(
-                        id='chart2-datepickerrange',
-                        display_format='DD MMM YYYY',
-                        clearable=True,
-                        with_portal=True,
-                        max_date_allowed=datetime.today(),
-                        start_date=start_date,
-                        end_date=end_date,
-                        start_date_placeholder_text='Start date',
-                        end_date_placeholder_text='End date',
-                        style = {'font-size':'15px'}
-                    )
-                ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
-
-                html.Div([
-                    html.Label(['Filter Publishers:'], style={'font-weight': 'bold', 'width': '20%'}),
-                    dcc.Dropdown(
-                    id='chart2-publisher-dropdown',
-                    options=[{'label': publisher, 'value': publisher} for publisher in unique_publishers],
-                    placeholder='Select Publisher',
-                    multi=True,
-                    clearable=True,
-                    style = {'width': '70%'})
-                ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
-
-                html.Div([
-                    html.Label(['Filter Bias Ratings:'], style={'font-weight': 'bold', 'width': '20%'}),
-                    dcc.Dropdown(
-                    id='chart2-bias-rating-dropdown',
-                    options=[
-                        {'label': 'Inconclusive', 'value':-1},
-                        {'label': 'Biased', 'value': 1},
-                        {'label': 'Very Biased', 'value': 2},
-                        {'label': 'Not Biased', 'value': 0},
-                    ],
-                    placeholder='Select Bias Rating',
-                    multi=True,
-                    clearable=True,
-                    style = {'width': '70%'})
-                ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
-
-                html.Div([
-                    html.Label(['Filter Bias Category:'], style={'font-weight': 'bold', 'width': '20%'}),
-                    dcc.Dropdown(
-                    id='chart2-bias-category-dropdown',
-                    options=[
-                        {'label': 'Generalisation', 'value': 'generalisation'},
-                        {'label': 'Prominence', 'value': 'prominence'},
-                        {'label': 'Negative Behaviour', 'value': 'negative_behaviour'},
-                        {'label': 'Misrepresentation', 'value': 'misrepresentation'},
-                        {'label': 'Headline or Imagery', 'value': 'headline_or_imagery'},
-                    ],
-                    placeholder='Select Bias Category',
-                    multi=True,
-                    clearable=True,
-                    style = {'width': '70%'})
-                ], style={'display':'flex', 'margin-bottom':'50px', 'align-items': 'center'}),
-
-                # Graph for displaying the top topics
-                dcc.Graph(id='top-topics-bar-chart', style = {'margin-bottom': '50px'}),
-
-                # Table for displaying the top topics
-                html.Div(id='table2-title', style={'fontSize': 20, 'fontColor': '#2E2C2B', 'margin-bottom': '20px'}),
-                html.Div(id='table2'),
-                html.Div([
-                    dbc.Button('Clear Table', id='clear-button2', style = {'display': 'none'}),
-                    dbc.Button('Export to CSV', id='export-button2', style = {'display': 'none'})
-                ], style={'display':'flex', 'margin-top': '10px', 'align-items': 'center'}),
+                ## TODO: Place Homepage Chart 2 elements Here
 
             ],
                 style={'width': '45%', 'display': 'inline-block','border': '1px solid black', 'border-radius': '5px', 'padding': '10px'},
@@ -368,82 +618,15 @@ html.Div(
             # All elements for Chart 3
             html.Div([
                 html.A(dbc.Button('Explore', id='explore-button3', style={'margin-left': '750px', 'width': '10%', 'display': 'block', 'background-color': '#D90429'}),
-                    href='#', target="_blank",
-                    style={'text-decoration': 'none'}),
+                    target="_blank",
+                    style={'text-decoration': 'none'},
+                    n_clicks=0),
 
                 html.A(dbc.Button('Compare', id='compare-button3', style={'margin-left': '750px', 'width': '10%', 'display': 'block', 'background-color': '#D90429'}),
                     href='/compare-chart-3', target="_blank",
                     style={'text-decoration': 'none'}),
 
-                html.Div([
-                    html.Label(['Filter Date Published:'], style={'font-weight': 'bold', 'width': '20%'}),
-                    dcc.DatePickerRange(
-                        id='chart3-datepickerrange',
-                        display_format='DD MMM YYYY',
-                        clearable=True,
-                        with_portal=True,
-                        max_date_allowed=datetime.today(),
-                        start_date=start_date,
-                        end_date=end_date,
-                        start_date_placeholder_text='Start date',
-                        end_date_placeholder_text='End date',
-                        style = {'font-size':'15px'}
-                    )
-                ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
-
-                html.Div([
-                    html.Label(['Filter Publishers:'], style={'font-weight': 'bold', 'width': '20%'}),
-                    dcc.Dropdown(
-                    id='chart3-publisher-dropdown',
-                    options=[{'label': publisher, 'value': publisher} for publisher in unique_publishers],
-                    placeholder='Select Publisher',
-                    multi=True,
-                    clearable=True,
-                    style = {'width': '70%'}
-                    )
-                ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
-
-                html.Div([
-                    html.Label(['Filter Bias Category:'], style={'font-weight': 'bold', 'width': '20%'}),
-                    dcc.Dropdown(
-                    id='chart3-bias-category-dropdown',
-                    options=[
-                        {'label': 'Generalisation', 'value': 'generalisation'},
-                        {'label': 'Prominence', 'value': 'prominence'},
-                        {'label': 'Negative Behaviour', 'value': 'negative_behaviour'},
-                        {'label': 'Misrepresentation', 'value': 'misrepresentation'},
-                        {'label': 'Headline or Imagery', 'value': 'headline_or_imagery'},
-                    ],
-                    placeholder='Select Bias Category',
-                    multi=True,
-                    clearable=True,
-                    style = {'width': '70%'}
-                    )
-                ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
-
-                html.Div([
-                    html.Label(['Filter Topics:'], style={'font-weight': 'bold', 'width': '20%'}),
-                    dcc.Dropdown(
-                    id='chart3-topic-dropdown',
-                    options=[{'label': topic, 'value': topic} for topic in unique_topics],
-                    placeholder='Select Topic',
-                    multi=True,
-                    clearable=True,
-                    style = {'width': '70%'}
-                    )
-                ], style={'display':'flex', 'margin-bottom':'50px', 'align-items': 'center'}),
-
-                # Graph for displaying the top topics
-                dcc.Graph(id='top-offending-articles-bar-chart', style = {'margin-bottom': '50px'}),
-
-                # Table for displaying the top topics
-                html.Div(id='table3-title', style={'fontSize': 20, 'fontColor': '#2E2C2B', 'margin-bottom': '20px'}),
-                html.Div(id='table3'),
-                html.Div([
-                    dbc.Button('Clear Table', id='clear-button3', style = {'display': 'none'}),
-                    dbc.Button('Export to CSV', id='export-button3', style = {'display': 'none'}
-                            )
-                ], style={'display':'flex', 'margin-top': '10px', 'align-items': 'center'}),
+                ## TODO: Place Homepage Chart 3 elements here
 
             ],
                 style={'width': '45%', 'display': 'inline-block','border': '1px solid black', 'border-radius': '5px', 'padding': '10px'},
@@ -452,133 +635,15 @@ html.Div(
             # All elements for Chart 4
             html.Div([
                 html.A(dbc.Button('Explore', id='explore-button4', style={'margin-left': '750px', 'width': '10%', 'display': 'block', 'background-color': '#D90429'}),
-                    href='#', target="_blank",
-                    style={'text-decoration': 'none'}),
+                    target="_blank",
+                    style={'text-decoration': 'none'},
+                    n_clicks=0),
 
                 html.A(dbc.Button('Compare', id='compare-button4', style={'margin-left': '750px', 'width': '10%', 'display': 'block', 'background-color': '#D90429'}),
                     href='/compare-chart-4', target="_blank",
                     style={'text-decoration': 'none'}),
 
-                html.Div([
-                    html.Label(['Filter Date Published:'], style={'font-weight': 'bold', 'width': '20%'}),
-                    dcc.DatePickerRange(
-                        id='chart4-datepickerrange',
-                        display_format='DD MMM YYYY',
-                        clearable=True,
-                        with_portal=True,
-                        max_date_allowed=datetime.today(),
-                        start_date=start_date,
-                        end_date=end_date,
-                        start_date_placeholder_text='Start date',
-                        end_date_placeholder_text='End date',
-                        style={'font-size': '15px'}
-                    )
-                ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
-
-                html.Div([
-                    html.Label(['Filter Publishers:'], style={'font-weight': 'bold', 'width': '20%'}),
-                    dcc.Dropdown(
-                        id='chart4-publisher-dropdown',
-                        options=[{'label': publisher, 'value': publisher} for publisher in unique_publishers],
-                        placeholder='Select Publisher',
-                        multi=True,
-                        clearable=True,
-                        style={'width': '70%'}
-                    )
-                ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
-
-                html.Div([
-                    html.Label(['Filter Bias Rating:'], style={'font-weight': 'bold', 'width': '20%'}),
-                    dcc.Dropdown(
-                        id='chart4-bias-rating-dropdown',
-                        options=[
-                            {'label': 'Biased', 'value': 2},
-                            {'label': 'Very Biased', 'value': 1},
-                            {'label': 'Not Biased', 'value': 0},
-                            {'label': 'Inconclusive', 'value': -1},
-                        ],
-                        placeholder='Select Bias Rating',
-                        multi=True,
-                        clearable=True,
-                        style={'width': '70%'}
-                    )
-                ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
-
-                html.Div([
-                    html.Label(['Filter Bias Category:'], style={'font-weight': 'bold', 'width': '20%'}),
-                    dcc.Dropdown(
-                        id='chart4-bias-category-dropdown',
-                        options=[
-                            {'label': 'Generalisation', 'value': 'generalisation'},
-                            {'label': 'Prominence', 'value': 'prominence'},
-                            {'label': 'Negative Behaviour', 'value': 'negative_behaviour'},
-                            {'label': 'Misrepresentation', 'value': 'misrepresentation'},
-                            {'label': 'Headline or Imagery', 'value': 'headline_or_imagery'},
-                        ],
-                        placeholder='Select Bias Category',
-                        multi=True,
-                        clearable=True,
-                        style={'width': '70%'}
-                    )
-                ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
-
-                html.Div([
-                    html.Label(['Filter Topics:'], style={'font-weight': 'bold', 'width': '20%'}),
-                    dcc.Dropdown(
-                        id='chart4-topic-dropdown',
-                        options=[{'label': topic, 'value': topic} for topic in unique_topics],
-                        placeholder='Select Topic',
-                        multi=True,
-                        clearable=True,
-                        style={'width': '70%'}
-                    )
-                ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
-
-                html.Div([
-                    html.Label(['Select Word Grouping:'], style={'font-weight': 'bold', 'width': '20%'}),
-                    dcc.Dropdown(
-                        id='chart4-ngram-dropdown',
-                        options=[
-                            {'label': 'Single Word', 'value': 1},
-                            {'label': 'Two-Word Phrases', 'value': 2},
-                            {'label': 'Three-Word Phrases', 'value': 3}
-                        ],
-                        value=1,  # default value on load
-                        clearable=False,
-                        style={'width': '70%'}
-                    )
-                ], style={'display': 'flex', 'margin-bottom': '30px', 'align-items': 'center'}),
-
-                # Toggle for headline-only or full-text word clouds
-                dcc.RadioItems(
-                    id='chart4-text-toggle',
-                    options=[
-                        {'label': '    Headline-only', 'value': 'title'},
-                        {'label': '    Full-text', 'value': 'text'}
-                    ],
-                    value='title',  # default value on load
-                    labelStyle={'display': 'inline-block'},
-                    inputStyle={"margin-left": "10px"},
-                    style={'margin-bottom': '50px'}
-                ),
-
-                # Word search input and button
-                html.Div([
-                    html.Label(['Word Search:'], style={'font-weight': 'bold', 'width': '20%', 'display': 'block'}),
-                    dcc.Input(id='word-search', type='text', style={'width': '49%', 'display': 'block'}),
-                    dbc.Button('Search', id='search-button4', style={'margin-left': '30px', 'width': '10%', 'display': 'block'})
-                ], style={'display': 'flex', 'margin-top': '30px', 'margin-bottom': '30px', 'align-items': 'center'}),
-
-                # Graph for displaying the word cloud
-                dcc.Graph(id='wordcloud-container'),
-
-                # Table for displaying the result for word search
-                html.Div(id='table4-title', style={'fontSize': 20, 'color': '#2E2C2B', 'margin-bottom': '20px'}),
-                html.Div(id='table4'),
-                html.Div([
-                    dbc.Button('Clear Table', id='clear-button4', style={'display': 'none'}),
-                    dbc.Button('Export to CSV', id='export-button4', style={'display': 'none'})
-                ], style={'display': 'flex', 'margin-top': '10px', 'align-items': 'center'}),
+                ## TODO: Place Homepage Chart 4 elements here
             ], 
                 style={'width': '45%', 'display': 'inline-block','border': '1px solid black', 'border-radius': '5px', 'padding': '10px'},
             )
@@ -586,6 +651,51 @@ html.Div(
         ]),
     ])
 ])
+
+# Callback for Modal 1
+@app.callback(
+    Output("modal_1", "is_open"),
+    [Input("explore-button1", "n_clicks")],
+    [State("modal_1", "is_open")],
+)
+def toggle_modal_1(n1, is_open):
+    if n1:
+        return not is_open
+    return is_open
+
+# Callback for Modal 2
+@app.callback(
+    Output("modal_2", "is_open"),
+    [Input("explore-button2", "n_clicks")],
+    [State("modal_2", "is_open")],
+)
+def toggle_modal_2(n1, is_open):
+    if n1:
+        return not is_open
+    return is_open
+
+# Callback for Modal 3
+@app.callback(
+    Output("modal_3", "is_open"),
+    [Input("explore-button3", "n_clicks")],
+    [State("modal_3", "is_open")],
+)
+def toggle_modal_3(n1, is_open):
+    if n1:
+        return not is_open
+    return is_open
+
+# Callback for Modal 4
+@app.callback(
+    Output("modal_4", "is_open"),
+    [Input("explore-button4", "n_clicks")],
+    [State("modal_4", "is_open")],
+)
+def toggle_modal_4(n1, is_open):
+    if n1:
+        return not is_open
+    return is_open
+
 
 
 # Callback for Chart 1
