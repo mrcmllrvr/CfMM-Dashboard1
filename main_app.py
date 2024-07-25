@@ -84,6 +84,548 @@ app.layout = html.Div(children=[
     html.Div(id='page-content')
 ])
 
+
+# Callback for Homepage Chart 1
+@app.callback(
+    Output('homepage-top-offending-publishers-bar-chart', 'figure'),
+    [
+        Input('homepage-chart1-color-toggle', 'value')
+    ]
+)
+
+def update_homepage_chart1(color_by):
+    filtered_df = df_corpus.copy()
+
+    # Filter latest scraped date for homepage
+    start_date = pd.to_datetime(str(df_corpus['date_published'].max()))
+    end_date = pd.to_datetime(str(df_corpus['date_published'].max()))
+    filtered_df = filtered_df[(filtered_df['date_published']>=start_date) & (filtered_df['date_published']<=end_date)]
+
+    # If chart is empty, show text instead
+    if filtered_df.shape[0]==0:
+        data = []
+        layout = {
+            'xaxis': {'visible': False},
+            'yaxis': {'visible': False},
+            'template': 'simple_white',
+            'height': 400,
+            'annotations': [{
+                'text': 'No articles found in the current selection.',
+                'showarrow': False,
+                'xref': 'paper',
+                'yref': 'paper',
+                'x': 0.5,
+                'y': 0.5,
+                'font': {'size': 20, 'color': '#2E2C2B'}
+            }]
+        }
+
+    else:
+        # Calculate the total counts of very biased and biased articles for each publisher
+        publisher_totals = filtered_df.groupby('publisher', observed=True).size()
+
+        # Sort publishers by this count and get the top 10
+        top_publishers = publisher_totals.sort_values(ascending=False).head(10).index[::-1]
+
+        # Filter the dataframe to include only the top publishers
+        filtered_df = filtered_df[filtered_df['publisher'].isin(top_publishers)]
+        filtered_df['publisher'] = pd.Categorical(filtered_df['publisher'], ordered=True, categories=top_publishers)
+        filtered_df = filtered_df.sort_values('publisher')
+
+        if color_by == 'bias_ratings':
+            # Color mapping for bias ratings
+            color_map = {
+                -1: ('#CAC6C2', 'Inconclusive'),
+                0: ('#f2eadf', 'Not Biased'), # #FFE5DC
+                1: ('#eb8483', 'Biased'),
+                2: ('#C22625', 'Very Biased')
+            }
+            # Prepare legend tracking
+            legend_added = set()
+            data = []
+            for publisher in top_publishers:
+                total_biased_articles = filtered_df[filtered_df['publisher'] == publisher]['bias_rating'].count()
+
+                for rating, (color, name) in color_map.items():
+                    articles = filtered_df[(filtered_df['publisher'] == publisher) &
+                                            (filtered_df['bias_rating'] == rating)]['bias_rating'].count()
+
+                    percentage_of_total = (articles / total_biased_articles) * 100 if total_biased_articles > 0 else 0
+
+                    tooltip_text = (
+                        f"<b>Publisher: </b>{publisher}<br>"
+                        f"<b>Bias Rating:</b> {name}<br>"
+                        f"<b>Number of Articles:</b> {articles}<br>"
+                        f"This accounts for <b>{percentage_of_total:.2f}%</b> of the total available articles in the current selection.<br>"
+                        # f"<b>Percentage of Total:</b> {percentage_of_total:.2f}%"
+                    )
+
+                    showlegend = name not in legend_added
+                    legend_added.add(name)
+
+                    data.append(go.Bar(
+                        x=[articles],
+                        y=[publisher],
+                        name=name,
+                        orientation='h',
+                        marker=dict(color=color),
+                        showlegend=showlegend,
+                        text=tooltip_text,
+                        hoverinfo='text',
+                        textposition='none'
+                    ))
+
+            # Update the layout
+            layout = go.Layout(
+                title=f"""<b>Who are the top offending publishers?</b>""",
+                xaxis=dict(title='Number of Articles'),
+                yaxis=dict(title='Publisher'),
+                hovermode='closest',
+                barmode='stack',
+                showlegend=True,
+                hoverlabel=dict(
+                    align='left'
+                ),
+                template="simple_white",
+                plot_bgcolor='white',
+                paper_bgcolor='white',
+                font_color='#2E2C2B',
+                font_size=14,
+                height=800,
+                margin={'l': 150, 'r': 20, 'b': 40, 't': 40}
+            )
+
+        elif color_by == 'bias_categories':
+            # If chart is empty, show text instead
+            if filtered_df[filtered_df['bias_rating']>=1].shape[0]==0:
+                data = []
+                layout = {
+                    'xaxis': {'visible': False},
+                    'yaxis': {'visible': False},
+                    'template': 'simple_white',
+                    'height': 400,
+                    'annotations': [{
+                        'text': 'No biased articles found in the current selection.',
+                        'showarrow': False,
+                        'xref': 'paper',
+                        'yref': 'paper',
+                        'x': 0.5,
+                        'y': 0.5,
+                        'font': {'size': 20, 'color': '#2E2C2B'}
+                    }]
+                }
+            else:
+                categories = ['generalisation', 'prominence', 'negative_behaviour', 'misrepresentation', 'headline_or_imagery']
+                category_colors = ['#4185A0', '#AA4D71', '#B85C3B', '#C5BE71', '#7658A0']  # example colors
+
+                # Prepare legend tracking
+                legend_added = set()
+                data = []
+                filtered_df['total_bias_category'] = filtered_df[categories].sum(axis=1)
+
+                for i, category in enumerate(categories):
+                    articles_list = []
+                    tooltip_text_list = []
+                    for publisher in filtered_df['publisher'].unique():
+                        # Summing the 'total_bias_category' column which was pre-calculated
+                        total_biased_articles = filtered_df[filtered_df['publisher'] == publisher].shape[0]
+
+                        # Count the number of rows where the category column has a 1 for this publisher
+                        articles = filtered_df[(filtered_df['publisher'] == publisher) & (filtered_df[category] == 1)].shape[0]
+                        articles_list += [articles]
+
+                        # Calculate the percentage of total articles for the current category
+                        percentage_of_total = (articles / total_biased_articles * 100) if total_biased_articles > 0 else 0
+                        tooltip_text = (
+                                f"<b>Publisher: </b>{publisher}<br>"
+                                f"<b>Bias Category: </b>{category.replace('_', ' ').title().replace('Or', 'or')}<br>"
+                                f"Of the {total_biased_articles} articles, <b>{articles}</b> of them committed <b>{category.replace('_', ' ').title().replace('Or', 'or')}</b>.<br>"
+                                f"This accounts for <b>{percentage_of_total:.2f}%</b> of the total available articles for <b>{category.replace('_', ' ').title().replace('Or', 'or')}</b>.<br>"
+                                # f"<b>Percentage of Total: </b>{percentage_of_total:.2f}%"
+                        )
+                        tooltip_text_list += [tooltip_text]
+
+                    showlegend = category not in legend_added  # determine showlegend based on current category
+                    legend_added.add(category)
+
+                    data.append(go.Bar(
+                        x=articles_list,
+                        y=top_publishers,
+                        name=category.replace('_', ' ').title().replace('Or', 'or'),
+                        orientation='h',
+                        marker=dict(color=category_colors[i]),
+                        showlegend=showlegend,
+                        text=tooltip_text_list,
+                        hoverinfo='text',
+                        textposition='none'
+                    ))
+
+                # Update the layout
+                layout = go.Layout(
+                    title=f"""<b>Who are the top offending publishers?</b>""",
+                    xaxis=dict(title='Number of Articles'),
+                    yaxis=dict(title='Publisher'),
+                    hovermode='closest',
+                    barmode='group',
+                    showlegend=True,
+                    hoverlabel=dict(
+                        align='left'
+                    ),
+                    template="simple_white",
+                    plot_bgcolor='white',
+                    paper_bgcolor='white',
+                    font_color='#2E2C2B',
+                    font_size=14,
+                    height=800,
+                    margin={'l': 150, 'r': 20, 'b': 40, 't': 40}
+                )
+
+        return {'data': data, 'layout': layout}
+    
+# Function for Homepage Chart 2
+def update_homepage_chart2():
+    filtered_df = df_corpus.copy()
+
+    # Filter latest scraped date for homepage
+    start_date = pd.to_datetime(str(df_corpus['date_published'].max()))
+    end_date = pd.to_datetime(str(df_corpus['date_published'].max()))
+    filtered_df = filtered_df[(filtered_df['date_published']>=start_date) & (filtered_df['date_published']<=end_date)]
+
+    # If chart is empty, show text instead
+    if filtered_df.shape[0]==0:
+        data = []
+        layout = {
+            'xaxis': {'visible': False},
+            'yaxis': {'visible': False},
+            'template': 'simple_white',
+            'height': 400,
+            'annotations': [{
+                'text': 'No articles found in the current selection.',
+                'showarrow': False,
+                'xref': 'paper',
+                'yref': 'paper',
+                'x': 0.5,
+                'y': 0.5,
+                'font': {'size': 20, 'color': '#2E2C2B'}
+            }]
+        }
+
+    else:
+        # Aggregate topics
+        filtered_df_exploded = filtered_df[['article_url', 'topic_list']].explode('topic_list')
+        topic_counts = filtered_df_exploded.groupby('topic_list', observed=True).size().sort_values(ascending=False)
+        total_articles = topic_counts.sum()
+
+        # Predefine colors for the top 5 topics
+        top_colors = ['#4185A0', '#AA4D71', '#B85C3B', '#C5BE71', '#7658A0']
+        gray_color = '#CAC6C2' # Add gray color for the remaining topics
+
+        # Create bars for the bar chart
+        data = []
+        for i, (topic, count) in enumerate(topic_counts.items()):
+            tooltip_text = (
+                f"<b>Topic: </b>{topic}<br>"
+                f"<b>Number of Articles: </b>{count}<br>"
+                f"This accounts for <b>{count/total_articles:.2%}%</b> of the total available articles in the current selection.<br>"
+                # f"<b>Percentage of Total: </b>{count/total_articles:.2%}"
+            )
+
+            bar = go.Bar(
+                y=[topic],
+                x=[count],
+                orientation='h',
+                marker=dict(color=top_colors[i] if i < 5 else gray_color),
+                text=tooltip_text,
+                hoverinfo='text',
+                textposition='none'
+            )
+            data.append(bar)
+
+        # Update the layout
+        layout = go.Layout(
+            title='<b>What are the most popular topics?</b>',
+            xaxis=dict(title='Number of Articles'),
+            yaxis=dict(title='Topics', autorange='reversed', tickmode='array', tickvals=list(range(len(topic_counts))), ticktext=topic_counts.index.tolist()),
+            hovermode='closest',
+            barmode='stack',
+            showlegend=False,
+            hoverlabel=dict(
+                align='left'
+            ),
+            template="simple_white",
+            plot_bgcolor='white',
+            paper_bgcolor='white',
+            font_color='#2E2C2B',
+            font_size=14,
+            height=800,
+            margin={'l': 150, 'r': 20, 'b': 40, 't': 40}
+        )
+
+    return {'data': data, 'layout': layout}
+
+
+# Function for Homepage Chart 3
+def update_homepage_chart3():
+    filtered_df = df_corpus.copy()
+
+    # Filter latest scraped date for homepage
+    start_date = pd.to_datetime(str(df_corpus['date_published'].max()))
+    end_date = pd.to_datetime(str(df_corpus['date_published'].max()))
+    filtered_df = filtered_df[(filtered_df['date_published']>=start_date) & (filtered_df['date_published']<=end_date)]
+
+    # If chart is empty, show text instead
+    if filtered_df.shape[0]==0:
+        data = []
+        layout = {
+            'xaxis': {'visible': False},
+            'yaxis': {'visible': False},
+            'template': 'simple_white',
+            'height': 400,
+            'annotations': [{
+                'text': 'No articles found in the current selection.',
+                'showarrow': False,
+                'xref': 'paper',
+                'yref': 'paper',
+                'x': 0.5,
+                'y': 0.5,
+                'font': {'size': 20, 'color': '#2E2C2B'}
+            }]
+        }
+
+    else:
+        # Aggregate count per bias rating
+        label_map = {
+                -1: 'Inconclusive',
+                0: 'Not Biased',
+                1: 'Biased',
+                2: 'Very Biased'
+            }
+        filtered_df['bias_rating_label'] = filtered_df['bias_rating'].map(label_map)
+        filtered_df['bias_rating_label'] = pd.Categorical(filtered_df['bias_rating_label'], categories=['Inconclusive', 'Not Biased', 'Biased', 'Very Biased'], ordered=True)
+        bias_counts = filtered_df.groupby('bias_rating_label', observed=True).size()
+        total_articles = bias_counts.sum()
+
+        # Predefine colors for the top 5 topics
+        color_map = {
+                'Inconclusive': '#CAC6C2',
+                'Not Biased': '#f2eadf',
+                'Biased': '#eb8483',
+                'Very Biased': '#C22625'
+            }
+
+        # Create bars for the bar chart
+        data = []
+        for (bias, count) in bias_counts.items():
+            tooltip_text = (
+                f"<b>Bias Rating: </b>{bias}<br>"
+                f"<b>Number of Articles: </b>{count}<br>"
+                f"This accounts for <b>{count/total_articles:.2%}%</b> of the total available articles in the current selection.<br>"
+                # f"<b>Percentage of Total: </b>{count/total_articles:.2%}"
+            )
+
+            bar = go.Bar(
+                y=[bias],
+                x=[count],
+                orientation='h',
+                marker=dict(color=color_map[bias]),
+                text=tooltip_text,
+                hoverinfo='text',
+                textposition='none'
+            )
+            data.append(bar)
+
+        # Update the layout
+        layout = go.Layout(
+            title='<b>Which are the top offending articles?</b>',
+            xaxis=dict(title='Number of Articles'),
+            yaxis=dict(title='Bias Rating', tickmode='array', tickvals=list(range(len(bias_counts))), ticktext=bias_counts.index.tolist()),
+            hovermode='closest',
+            barmode='stack',
+            showlegend=False,
+            hoverlabel=dict(
+                align='left'
+            ),
+            template="simple_white",
+            plot_bgcolor='white',
+            paper_bgcolor='white',
+            font_color='#2E2C2B',
+            font_size=14,
+            height=800,
+            margin={'l': 150, 'r': 20, 'b': 40, 't': 40}
+        )
+
+        # If chart is empty, show text instead
+        if filtered_df.shape[0]==0:
+            data = []
+            layout = {
+                'xaxis': {'visible': False},
+                'yaxis': {'visible': False},
+                'template': 'simple_white',
+                'height': 400,
+                'annotations': [{
+                    'text': 'No articles found in the current selection.',
+                    'showarrow': False,
+                    'xref': 'paper',
+                    'yref': 'paper',
+                    'x': 0.5,
+                    'y': 0.5,
+                    'font': {'size': 20, 'color': '#2E2C2B'}
+                }]
+            }
+
+    return {'data': data, 'layout': layout}
+
+
+# Callback for Homepage Chart 4
+@app.callback(
+    Output('homepage-wordcloud-container', 'figure'),
+    [
+        Input('homepage-chart4-text-toggle', 'value'),
+        Input('homepage-chart4-ngram-dropdown', 'value')
+    ]
+)
+def update_chart4(text_by, ngram_value):
+    filtered_df = df_corpus.copy()
+
+    # Filter latest scraped date for homepage
+    start_date = pd.to_datetime(str(df_corpus['date_published'].max()))
+    end_date = pd.to_datetime(str(df_corpus['date_published'].max()))
+    filtered_df = filtered_df[(filtered_df['date_published']>=start_date) & (filtered_df['date_published']<=end_date)]
+
+    # If chart is empty, show text instead
+    if filtered_df.shape[0]==0:
+        data = []
+        layout = {
+            'xaxis': {'visible': False},
+            'yaxis': {'visible': False},
+            'template': 'simple_white',
+            'height': 400,
+            'annotations': [{
+                'text': 'No articles found in the current selection.',
+                'showarrow': False,
+                'xref': 'paper',
+                'yref': 'paper',
+                'x': 0.5,
+                'y': 0.5,
+                'font': {'size': 20, 'color': '#2E2C2B'}
+            }]
+        }
+        fig = go.Figure(data=data, layout=layout)
+
+    else:
+        # Generate n-grams
+        text = ' '.join(filtered_df[text_by].dropna().values)
+        vectorizer = CountVectorizer(ngram_range=(ngram_value, ngram_value), stop_words='english')
+        ngram_counts = vectorizer.fit_transform([text])
+        ngram_freq = ngram_counts.toarray().flatten()
+        ngram_names = vectorizer.get_feature_names_out()
+        word_counts = dict(zip(ngram_names, ngram_freq))
+
+        total_words = sum(word_counts.values())
+        wc = WordCloud(background_color='white',
+                      max_words=100,
+                      width=1600,
+                      height=1200,
+                      scale=1.0,
+                      margin=100,
+                      max_font_size=100,
+                      stopwords=set(STOPWORDS)
+                      ).generate_from_frequencies(word_counts)
+
+        # Get word positions and frequencies
+        word_positions = wc.layout_
+
+        # Extract positions and other data for Scatter plot
+        words = []
+        x = []
+        y = []
+        sizes = []
+        hover_texts = []
+        frequencies = []
+
+        for (word, freq), font_size, position, orientation, color in word_positions:
+            words.append(word)
+            x.append(position[0])
+            y.append(position[1])
+            sizes.append(font_size)
+            frequencies.append(freq)
+            raw_count = word_counts[word]
+            percentage = (raw_count / total_words) * 100
+            hover_texts.append(f"<b>Word: </b>{word}<br>"
+                              f"The word <b>'{word}'</b> appeared <b>{raw_count}</b> times across all articles in the current selection.<br>"
+                              f"This accounts for <b>{percentage:.2f}%</b> of the total available word/phrases.<br>"
+                              f"<br>"
+                              f"Type <b>'{word}'</b> in the Word Search below to find out which articles used this word.")
+#                               f"<b>Percentage of Total: x</b>{percentage:.2f}%")
+
+        # Identify top 10 words by frequency
+        top_10_indices = np.argsort(frequencies)[-10:]
+        colors = ['#CFCFCF'] * len(words)
+        custom_colors = [
+            # '#413F42', #top 5
+            # '#6B2C32',
+            # '#983835',
+            # '#BF4238',
+            # '#C42625', #top 1
+
+            '#413F42', # top 10
+
+            '#6B2C32', # top 9
+            '#6B2C32', # top 8
+
+            '#983835', # top 7
+            '#983835', # top 6
+
+            '#BF4238', # top 5
+            '#BF4238', # top 4
+
+            '#C42625', #top 3
+            '#C42625', #top 2
+            '#C42625', #top 1
+        ]
+
+        # Apply custom colors to the top 10 words
+        for i, idx in enumerate(top_10_indices):
+            colors[idx] = custom_colors[i % len(custom_colors)]
+
+        # Sort words by frequency to ensure top words appear on top
+        sorted_indices = np.argsort(frequencies)
+        words = [words[i] for i in sorted_indices]
+        x = [x[i] for i in sorted_indices]
+        y = [y[i] for i in sorted_indices]
+        sizes = [sizes[i] for i in sorted_indices]
+        hover_texts = [hover_texts[i] for i in sorted_indices]
+        colors = [colors[i] for i in sorted_indices]
+
+        # Create the Plotly figure with Scatter plot
+        fig = go.Figure()
+
+        # Add words as Scatter plot points
+        fig.add_trace(go.Scatter(
+            x=x,
+            y=y,
+            mode='text',
+            text=words,
+            textfont=dict(size=sizes, color=colors),
+            hovertext=hover_texts,
+            hoverinfo='text'
+        ))
+
+        # Update the layout to remove axes and make the word cloud bigger
+        fig.update_layout(
+            xaxis=dict(showgrid=False, zeroline=False, visible=False),
+            yaxis=dict(showgrid=False, zeroline=False, visible=False),
+            margin=dict(l=10, r=10, t=10, b=10),
+            template='simple_white',
+            height=800,
+            plot_bgcolor='white'
+        )
+
+        # Reverse the y-axis to match the word cloud orientation
+        fig.update_yaxes(autorange="reversed")
+
+    return fig
+
 # Define the layout for the main page
 main_layout = html.Div(children=[
     html.H4(date_today, style={'margin': '20px'}),
@@ -587,6 +1129,21 @@ main_layout = html.Div(children=[
                     style={'text-decoration': 'none'}),
 
                 ## TODO: Place Homepage Chart 1 elements here
+                # Toggle for color by bias ratings or bias categories
+                dcc.RadioItems(
+                    id='homepage-chart1-color-toggle',
+                    options=[
+                        {'label': '    Show bias ratings', 'value': 'bias_ratings'},
+                        {'label': '    Show bias categories', 'value': 'bias_categories'}
+                    ],
+                    value='bias_ratings',  # default value on load
+                    labelStyle={'display': 'inline-block'},
+                    inputStyle={"margin-left": "10px"},
+                    style = {'margin-bottom': '50px'}
+                ),
+
+                # Graph for displaying the top offending publishers
+                dcc.Graph(id='homepage-top-offending-publishers-bar-chart', style = {'margin-bottom': '50px'}),
                 
             ],style={'width': '45%', 'display': 'inline-block','border': '1px solid black', 'border-radius': '5px', 'padding': '10px'},
             ),
@@ -605,9 +1162,10 @@ main_layout = html.Div(children=[
 
 
                 ## TODO: Place Homepage Chart 2 elements Here
+                # Graph for displaying the top topics
+                dcc.Graph(id='homepage-top-topics-bar-chart', figure=update_homepage_chart2(), style={'margin-bottom': '50px'}),
 
-            ],
-                style={'width': '45%', 'display': 'inline-block','border': '1px solid black', 'border-radius': '5px', 'padding': '10px'},
+            ],style={'width': '45%', 'display': 'inline-block','border': '1px solid black', 'border-radius': '5px', 'padding': '10px'},
             ),
 
         ]),
@@ -627,9 +1185,10 @@ main_layout = html.Div(children=[
                     style={'text-decoration': 'none'}),
 
                 ## TODO: Place Homepage Chart 3 elements here
+                # Graph for displaying the top topics
+                dcc.Graph(id='homepage-top-offending-articles-bar-chart', figure=update_homepage_chart3(), style = {'margin-bottom': '50px'}),
 
-            ],
-                style={'width': '45%', 'display': 'inline-block','border': '1px solid black', 'border-radius': '5px', 'padding': '10px'},
+            ],style={'width': '45%', 'display': 'inline-block','border': '1px solid black', 'border-radius': '5px', 'padding': '10px'},
             ),
 
             # All elements for Chart 4
@@ -644,6 +1203,40 @@ main_layout = html.Div(children=[
                     style={'text-decoration': 'none'}),
 
                 ## TODO: Place Homepage Chart 4 elements here
+                # Dropdown for n-gram selection
+                html.Div([
+                    html.Label(['Select Word Grouping:'], style={'font-weight': 'bold', 'width': '20%'}),
+                    dcc.Dropdown(
+                        id='homepage-chart4-ngram-dropdown',
+                        options=[
+                            {'label': 'Single Word', 'value': 1},
+                            {'label': 'Two-Word Phrases', 'value': 2},
+                            {'label': 'Three-Word Phrases', 'value': 3}
+                        ],
+                        value=1,  # default value on load
+                        clearable=False,
+                        style={'width': '70%'}
+                    )
+                ], style={'display': 'flex', 'margin-bottom': '30px', 'align-items': 'center'}),
+
+                # Toggle for headline-only or full-text word clouds
+                dcc.RadioItems(
+                    id='homepage-chart4-text-toggle',
+                    options=[
+                        {'label': '    Headline-only', 'value': 'title'},
+                        {'label': '    Full-text', 'value': 'text'}
+                    ],
+                    value='title',  # default value on load
+                    labelStyle={'display': 'inline-block'},
+                    inputStyle={"margin-left": "10px"},
+                    style={'margin-bottom': '50px'}
+                ),
+
+                # Graph for displaying the word cloud
+                dcc.Graph(id='homepage-wordcloud-container'),
+
+
+
             ], 
                 style={'width': '45%', 'display': 'inline-block','border': '1px solid black', 'border-radius': '5px', 'padding': '10px'},
             )
