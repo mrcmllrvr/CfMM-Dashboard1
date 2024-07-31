@@ -623,7 +623,6 @@ def update_chart4(text_by, ngram_value):
             paper_bgcolor='white',
             font_color='#2E2C2B',
             font_size=14,
-            height=800,
         )
 
         # Reverse the y-axis to match the word cloud orientation
