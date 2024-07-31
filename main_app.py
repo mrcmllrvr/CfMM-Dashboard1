@@ -613,12 +613,18 @@ def update_chart4(text_by, ngram_value):
 
         # Update the layout to remove axes and make the word cloud bigger
         fig.update_layout(
+            title='<b>What are the trending words or phrases?</b>',
             xaxis=dict(showgrid=False, zeroline=False, visible=False),
             yaxis=dict(showgrid=False, zeroline=False, visible=False),
             margin=dict(l=10, r=10, t=10, b=10),
             template='simple_white',
             height=800,
-            plot_bgcolor='white'
+            plot_bgcolor='white',
+            paper_bgcolor='white',
+            font_color='#2E2C2B',
+            font_size=14,
+            height=800,
+            margin={'l': 150, 'r': 20, 'b': 40, 't': 40}
         )
 
         # Reverse the y-axis to match the word cloud orientation
