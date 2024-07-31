@@ -624,7 +624,6 @@ def update_chart4(text_by, ngram_value):
             font_color='#2E2C2B',
             font_size=14,
             height=800,
-            margin={'l': 150, 'r': 20, 'b': 40, 't': 40}
         )
 
         # Reverse the y-axis to match the word cloud orientation
