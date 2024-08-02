@@ -1980,7 +1980,7 @@ def update_table1(selected_start_date, selected_end_date, selected_publishers, s
                             'white',
                             '#2E2C2B'
                         ],
-                        '#2E2C2B'
+                        default='#2E2C2B'
                     )
                     filtered_df['title_label'] = "<a href='" + filtered_df['article_url'] + "' target='_blank' style='color:" + filtered_df['color'] + ";'>" + filtered_df['title'] + "</a>"
                     filtered_df['bias_rating_label'] = np.select(
@@ -2063,7 +2063,7 @@ def update_table1(selected_start_date, selected_end_date, selected_publishers, s
                             'white',
                             '#2E2C2B'
                         ],
-                        '#2E2C2B'
+                        default='#2E2C2B'
                     )
                     filtered_df['title_label'] = "<a href='" + filtered_df['article_url'] + "' target='_blank' style='color:" + filtered_df['color'] + ";'>" + filtered_df['title'] + "</a>"
                     filtered_df['bias_rating_label'] = np.select(
@@ -2078,7 +2078,8 @@ def update_table1(selected_start_date, selected_end_date, selected_publishers, s
                             'Not Biased',
                             'Biased',
                             'Very Biased'
-                        ]
+                        ],
+                        default='Uknown'
                     )
                     categories = ['generalisation', 'prominence', 'negative_behaviour', 'misrepresentation', 'headline_or_imagery']
                     for category in categories:
