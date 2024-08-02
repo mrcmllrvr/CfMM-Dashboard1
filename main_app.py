@@ -1053,11 +1053,11 @@ main_layout = html.Div(children=[
             html.Div(
                 id='articles-box',
                 children=[
-                    html.H2(f"{total_articles}", style={'margin': 0, 'padding': 5, 'text-align': 'center', 'font-size': '70px', 'font-weight': 'bolder'}),
+                    html.H2(f"{total_articles}", style={'margin': 0, 'padding': 5, 'text-align': 'center', 'font-size': '55px', 'font-weight': 'bolder'}),
                     html.P("Articles Processed", style={'margin': 0, 'padding': 5, 'text-align': 'center'})
                 ],
                 style={
-                    'width': '250px',
+                    'width': '215px',
                     'height': '150px',
                     'background-color': '#E7E5E3',
                     'border-radius': '5px',
@@ -1065,18 +1065,18 @@ main_layout = html.Div(children=[
                     'flex-direction': 'column',
                     'justify-content': 'center',
                     'align-items': 'center',
-                    'font-size': '24px',
+                    'font-size': '15px',
                     'margin': '10px'
                 }
             ),
             html.Div(
                 id='publishers-box',
                 children=[
-                    html.H2(f"{total_publishers}", style={'margin': 0, 'padding': 5, 'text-align': 'center', 'font-size': '70px', 'font-weight': 'bolder'}),
+                    html.H2(f"{total_publishers}", style={'margin': 0, 'padding': 5, 'text-align': 'center', 'font-size': '55px', 'font-weight': 'bolder'}),
                     html.P("Publishers", style={'margin': 0, 'padding': 5, 'text-align': 'center'})
                 ],
                 style={
-                    'width': '250px',
+                    'width': '215px',
                     'height': '150px',
                     'background-color': '#E7E5E3',
                     'border-radius': '5px',
@@ -1084,18 +1084,18 @@ main_layout = html.Div(children=[
                     'flex-direction': 'column',
                     'justify-content': 'center',
                     'align-items': 'center',
-                    'font-size': '24px',
+                    'font-size': '15px',
                     'margin': '10px'
                 }
             ),
             html.Div(
                 id='locations-box',
                 children=[
-                    html.H2(f"{total_locations}", style={'margin': 0, 'padding': 5, 'text-align': 'center', 'font-size': '70px', 'font-weight': 'bolder'}),
+                    html.H2(f"{total_locations}", style={'margin': 0, 'padding': 5, 'text-align': 'center', 'font-size': '55px', 'font-weight': 'bolder'}),
                     html.P("Locations", style={'margin': 0, 'padding': 5, 'text-align': 'center'})
                 ],
                 style={
-                    'width': '250px',
+                    'width': '215px',
                     'height': '150px',
                     'background-color': '#E7E5E3',
                     'border-radius': '5px',
@@ -1103,7 +1103,7 @@ main_layout = html.Div(children=[
                     'flex-direction': 'column',
                     'justify-content': 'center',
                     'align-items': 'center',
-                    'font-size': '24px',
+                    'font-size': '15px',
                     'margin': '10px'
                 }
             )
@@ -1112,19 +1112,19 @@ main_layout = html.Div(children=[
 
 
     # Charts 1, 2, 3, and 4
-    html.Div(style={'width': '87%', 'float': 'right'}, className='row', children=[
+    html.Div(style={'width': '87%', 'float': 'right', "display": "grid", "grid-template-columns": "100%"}, className='row', children=[
 
         # Charts 1 and 2 side by side
         html.Div(className='row',children=[
 
             # All elements for Chart 1
             html.Div([
-                html.A(dbc.Button('Explore', id='explore-button1', style={'margin-left': '650px', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
+                html.A(dbc.Button('Explore', id='explore-button1', style={'margin-left': '500px', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
                     target="_blank",
                     style={'text-decoration': 'none'},
                     n_clicks=0),
 
-                html.A(dbc.Button('Compare', id='compare-button1', style={'margin-left': '650px', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
+                html.A(dbc.Button('Compare', id='compare-button1', style={'margin-left': '500px', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
                     href='/compare-chart-1', target="_blank",
                     style={'text-decoration': 'none'}),
 
@@ -1151,12 +1151,12 @@ main_layout = html.Div(children=[
 
             # All elements for Chart 2
             html.Div([
-                html.A(dbc.Button('Explore', id='explore-button2', style={'margin-left': '650px', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
+                html.A(dbc.Button('Explore', id='explore-button2', style={'margin-left': '500px', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
                     target="_blank",
                     style={'text-decoration': 'none'},
                     n_clicks=0),
 
-                html.A(dbc.Button('Compare', id='compare-button2', style={'margin-left': '650px', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
+                html.A(dbc.Button('Compare', id='compare-button2', style={'margin-left': '500px', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
                     href='/compare-chart-2', target="_blank",
                     style={'text-decoration': 'none'}),
 
@@ -1175,12 +1175,12 @@ main_layout = html.Div(children=[
 
             # All elements for Chart 3
             html.Div([
-                html.A(dbc.Button('Explore', id='explore-button3', style={'margin-left': '650px', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
+                html.A(dbc.Button('Explore', id='explore-button3', style={'margin-left': '500px', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
                     target="_blank",
                     style={'text-decoration': 'none'},
                     n_clicks=0),
 
-                html.A(dbc.Button('Compare', id='compare-button3', style={'margin-left': '650px', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
+                html.A(dbc.Button('Compare', id='compare-button3', style={'margin-left': '500px', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
                     href='/compare-chart-3', target="_blank",
                     style={'text-decoration': 'none'}),
 
@@ -1193,12 +1193,12 @@ main_layout = html.Div(children=[
 
             # All elements for Chart 4
             html.Div([
-                html.A(dbc.Button('Explore', id='explore-button4', style={'margin-left': '650px', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
+                html.A(dbc.Button('Explore', id='explore-button4', style={'margin-left': '500px', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
                     target="_blank",
                     style={'text-decoration': 'none'},
                     n_clicks=0),
 
-                html.A(dbc.Button('Compare', id='compare-button4', style={'margin-left': '650px', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
+                html.A(dbc.Button('Compare', id='compare-button4', style={'margin-left': '500px', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
                     href='/compare-chart-4', target="_blank",
                     style={'text-decoration': 'none'}),
 
