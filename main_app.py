@@ -613,16 +613,12 @@ def update_chart4(text_by, ngram_value):
 
         # Update the layout to remove axes and make the word cloud bigger
         fig.update_layout(
-            title='<b>What are the trending words or phrases?</b>',
             xaxis=dict(showgrid=False, zeroline=False, visible=False),
             yaxis=dict(showgrid=False, zeroline=False, visible=False),
             margin=dict(l=10, r=10, t=10, b=10),
             template='simple_white',
             height=800,
-            plot_bgcolor='white',
-            paper_bgcolor='white',
-            font_color='#2E2C2B',
-            font_size=14,
+            plot_bgcolor='white'
         )
 
         # Reverse the y-axis to match the word cloud orientation
@@ -1061,8 +1057,8 @@ main_layout = html.Div(children=[
                     html.P("Articles Processed", style={'margin': 0, 'padding': 5, 'text-align': 'center'})
                 ],
                 style={
-                    'width': '300px',
-                    'height': '145px',
+                    'width': '250px',
+                    'height': '150px',
                     'background-color': '#E7E5E3',
                     'border-radius': '5px',
                     'display': 'flex',
@@ -1080,7 +1076,7 @@ main_layout = html.Div(children=[
                     html.P("Publishers", style={'margin': 0, 'padding': 5, 'text-align': 'center'})
                 ],
                 style={
-                    'width': '300px',
+                    'width': '250px',
                     'height': '150px',
                     'background-color': '#E7E5E3',
                     'border-radius': '5px',
@@ -1099,7 +1095,7 @@ main_layout = html.Div(children=[
                     html.P("Locations", style={'margin': 0, 'padding': 5, 'text-align': 'center'})
                 ],
                 style={
-                    'width': '300px',
+                    'width': '250px',
                     'height': '150px',
                     'background-color': '#E7E5E3',
                     'border-radius': '5px',
@@ -1123,12 +1119,12 @@ main_layout = html.Div(children=[
 
             # All elements for Chart 1
             html.Div([
-                html.A(dbc.Button('Explore', id='explore-button1', style={'margin-left': '750px', 'width': '10%', 'display': 'block', 'background-color': '#D90429'}),
+                html.A(dbc.Button('Explore', id='explore-button1', style={'margin-left': '650px', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
                     target="_blank",
                     style={'text-decoration': 'none'},
                     n_clicks=0),
 
-                html.A(dbc.Button('Compare', id='compare-button1', style={'margin-left': '750px', 'width': '10%', 'display': 'block', 'background-color': '#D90429'}),
+                html.A(dbc.Button('Compare', id='compare-button1', style={'margin-left': '650px', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
                     href='/compare-chart-1', target="_blank",
                     style={'text-decoration': 'none'}),
 
@@ -1155,12 +1151,12 @@ main_layout = html.Div(children=[
 
             # All elements for Chart 2
             html.Div([
-                html.A(dbc.Button('Explore', id='explore-button2', style={'margin-left': '750px', 'width': '10%', 'display': 'block', 'background-color': '#D90429'}),
+                html.A(dbc.Button('Explore', id='explore-button2', style={'margin-left': '650px', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
                     target="_blank",
                     style={'text-decoration': 'none'},
                     n_clicks=0),
 
-                html.A(dbc.Button('Compare', id='compare-button2', style={'margin-left': '750px', 'width': '10%', 'display': 'block', 'background-color': '#D90429'}),
+                html.A(dbc.Button('Compare', id='compare-button2', style={'margin-left': '650px', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
                     href='/compare-chart-2', target="_blank",
                     style={'text-decoration': 'none'}),
 
@@ -1179,12 +1175,12 @@ main_layout = html.Div(children=[
 
             # All elements for Chart 3
             html.Div([
-                html.A(dbc.Button('Explore', id='explore-button3', style={'margin-left': '750px', 'width': '10%', 'display': 'block', 'background-color': '#D90429'}),
+                html.A(dbc.Button('Explore', id='explore-button3', style={'margin-left': '650px', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
                     target="_blank",
                     style={'text-decoration': 'none'},
                     n_clicks=0),
 
-                html.A(dbc.Button('Compare', id='compare-button3', style={'margin-left': '750px', 'width': '10%', 'display': 'block', 'background-color': '#D90429'}),
+                html.A(dbc.Button('Compare', id='compare-button3', style={'margin-left': '650px', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
                     href='/compare-chart-3', target="_blank",
                     style={'text-decoration': 'none'}),
 
@@ -1197,12 +1193,12 @@ main_layout = html.Div(children=[
 
             # All elements for Chart 4
             html.Div([
-                html.A(dbc.Button('Explore', id='explore-button4', style={'margin-left': '750px', 'width': '10%', 'display': 'block', 'background-color': '#D90429'}),
+                html.A(dbc.Button('Explore', id='explore-button4', style={'margin-left': '650px', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
                     target="_blank",
                     style={'text-decoration': 'none'},
                     n_clicks=0),
 
-                html.A(dbc.Button('Compare', id='compare-button4', style={'margin-left': '750px', 'width': '10%', 'display': 'block', 'background-color': '#D90429'}),
+                html.A(dbc.Button('Compare', id='compare-button4', style={'margin-left': '650px', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
                     href='/compare-chart-4', target="_blank",
                     style={'text-decoration': 'none'}),
 
@@ -1906,7 +1902,8 @@ def update_chart4(selected_start_date, selected_end_date, selected_publishers, s
             paper_bgcolor='white',
             font_color='#2E2C2B',
             font_size=14,
-            height=800
+            height=800,
+            margin={'l': 150, 'r': 20, 'b': 40, 't': 40}
         )
 
         # Reverse the y-axis to match the word cloud orientation
