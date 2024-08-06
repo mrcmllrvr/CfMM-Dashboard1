@@ -72,7 +72,7 @@ app = dash.Dash(__name__, external_stylesheets=stylesheets)
 
 # Define the comparison layout for Chart 1A and Chart 1B
 def create_layout():
-    layout = html.Div(className='row', children=[
+    layout = html.Div(style={'justify-content': 'center'}, className='row', children=[
         html.H1(children="Trending Words or Phrases", style={'textAlign': 'center'}),
 
         # Chart 4A vs Chart 4B
@@ -83,7 +83,7 @@ def create_layout():
             dbc.Button('Explore', id='explore-button4a', style={'margin-left': '1000px', 'width': '10%', 'display': 'block', 'background-color': '#D90429'}),
 
             html.Div([
-                html.Label(['Filter Date Published:'], style={'font-weight': 'bold', 'width': '20%'}),
+                html.Label(['Date Published:'], style={'font-weight': 'bold', 'width': '20%'}),
                 dcc.DatePickerRange(
                     id='chart4a-datepickerrange',
                     display_format='DD MMM YYYY',
@@ -99,7 +99,7 @@ def create_layout():
             ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
 
             html.Div([
-                html.Label(['Filter Publishers:'], style={'font-weight': 'bold', 'width': '20%'}),
+                html.Label(['Publishers:'], style={'font-weight': 'bold', 'width': '20%'}),
                 dcc.Dropdown(
                     id='chart4a-publisher-dropdown',
                     options=[{'label': publisher, 'value': publisher} for publisher in unique_publishers],
@@ -111,7 +111,7 @@ def create_layout():
             ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
 
             html.Div([
-                html.Label(['Filter Bias Rating:'], style={'font-weight': 'bold', 'width': '20%'}),
+                html.Label(['Overall Bias Score:'], style={'font-weight': 'bold', 'width': '20%'}),
                 dcc.Dropdown(
                     id='chart4a-bias-rating-dropdown',
                     options=[
@@ -120,7 +120,7 @@ def create_layout():
                         {'label': 'Not Biased', 'value': 0},
                         {'label': 'Inconclusive', 'value': -1},
                     ],
-                    placeholder='Select Bias Rating',
+                    placeholder='Select Overall Bias Score',
                     multi=True,
                     clearable=True,
                     style={'width': '70%'}
@@ -128,7 +128,7 @@ def create_layout():
             ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
 
             html.Div([
-                html.Label(['Filter Bias Category:'], style={'font-weight': 'bold', 'width': '20%'}),
+                html.Label(['Category of Bias:'], style={'font-weight': 'bold', 'width': '20%'}),
                 dcc.Dropdown(
                     id='chart4a-bias-category-dropdown',
                     options=[
@@ -138,7 +138,7 @@ def create_layout():
                         {'label': 'Misrepresentation', 'value': 'misrepresentation'},
                         {'label': 'Headline or Imagery', 'value': 'headline_or_imagery'},
                     ],
-                    placeholder='Select Bias Category',
+                    placeholder='Select Category of Bias',
                     multi=True,
                     clearable=True,
                     style={'width': '70%'}
@@ -146,7 +146,7 @@ def create_layout():
             ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
 
             html.Div([
-                html.Label(['Filter Topics:'], style={'font-weight': 'bold', 'width': '20%'}),
+                html.Label(['Topics:'], style={'font-weight': 'bold', 'width': '20%'}),
                 dcc.Dropdown(
                     id='chart4a-topic-dropdown',
                     options=[{'label': topic, 'value': topic} for topic in unique_topics],
@@ -204,7 +204,7 @@ def create_layout():
                 dbc.Button('Export to CSV', id='export-button4a', style={'display': 'none'})
             ], style={'display': 'flex', 'margin-top': '10px', 'align-items': 'center'}),
         ],
-        style={'width': '45%', 'display': 'inline-block'}),
+        style={'width': '48%', 'display': 'inline-block', 'border': '1px solid black'}),
 
         # All elements for Chart 4B
         html.Div([
@@ -212,7 +212,7 @@ def create_layout():
             dbc.Button('Explore', id='explore-button4b', style={'margin-left': '1000px', 'width': '10%', 'display': 'block', 'background-color': '#D90429'}),
 
             html.Div([
-                html.Label(['Filter Date Published:'], style={'font-weight': 'bold', 'width': '20%'}),
+                html.Label(['Date Published:'], style={'font-weight': 'bold', 'width': '20%'}),
                 dcc.DatePickerRange(
                     id='chart4b-datepickerrange',
                     display_format='DD MMM YYYY',
@@ -228,7 +228,7 @@ def create_layout():
             ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
 
             html.Div([
-                html.Label(['Filter Publishers:'], style={'font-weight': 'bold', 'width': '20%'}),
+                html.Label(['Publishers:'], style={'font-weight': 'bold', 'width': '20%'}),
                 dcc.Dropdown(
                     id='chart4b-publisher-dropdown',
                     options=[{'label': publisher, 'value': publisher} for publisher in unique_publishers],
@@ -240,7 +240,7 @@ def create_layout():
             ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
 
             html.Div([
-                html.Label(['Filter Bias Rating:'], style={'font-weight': 'bold', 'width': '20%'}),
+                html.Label(['Overall Bias Score:'], style={'font-weight': 'bold', 'width': '20%'}),
                 dcc.Dropdown(
                     id='chart4b-bias-rating-dropdown',
                     options=[
@@ -249,7 +249,7 @@ def create_layout():
                         {'label': 'Not Biased', 'value': 0},
                         {'label': 'Inconclusive', 'value': -1},
                     ],
-                    placeholder='Select Bias Rating',
+                    placeholder='Select Overall Bias Score',
                     multi=True,
                     clearable=True,
                     style={'width': '70%'}
@@ -257,7 +257,7 @@ def create_layout():
             ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
 
             html.Div([
-                html.Label(['Filter Bias Category:'], style={'font-weight': 'bold', 'width': '20%'}),
+                html.Label(['Category of Bias:'], style={'font-weight': 'bold', 'width': '20%'}),
                 dcc.Dropdown(
                     id='chart4b-bias-category-dropdown',
                     options=[
@@ -267,7 +267,7 @@ def create_layout():
                         {'label': 'Misrepresentation', 'value': 'misrepresentation'},
                         {'label': 'Headline or Imagery', 'value': 'headline_or_imagery'},
                     ],
-                    placeholder='Select Bias Category',
+                    placeholder='Select Category of Bias',
                     multi=True,
                     clearable=True,
                     style={'width': '70%'}
@@ -275,7 +275,7 @@ def create_layout():
             ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
 
             html.Div([
-                html.Label(['Filter Topics:'], style={'font-weight': 'bold', 'width': '20%'}),
+                html.Label(['Topics:'], style={'font-weight': 'bold', 'width': '20%'}),
                 dcc.Dropdown(
                     id='chart4b-topic-dropdown',
                     options=[{'label': topic, 'value': topic} for topic in unique_topics],
@@ -332,7 +332,7 @@ def create_layout():
                 dbc.Button('Export to CSV', id='export-button4b', style={'display': 'none'})
             ], style={'display': 'flex', 'margin-top': '10px', 'align-items': 'center'}),
         ],
-        style={'width': '45%', 'display': 'inline-block'}),
+        style={'width': '48%', 'display': 'inline-block', 'border': '1px solid black'}),
     ])
 
     return layout
@@ -429,10 +429,13 @@ def register_callbacks(app):
                 raw_count = word_counts[word]
                 percentage = (raw_count / total_words) * 100
                 hover_texts.append(f"<b>Word: </b>{word}<br>"
-                                f"The word <b>'{word}'</b> appeared <b>{raw_count}</b> times across all articles in the current selection.<br>"
-                                f"This accounts for <b>{percentage:.2f}%</b> of the total available word/phrases.<br>"
+                                   f"<b>Count: </b>{raw_count}<br>"
+                                   f"<b>Proportion: </b>{percentage:.2f}%<br>"
+                                # f"The word <b>'{word}'</b> appeared <b>{raw_count}</b> times across all articles in the current selection.<br>"
+                                # f"This accounts for <b>{percentage:.2f}%</b> of the total available word/phrases.<br>"
                                 f"<br>"
-                                f"Type <b>'{word}'</b> in the Word Search above to find out which articles used this word.")
+                                f"Type <b>'{word}'</b> in the Word Search below <br>"
+                                f"to find out which articles used this word.<br>")
 
             # Identify top 10 words by frequency
             top_10_indices = np.argsort(frequencies)[-10:]
@@ -483,7 +486,7 @@ def register_callbacks(app):
 
             # Update the layout
             fig.update_layout(
-                title='<b>What are the trending words or phrases?</b>',
+                title="<b>What are the trending words/phrases in today's biased/very biased articles?</b>",
                 xaxis=dict(showgrid=False, zeroline=False, visible=False),
                 yaxis=dict(showgrid=False, zeroline=False, visible=False),
                 hovermode='closest',
@@ -597,11 +600,13 @@ def register_callbacks(app):
                 raw_count = word_counts[word]
                 percentage = (raw_count / total_words) * 100
                 hover_texts.append(f"<b>Word: </b>{word}<br>"
-                                f"The word <b>'{word}'</b> appeared <b>{raw_count}</b> times across all articles in the current selection.<br>"
-                                f"This accounts for <b>{percentage:.2f}%</b> of the total available word/phrases.<br>"
+                                   f"<b>Count: </b>{raw_count}<br>"
+                                   f"<b>Proportion: </b>{percentage:.2f}%<br>"
+                                # f"The word <b>'{word}'</b> appeared <b>{raw_count}</b> times across all articles in the current selection.<br>"
+                                # f"This accounts for <b>{percentage:.2f}%</b> of the total available word/phrases.<br>"
                                 f"<br>"
-                                f"Type <b>'{word}'</b> in the Word Search below to find out which articles used this word.")
-    #                               f"<b>Percentage of Total: x</b>{percentage:.2f}%")
+                                f"Type <b>'{word}'</b> in the Word Search below <br>"
+                                f"to find out which articles used this word.<br>")
 
             # Identify top 10 words by frequency
             top_10_indices = np.argsort(frequencies)[-10:]
@@ -652,7 +657,7 @@ def register_callbacks(app):
 
             # Update the layout
             fig.update_layout(
-                title='<b>What are the trending words or phrases?</b>',
+                title="<b>What are the trending words/phrases in today's biased/very biased articles?</b>",
                 xaxis=dict(showgrid=False, zeroline=False, visible=False),
                 yaxis=dict(showgrid=False, zeroline=False, visible=False),
                 hovermode='closest',
@@ -727,7 +732,7 @@ def register_callbacks(app):
                 if selected_bias_categories:
                     filtered_df = filtered_df[filtered_df[selected_bias_categories].sum(axis=1) > 0]
                 if search_word:
-                    if text_by ==  'title':
+                    if text_by == 'title':
                         filtered_df = filtered_df[filtered_df['title'].str.contains(search_word, case=False, na=False)]
                         text = 'headline'
                     elif text_by == 'text':
@@ -735,7 +740,11 @@ def register_callbacks(app):
                         text = 'full-text content'
 
                 # Title
-                title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(f"Showing {filtered_df.shape[0]} articles having <b>'{search_word}'</b> in their <b>{text}</b>")
+                main_title = f"Showing {filtered_df.shape[0]} articles having <b>'{search_word}'</b> in their <b>{text}</b>"
+                keys = '<b>Legend: G =</b> Generalization, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misinterpretation, <b>H =</b> Headline'
+                title_html = f'{main_title}<br>{keys}'
+                
+                title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(title_html)
 
                 # Formatting
                 filtered_df['color'] = np.select(
@@ -766,19 +775,33 @@ def register_callbacks(app):
                     default='Unknown'
                 )
                 filtered_df['date_published_label_(yyyy-mm-dd)'] = filtered_df['date_published'].dt.date
-                # filtered_df['explore_further'] = "<a href='" + filtered_df['explainability_url'] + "' target='_blank' style='color:#2E2C2B;'>" + "<b>Explore model results ➡️</b>" + "</a>"
-                filtered_df['explore_further'] = "<a href='" + '' + "' target='_blank' style='color:#2E2C2B;'>" + "<b>Explore model results ➡️</b>" + "</a>" # CHANGE THIS TO URL LATER
+                filtered_df['explore_further'] = "<a href='" + '' + "' target='_blank' style='color:#2E2C2B;'>" + "<b>Explore model results ➡️</b>" + "</a>"
 
                 # Save to csv
                 csv_df = filtered_df[['publisher', 'title', 'article_url', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label']]
                 csv_df.columns = ['Publisher', 'Title', 'Article URL', 'Date Published (YYYY-MM-DD)', 'Topic', 'Bias Rating']
                 csv_string = "data:text/csv;charset=utf-8,%EF%BB%BF" + urllib.parse.quote(csv_df.to_csv(index=False, encoding='utf-8'))
 
+                # Mapping for specific columns to their new names
+                column_name_map = {
+                    'generalisation': 'G',
+                    'prominence': 'O',
+                    'negative_behaviour': 'N',
+                    'misrepresentation': 'M',
+                    'headline_or_imagery': 'H',
+                    'publisher': 'Publisher',
+                    'title_label': 'Title',
+                    'date_published_label_(yyyy-mm-dd)': 'Date Published (YYYY-MM-DD)',
+                    'topic': 'Topic',
+                    'bias_rating_label': 'Bias Rating',
+                    'explore_further': 'Explore Further'
+                }
+
                 # Dash
-                filtered_df = filtered_df.sort_values('date_published_label_(yyyy-mm-dd)', ascending=False)[['title_label', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label', 'explore_further']]
+                filtered_df = filtered_df.sort_values('date_published_label_(yyyy-mm-dd)', ascending=False)[['publisher', 'title_label', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label', 'generalisation', 'prominence', 'negative_behaviour', 'misrepresentation', 'headline_or_imagery', 'explore_further']]
                 table = dash_table.DataTable(
-                    css=[dict(selector="p", rule="margin: 0; text-align: left")],
-                    columns=[{'id': x, 'name': x.replace('_', ' ').title(), 'presentation': 'markdown'} if 'title' or 'explore' in x else {'id': x, 'name': x.replace('_', ' ').replace('label', '').title().replace('Or', 'or').replace('Yyyy-Mm-Dd', 'yyyy-mm-dd')} for x in filtered_df.columns],
+                    css=[dict(selector="p", rule="margin:0; text-align:left")],
+                    columns=[{'id': x, 'name': column_name_map.get(x, x.replace('_', ' ').title()), 'presentation': 'markdown'} if 'title' in x or 'explore' in x else {'id': x, 'name': column_name_map.get(x, x.replace('_', ' ').replace('label', '').title().replace('Or', 'or').replace('Yyyy-Mm-Dd', 'yyyy-mm-dd'))} for x in filtered_df.columns],
                     markdown_options={"html": True},
                     data=filtered_df.to_dict('records'),
                     sort_action='native',
@@ -789,7 +812,7 @@ def register_callbacks(app):
                     page_size=20,
                     style_table={'margin': 'auto', 'padding': '0 5px', 'overflowX': 'auto', 'overflowY': 'auto'},
                     style_header={'textAlign': 'center', 'fontWeight': 'bold'},
-                    style_data={'minWidth': '120px', 'maxWidth': '120px', 'width': '120px'},
+                    style_data={'textAlign': 'left', 'padding': '5px', 'font-family': 'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
                     style_data_conditional=[
                         {
                             'if': {
@@ -808,14 +831,19 @@ def register_callbacks(app):
                             'color': '#2E2C2B'
                         }
                     ],
-                    style_cell={'textAlign': 'left', 'padding': '5px', 'font-family': 'sans-serif', 'whiteSpace': 'normal', 'height': 'auto', 'minWidth': '180px', 'maxWidth': '180px', 'width': '180px'},
+                    style_cell={'textAlign': 'left', 'padding': '5px', 'font-family':'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
                     style_cell_conditional=[
-                        {
-                            'if': {
-                                'column_id': ['topic', 'title']
-                            },
-                            'width': '600px'
-                        }
+                        {'if': {'column_id': 'publisher'}, 'width': '150px'},
+                        {'if': {'column_id': 'title_label'}, 'width': '300px'},
+                        {'if': {'column_id': 'date_published_label_(yyyy-mm-dd)'}, 'width': '150px'},
+                        {'if': {'column_id': 'topic'}, 'width': '200px'},
+                        {'if': {'column_id': 'bias_rating_label'}, 'width': '150px'},
+                        {'if': {'column_id': 'generalisation'}, 'width': '50px'},
+                        {'if': {'column_id': 'prominence'}, 'width': '50px'},
+                        {'if': {'column_id': 'negative_behaviour'}, 'width': '50px'},
+                        {'if': {'column_id': 'misrepresentation'}, 'width': '50px'},
+                        {'if': {'column_id': 'headline_or_imagery'}, 'width': '50px'},
+                        {'if': {'column_id': 'explore_further'}, 'width': '200px'}
                     ]
                 )
 
@@ -828,9 +856,9 @@ def register_callbacks(app):
                 return [], None, {'display': 'none'}, {'display': 'none'}, ''
 
         return [], None, {'display': 'none'}, {'display': 'none'}, ''
+    
 
-
-    # Callback for Table 4B
+    # Callback for Chart 4B
     @app.callback(
         [
             Output('table4b-title', 'children'),
@@ -881,7 +909,7 @@ def register_callbacks(app):
                 if selected_bias_categories:
                     filtered_df = filtered_df[filtered_df[selected_bias_categories].sum(axis=1) > 0]
                 if search_word:
-                    if text_by ==  'title':
+                    if text_by == 'title':
                         filtered_df = filtered_df[filtered_df['title'].str.contains(search_word, case=False, na=False)]
                         text = 'headline'
                     elif text_by == 'text':
@@ -889,7 +917,11 @@ def register_callbacks(app):
                         text = 'full-text content'
 
                 # Title
-                title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(f"Showing {filtered_df.shape[0]} articles having <b>'{search_word}'</b> in their <b>{text}</b>")
+                main_title = f"Showing {filtered_df.shape[0]} articles having <b>'{search_word}'</b> in their <b>{text}</b>"
+                keys = '<b>Legend: G =</b> Generalization, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misinterpretation, <b>H =</b> Headline'
+                title_html = f'{main_title}<br>{keys}'
+                
+                title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(title_html)
 
                 # Formatting
                 filtered_df['color'] = np.select(
@@ -920,19 +952,33 @@ def register_callbacks(app):
                     default='Unknown'
                 )
                 filtered_df['date_published_label_(yyyy-mm-dd)'] = filtered_df['date_published'].dt.date
-                # filtered_df['explore_further'] = "<a href='" + filtered_df['explainability_url'] + "' target='_blank' style='color:#2E2C2B;'>" + "<b>Explore model results ➡️</b>" + "</a>"
-                filtered_df['explore_further'] = "<a href='" + '' + "' target='_blank' style='color:#2E2C2B;'>" + "<b>Explore model results ➡️</b>" + "</a>" # CHANGE THIS TO URL LATER
+                filtered_df['explore_further'] = "<a href='" + '' + "' target='_blank' style='color:#2E2C2B;'>" + "<b>Explore model results ➡️</b>" + "</a>"
 
                 # Save to csv
                 csv_df = filtered_df[['publisher', 'title', 'article_url', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label']]
                 csv_df.columns = ['Publisher', 'Title', 'Article URL', 'Date Published (YYYY-MM-DD)', 'Topic', 'Bias Rating']
                 csv_string = "data:text/csv;charset=utf-8,%EF%BB%BF" + urllib.parse.quote(csv_df.to_csv(index=False, encoding='utf-8'))
 
+                # Mapping for specific columns to their new names
+                column_name_map = {
+                    'generalisation': 'G',
+                    'prominence': 'O',
+                    'negative_behaviour': 'N',
+                    'misrepresentation': 'M',
+                    'headline_or_imagery': 'H',
+                    'publisher': 'Publisher',
+                    'title_label': 'Title',
+                    'date_published_label_(yyyy-mm-dd)': 'Date Published (YYYY-MM-DD)',
+                    'topic': 'Topic',
+                    'bias_rating_label': 'Bias Rating',
+                    'explore_further': 'Explore Further'
+                }
+
                 # Dash
-                filtered_df = filtered_df.sort_values('date_published_label_(yyyy-mm-dd)', ascending=False)[['title_label', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label', 'explore_further']]
+                filtered_df = filtered_df.sort_values('date_published_label_(yyyy-mm-dd)', ascending=False)[['publisher', 'title_label', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label', 'generalisation', 'prominence', 'negative_behaviour', 'misrepresentation', 'headline_or_imagery', 'explore_further']]
                 table = dash_table.DataTable(
-                    css=[dict(selector="p", rule="margin: 0; text-align: left")],
-                    columns=[{'id': x, 'name': x.replace('_', ' ').title(), 'presentation': 'markdown'} if 'title' or 'explore' in x else {'id': x, 'name': x.replace('_', ' ').replace('label', '').title().replace('Or', 'or').replace('Yyyy-Mm-Dd', 'yyyy-mm-dd')} for x in filtered_df.columns],
+                    css=[dict(selector="p", rule="margin:0; text-align:left")],
+                    columns=[{'id': x, 'name': column_name_map.get(x, x.replace('_', ' ').title()), 'presentation': 'markdown'} if 'title' in x or 'explore' in x else {'id': x, 'name': column_name_map.get(x, x.replace('_', ' ').replace('label', '').title().replace('Or', 'or').replace('Yyyy-Mm-Dd', 'yyyy-mm-dd'))} for x in filtered_df.columns],
                     markdown_options={"html": True},
                     data=filtered_df.to_dict('records'),
                     sort_action='native',
@@ -943,7 +989,7 @@ def register_callbacks(app):
                     page_size=20,
                     style_table={'margin': 'auto', 'padding': '0 5px', 'overflowX': 'auto', 'overflowY': 'auto'},
                     style_header={'textAlign': 'center', 'fontWeight': 'bold'},
-                    style_data={'minWidth': '120px', 'maxWidth': '120px', 'width': '120px'},
+                    style_data={'textAlign': 'left', 'padding': '5px', 'font-family': 'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
                     style_data_conditional=[
                         {
                             'if': {
@@ -962,14 +1008,19 @@ def register_callbacks(app):
                             'color': '#2E2C2B'
                         }
                     ],
-                    style_cell={'textAlign': 'left', 'padding': '5px', 'font-family': 'sans-serif', 'whiteSpace': 'normal', 'height': 'auto', 'minWidth': '180px', 'maxWidth': '180px', 'width': '180px'},
+                    style_cell={'textAlign': 'left', 'padding': '5px', 'font-family':'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
                     style_cell_conditional=[
-                        {
-                            'if': {
-                                'column_id': ['topic', 'title']
-                            },
-                            'width': '600px'
-                        }
+                        {'if': {'column_id': 'publisher'}, 'width': '150px'},
+                        {'if': {'column_id': 'title_label'}, 'width': '300px'},
+                        {'if': {'column_id': 'date_published_label_(yyyy-mm-dd)'}, 'width': '150px'},
+                        {'if': {'column_id': 'topic'}, 'width': '200px'},
+                        {'if': {'column_id': 'bias_rating_label'}, 'width': '150px'},
+                        {'if': {'column_id': 'generalisation'}, 'width': '50px'},
+                        {'if': {'column_id': 'prominence'}, 'width': '50px'},
+                        {'if': {'column_id': 'negative_behaviour'}, 'width': '50px'},
+                        {'if': {'column_id': 'misrepresentation'}, 'width': '50px'},
+                        {'if': {'column_id': 'headline_or_imagery'}, 'width': '50px'},
+                        {'if': {'column_id': 'explore_further'}, 'width': '200px'}
                     ]
                 )
 

@@ -72,7 +72,7 @@ app = dash.Dash(__name__, external_stylesheets=stylesheets)
 
 # Define the comparison layout for Chart 1A and Chart 1B
 def create_layout():
-    layout = html.Div(className='row', children=[
+    layout = html.Div(style={'justify-content': 'center'}, className='row', children=[
         html.H1(children="Top Offending Publishers", style={'textAlign': 'center'}),
 
         # Chart 1A vs Chart 1B
@@ -80,10 +80,9 @@ def create_layout():
 
             # All elements for Chart 2A
             html.H2("A", style={'textAlign': 'center'}),
-            dbc.Button('Explore', id='explore-button1a', style={'margin-left': '1000px', 'width': '10%', 'display': 'block', 'background-color': '#D90429'}),
 
             html.Div([
-                html.Label(['Filter Date Published:'], style={'font-weight': 'bold', 'width': '20%'}),
+                html.Label(['Date Published:'], style={'font-weight': 'bold', 'width': '20%'}),
                 dcc.DatePickerRange(
                     id='chart1a-datepickerrange',
                     display_format='DD MMM YYYY',
@@ -99,7 +98,7 @@ def create_layout():
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
             html.Div([
-                html.Label(['Filter Publishers:'], style={'font-weight': 'bold', 'width': '20%'}),
+                html.Label(['Publishers:'], style={'font-weight': 'bold', 'width': '20%'}),
                 dcc.Dropdown(
                     id='chart1a-publisher-dropdown',
                     options=[{'label': publisher, 'value': publisher} for publisher in unique_publishers],
@@ -111,7 +110,7 @@ def create_layout():
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
             html.Div([
-                html.Label(['Filter Bias Ratings:'], style={'font-weight': 'bold', 'width': '20%'}),
+                html.Label(['Overall Bias Score:'], style={'font-weight': 'bold', 'width': '20%'}),
                 dcc.Dropdown(
                     id='chart1a-bias-rating-dropdown',
                     options=[
@@ -120,7 +119,7 @@ def create_layout():
                         {'label': 'Very Biased', 'value': 2},
                         {'label': 'Not Biased', 'value': 0},
                     ],
-                    placeholder='Select Bias Rating',
+                    placeholder='Select Overall Bias Score',
                     multi=True,
                     clearable=True,
                     style = {'width': '70%'}
@@ -128,7 +127,7 @@ def create_layout():
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
             html.Div([
-                html.Label(['Filter Bias Category:'], style={'font-weight': 'bold', 'width': '20%'}),
+                html.Label(['Category of Bias:'], style={'font-weight': 'bold', 'width': '20%'}),
                 dcc.Dropdown(
                     id='chart1a-bias-category-dropdown',
                     options=[
@@ -138,7 +137,7 @@ def create_layout():
                         {'label': 'Misrepresentation', 'value': 'misrepresentation'},
                         {'label': 'Headline or Imagery', 'value': 'headline_or_imagery'},
                     ],
-                    placeholder='Select Bias Category',
+                    placeholder='Select Category of Bias',
                     multi=True,
                     clearable=True,
                     style = {'width': '70%'}
@@ -146,7 +145,7 @@ def create_layout():
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
             html.Div([
-                html.Label(['Filter Topics:'], style={'font-weight': 'bold', 'width': '20%'}),
+                html.Label(['Topics:'], style={'font-weight': 'bold', 'width': '20%'}),
                 dcc.Dropdown(
                     id='chart1a-topic-dropdown',
                     options=[{'label': topic, 'value': topic} for topic in unique_topics],
@@ -181,15 +180,14 @@ def create_layout():
                 dbc.Button('Export to CSV', id='export-button1a', style = {'display': 'none'})
             ], style={'display':'flex', 'margin-top': '10px', 'align-items': 'center'}),
         ],
-        style={'width': '45%', 'display': 'inline-block'}),
+        style={'width': '48%', 'display': 'inline-block', 'border': '1px solid black'}),
 
         # All elements for Chart 1B
         html.Div([
             html.H2("B", style={'textAlign': 'center'}),
-            dbc.Button('Explore', id='explore-button1b', style={'margin-left': '1000px', 'width': '10%', 'display': 'block', 'background-color': '#D90429'}),
             
             html.Div([
-                html.Label(['Filter Date Published:'], style={'font-weight': 'bold', 'width': '20%'}),
+                html.Label(['Date Published:'], style={'font-weight': 'bold', 'width': '20%'}),
                 dcc.DatePickerRange(
                     id='chart1b-datepickerrange',
                     display_format='DD MMM YYYY',
@@ -205,7 +203,7 @@ def create_layout():
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
             html.Div([
-                html.Label(['Filter Publishers:'], style={'font-weight': 'bold', 'width': '20%'}),
+                html.Label(['Publishers:'], style={'font-weight': 'bold', 'width': '20%'}),
                 dcc.Dropdown(
                     id='chart1b-publisher-dropdown',
                     options=[{'label': publisher, 'value': publisher} for publisher in unique_publishers],
@@ -217,7 +215,7 @@ def create_layout():
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
             html.Div([
-                html.Label(['Filter Bias Ratings:'], style={'font-weight': 'bold', 'width': '20%'}),
+                html.Label(['Overall Bias Score:'], style={'font-weight': 'bold', 'width': '20%'}),
                 dcc.Dropdown(
                     id='chart1b-bias-rating-dropdown',
                     options=[
@@ -226,7 +224,7 @@ def create_layout():
                         {'label': 'Very Biased', 'value': 2},
                         {'label': 'Not Biased', 'value': 0},
                     ],
-                    placeholder='Select Bias Rating',
+                    placeholder='Select Overall Bias Score',
                     multi=True,
                     clearable=True,
                     style = {'width': '70%'}
@@ -234,7 +232,7 @@ def create_layout():
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
             html.Div([
-                html.Label(['Filter Bias Category:'], style={'font-weight': 'bold', 'width': '20%'}),
+                html.Label(['Category of Bias:'], style={'font-weight': 'bold', 'width': '20%'}),
                 dcc.Dropdown(
                     id='chart1b-bias-category-dropdown',
                     options=[
@@ -244,7 +242,7 @@ def create_layout():
                         {'label': 'Misrepresentation', 'value': 'misrepresentation'},
                         {'label': 'Headline or Imagery', 'value': 'headline_or_imagery'},
                     ],
-                    placeholder='Select Bias Category',
+                    placeholder='Select Category of Bias',
                     multi=True,
                     clearable=True,
                     style = {'width': '70%'}
@@ -252,7 +250,7 @@ def create_layout():
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
             html.Div([
-                html.Label(['Filter Topics:'], style={'font-weight': 'bold', 'width': '20%'}),
+                html.Label(['Topics:'], style={'font-weight': 'bold', 'width': '20%'}),
                 dcc.Dropdown(
                     id='chart1b-topic-dropdown',
                     options=[{'label': topic, 'value': topic} for topic in unique_topics],
@@ -287,7 +285,7 @@ def create_layout():
                 dbc.Button('Export to CSV', id='export-button1b', style = {'display': 'none'})
             ], style={'display':'flex', 'margin-top': '10px', 'align-items': 'center'}),
         ],
-        style={'width': '45%', 'display': 'inline-block'})
+        style={'width': '48%', 'display': 'inline-block', 'border': '1px solid black'}),
     ])
 
     return layout
@@ -364,9 +362,10 @@ def register_callbacks(app):
                         percentage_of_total = (articles / total_biased_articles) * 100 if total_biased_articles > 0 else 0
                         tooltip_text = (
                             f"<b>Publisher: </b>{publisher}<br>"
-                            f"<b>Bias Rating:</b> {name}<br>"
-                            f"<b>Number of Articles:</b> {articles}<br>"
-                            f"This accounts for <b>{percentage_of_total:.2f}%</b> of the total available articles in the current selection.<br>"
+                            f"<b>Overall Bias Score:</b> {name}<br>"
+                            f"<b>Count:</b> {articles}<br>"
+                            f"<b>Proportion: </b> {percentage_of_total:.2f}%"
+                            # f"This accounts for <b>{percentage_of_total:.2f}%</b> of the total available articles in the current selection.<br>"
                         )
                         showlegend = name not in legend_added
                         legend_added.add(name)
@@ -382,7 +381,7 @@ def register_callbacks(app):
                             textposition='none'
                         ))
                 layout = go.Layout(
-                    title=f"""<b>Who are the top offending publishers?</b>""",
+                    title=f"""<b>Who are today's top offending publishers?</b>""",
                     xaxis=dict(title='Number of Articles'),
                     yaxis=dict(title='Publisher'),
                     hovermode='closest',
@@ -400,78 +399,59 @@ def register_callbacks(app):
                     margin={'l': 150, 'r': 20, 'b': 40, 't': 40}
                 )
             elif color_by == 'bias_categories':
-                # If chart is empty, show text instead
-                if filtered_df.shape[0]==0:
-                    data = []
-                    layout = {
-                        'xaxis': {'visible': False},
-                        'yaxis': {'visible': False},
-                        'template': 'simple_white',
-                        'height': 400,
-                        'annotations': [{
-                            'text': 'No articles found in the current selection.',
-                            'showarrow': False,
-                            'xref': 'paper',
-                            'yref': 'paper',
-                            'x': 0.5,
-                            'y': 0.5,
-                            'font': {'size': 20, 'color': '#2E2C2B'}
-                        }]
-                    }
-
-                else:
-                    categories = ['generalisation', 'prominence', 'negative_behaviour', 'misrepresentation', 'headline_or_imagery']
-                    category_colors = ['#4185A0', '#AA4D71', '#B85C3B', '#C5BE71', '#7658A0']
-                    legend_added = set()
-                    data = []
-                    filtered_df['total_bias_category'] = filtered_df[categories].sum(axis=1)
-                    for i, category in enumerate(categories):
-                        articles_list = []
-                        tooltip_text_list = []
-                        for publisher in filtered_df['publisher'].unique():
-                            total_biased_articles = filtered_df[filtered_df['publisher'] == publisher].shape[0]
-                            articles = filtered_df[(filtered_df['publisher'] == publisher) & (filtered_df[category] == 1)].shape[0]
-                            articles_list += [articles]
-                            percentage_of_total = (articles / total_biased_articles * 100) if total_biased_articles > 0 else 0
-                            tooltip_text = (
-                                f"<b>Publisher: </b>{publisher}<br>"
-                                f"<b>Bias Category: </b>{category.replace('_', ' ').title().replace('Or', 'or')}<br>"
-                                f"Of the {total_biased_articles} articles, <b>{articles}</b> of them committed <b>{category.replace('_', ' ').title().replace('Or', 'or')}</b>.<br>"
-                                f"This accounts for <b>{percentage_of_total:.2f}%</b> of the total available articles for <b>{category.replace('_', ' ').title().replace('Or', 'or')}</b>.<br>"
-                            )
-                            tooltip_text_list += [tooltip_text]
-                        showlegend = category not in legend_added
-                        legend_added.add(category)
-                        data.append(go.Bar(
-                            x=articles_list,
-                            y=top_publishers,
-                            name=category.replace('_', ' ').title().replace('Or', 'or'),
-                            orientation='h',
-                            marker=dict(color=category_colors[i]),
-                            showlegend=showlegend,
-                            text=tooltip_text_list,
-                            hoverinfo='text',
-                            textposition='none'
-                        ))
-                    layout = go.Layout(
-                        title=f"""<b>Who are the top offending publishers?</b>""",
-                        xaxis=dict(title='Number of Articles'),
-                        yaxis=dict(title='Publisher'),
-                        hovermode='closest',
-                        barmode='group',
-                        showlegend=True,
-                        hoverlabel=dict(
-                            align='left'
-                        ),
-                        template="simple_white",
-                        plot_bgcolor='white',
-                        paper_bgcolor='white',
-                        font_color='#2E2C2B',
-                        font_size=14,
-                        height=800,
-                        margin={'l': 150, 'r': 20, 'b': 40, 't': 40}
-                    )
-                    
+                categories = ['generalisation', 'prominence', 'negative_behaviour', 'misrepresentation', 'headline_or_imagery']
+                category_colors = ['#4185A0', '#AA4D71', '#B85C3B', '#C5BE71', '#7658A0']
+                legend_added = set()
+                data = []
+                filtered_df['total_bias_category'] = filtered_df[categories].sum(axis=1)
+                for i, category in enumerate(categories):
+                    articles_list = []
+                    tooltip_text_list = []
+                    for publisher in filtered_df['publisher'].unique():
+                        total_biased_articles = filtered_df[filtered_df['publisher'] == publisher].shape[0]
+                        articles = filtered_df[(filtered_df['publisher'] == publisher) & (filtered_df[category] == 1)].shape[0]
+                        articles_list += [articles]
+                        percentage_of_total = (articles / total_biased_articles * 100) if total_biased_articles > 0 else 0
+                        tooltip_text = (
+                            f"<b>Publisher: </b>{publisher}<br>"
+                            f"<b>Category of Bias: </b>{category.replace('_', ' ').title().replace('Or', 'or')}<br>"
+                            f"<b>Count: </b> {articles}<br>"
+                            f"<b>Proportion: </b>{percentage_of_total:.2f}%<br>"
+                            # f"Of the {total_biased_articles} articles, <b>{articles}</b> of them committed <b>{category.replace('_', ' ').title().replace('Or', 'or')}</b>.<br>"
+                            # f"This accounts for <b>{percentage_of_total:.2f}%</b> of the total available articles for <b>{category.replace('_', ' ').title().replace('Or', 'or')}</b>.<br>"
+                        )
+                        tooltip_text_list += [tooltip_text]
+                    showlegend = category not in legend_added
+                    legend_added.add(category)
+                    data.append(go.Bar(
+                        x=articles_list,
+                        y=top_publishers,
+                        name=category.replace('_', ' ').title().replace('Or', 'or'),
+                        orientation='h',
+                        marker=dict(color=category_colors[i]),
+                        showlegend=showlegend,
+                        text=tooltip_text_list,
+                        hoverinfo='text',
+                        textposition='none'
+                    ))
+                layout = go.Layout(
+                    title=f"""<b>Who are today's top offending publishers?</b>""",
+                    xaxis=dict(title='Number of Articles'),
+                    yaxis=dict(title='Publisher'),
+                    hovermode='closest',
+                    barmode='group',
+                    showlegend=True,
+                    hoverlabel=dict(
+                        align='left'
+                    ),
+                    template="simple_white",
+                    plot_bgcolor='white',
+                    paper_bgcolor='white',
+                    font_color='#2E2C2B',
+                    font_size=14,
+                    height=800,
+                    margin={'l': 150, 'r': 20, 'b': 40, 't': 40}
+                )
         return {'data': data, 'layout': layout}
 
     # Callback for Chart 1B
@@ -544,9 +524,10 @@ def register_callbacks(app):
                         percentage_of_total = (articles / total_biased_articles) * 100 if total_biased_articles > 0 else 0
                         tooltip_text = (
                             f"<b>Publisher: </b>{publisher}<br>"
-                            f"<b>Bias Rating:</b> {name}<br>"
-                            f"<b>Number of Articles:</b> {articles}<br>"
-                            f"This accounts for <b>{percentage_of_total:.2f}%</b> of the total available articles in the current selection.<br>"
+                            f"<b>Overall Bias Score:</b> {name}<br>"
+                            f"<b>Count: </b> {articles}<br>"
+                            f"<b>Proportion: {percentage_of_total:.2f}%"
+                            # f"This accounts for <b>{percentage_of_total:.2f}%</b> of the total available articles in the current selection.<br>"
                         )
                         showlegend = name not in legend_added
                         legend_added.add(name)
@@ -562,7 +543,7 @@ def register_callbacks(app):
                             textposition='none'
                         ))
                 layout = go.Layout(
-                    title=f"""<b>Who are the top offending publishers?</b>""",
+                    title=f"""<b>Who are today's top offending publishers?</b>""",
                     xaxis=dict(title='Number of Articles'),
                     yaxis=dict(title='Publisher'),
                     hovermode='closest',
@@ -580,77 +561,61 @@ def register_callbacks(app):
                     margin={'l': 150, 'r': 20, 'b': 40, 't': 40}
                 )
             elif color_by == 'bias_categories':
-                # If chart is empty, show text instead
-                if filtered_df.shape[0]==0:
-                    data = []
-                    layout = {
-                        'xaxis': {'visible': False},
-                        'yaxis': {'visible': False},
-                        'template': 'simple_white',
-                        'height': 400,
-                        'annotations': [{
-                            'text': 'No articles found in the current selection.',
-                            'showarrow': False,
-                            'xref': 'paper',
-                            'yref': 'paper',
-                            'x': 0.5,
-                            'y': 0.5,
-                            'font': {'size': 20, 'color': '#2E2C2B'}
-                        }]
-                    }
-                else:
-                    categories = ['generalisation', 'prominence', 'negative_behaviour', 'misrepresentation', 'headline_or_imagery']
-                    category_colors = ['#4185A0', '#AA4D71', '#B85C3B', '#C5BE71', '#7658A0']
-                    legend_added = set()
-                    data = []
-                    filtered_df['total_bias_category'] = filtered_df[categories].sum(axis=1)
-                    for i, category in enumerate(categories):
-                        articles_list = []
-                        tooltip_text_list = []
-                        for publisher in filtered_df['publisher'].unique():
-                            total_biased_articles = filtered_df[filtered_df['publisher'] == publisher].shape[0]
-                            articles = filtered_df[(filtered_df['publisher'] == publisher) & (filtered_df[category] == 1)].shape[0]
-                            articles_list += [articles]
-                            percentage_of_total = (articles / total_biased_articles * 100) if total_biased_articles > 0 else 0
-                            tooltip_text = (
-                                f"<b>Publisher: </b>{publisher}<br>"
-                                f"<b>Bias Category: </b>{category.replace('_', ' ').title().replace('Or', 'or')}<br>"
-                                f"Of the {total_biased_articles} articles, <b>{articles}</b> of them committed <b>{category.replace('_', ' ').title().replace('Or', 'or')}</b>.<br>"
-                                f"This accounts for <b>{percentage_of_total:.2f}%</b> of the total available articles for <b>{category.replace('_', ' ').title().replace('Or', 'or')}</b>.<br>"
-                            )
-                            tooltip_text_list += [tooltip_text]
-                        showlegend = category not in legend_added
-                        legend_added.add(category)
-                        data.append(go.Bar(
-                            x=articles_list,
-                            y=top_publishers,
-                            name=category.replace('_', ' ').title().replace('Or', 'or'),
-                            orientation='h',
-                            marker=dict(color=category_colors[i]),
-                            showlegend=showlegend,
-                            text=tooltip_text_list,
-                            hoverinfo='text',
-                            textposition='none'
-                        ))
-                    layout = go.Layout(
-                        title=f"""<b>Who are the top offending publishers?</b>""",
-                        xaxis=dict(title='Number of Articles'),
-                        yaxis=dict(title='Publisher'),
-                        hovermode='closest',
-                        barmode='group',
-                        showlegend=True,
-                        hoverlabel=dict(
-                            align='left'
-                        ),
-                        template="simple_white",
-                        plot_bgcolor='white',
-                        paper_bgcolor='white',
-                        font_color='#2E2C2B',
-                        font_size=14,
-                        height=800,
-                        margin={'l': 150, 'r': 20, 'b': 40, 't': 40}
-                    )
+                categories = ['generalisation', 'prominence', 'negative_behaviour', 'misrepresentation', 'headline_or_imagery']
+                category_colors = ['#4185A0', '#AA4D71', '#B85C3B', '#C5BE71', '#7658A0']
+                legend_added = set()
+                data = []
+                filtered_df['total_bias_category'] = filtered_df[categories].sum(axis=1)
+                for i, category in enumerate(categories):
+                    articles_list = []
+                    tooltip_text_list = []
+                    for publisher in filtered_df['publisher'].unique():
+                        total_biased_articles = filtered_df[filtered_df['publisher'] == publisher].shape[0]
+                        articles = filtered_df[(filtered_df['publisher'] == publisher) & (filtered_df[category] == 1)].shape[0]
+                        articles_list += [articles]
+                        percentage_of_total = (articles / total_biased_articles * 100) if total_biased_articles > 0 else 0
+                        tooltip_text = (
+                            f"<b>Publisher: </b>{publisher}<br>"
+                            f"<b>Category of Bias: </b>{category.replace('_', ' ').title().replace('Or', 'or')}<br>"
+                            f"<b>Count: </b>{articles}<br>"
+                            f"<b>Proportion: </b>{percentage_of_total:.2f}%<br>"
+                            # f"Of the {total_biased_articles} articles, <b>{articles}</b> of them committed <b>{category.replace('_', ' ').title().replace('Or', 'or')}</b>.<br>"
+                            # f"This accounts for <b>{percentage_of_total:.2f}%</b> of the total available articles for <b>{category.replace('_', ' ').title().replace('Or', 'or')}</b>.<br>"
+                        )
+                        tooltip_text_list += [tooltip_text]
+                    showlegend = category not in legend_added
+                    legend_added.add(category)
+                    data.append(go.Bar(
+                        x=articles_list,
+                        y=top_publishers,
+                        name=category.replace('_', ' ').title().replace('Or', 'or'),
+                        orientation='h',
+                        marker=dict(color=category_colors[i]),
+                        showlegend=showlegend,
+                        text=tooltip_text_list,
+                        hoverinfo='text',
+                        textposition='none'
+                    ))
+                layout = go.Layout(
+                    title=f"""<b>Who are today's top offending publishers?</b>""",
+                    xaxis=dict(title='Number of Articles'),
+                    yaxis=dict(title='Publisher'),
+                    hovermode='closest',
+                    barmode='group',
+                    showlegend=True,
+                    hoverlabel=dict(
+                        align='left'
+                    ),
+                    template="simple_white",
+                    plot_bgcolor='white',
+                    paper_bgcolor='white',
+                    font_color='#2E2C2B',
+                    font_size=14,
+                    height=800,
+                    margin={'l': 150, 'r': 20, 'b': 40, 't': 40}
+                )
         return {'data': data, 'layout': layout}
+    
 
     # Callback for Table 1A
     @app.callback(
@@ -675,7 +640,6 @@ def register_callbacks(app):
     )
 
     def update_table1a(selected_start_date, selected_end_date, selected_publishers, selected_bias_ratings, selected_bias_categories, selected_topics, color_by, clickData, n_clicks):
-        # triggered = None
         triggered = dash.callback_context.triggered
         topics = ''
 
@@ -689,7 +653,7 @@ def register_callbacks(app):
                 if (selected_start_date is not None) & (selected_end_date is not None):
                     start_date = pd.to_datetime(str(selected_start_date))
                     end_date = pd.to_datetime(str(selected_end_date))
-                    filtered_df = filtered_df[(filtered_df['date_published']>=start_date) & (filtered_df['date_published']<=end_date)]
+                    filtered_df = filtered_df[(filtered_df['date_published'] >= start_date) & (filtered_df['date_published'] <= end_date)]
                 if selected_publishers:
                     filtered_df = filtered_df[filtered_df['publisher'].isin(selected_publishers)]
                 if selected_bias_ratings:
@@ -700,15 +664,18 @@ def register_callbacks(app):
                     filtered_df = filtered_df[filtered_df['topic'].str.contains('|'.join(selected_topics))]
                     topics = 'having any of the selected topics'
 
-                if (clickData is not None) or (clickData is None & id=='export-button1a'):
+                if (clickData is not None) or (clickData is None & id == 'export-button1'):
                     publisher = str(clickData['points'][0]['label'])
-                    filtered_df = filtered_df[filtered_df['publisher']==publisher]
+                    filtered_df = filtered_df[filtered_df['publisher'] == publisher]
                     start_date = pd.to_datetime(str(selected_start_date)).strftime('%d %b %Y')
                     end_date = pd.to_datetime(str(selected_end_date)).strftime('%d %b %Y')
 
                     if color_by == 'bias_ratings':
                         # Table title
-                        title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(f'Showing all articles from <b>{publisher}</b> published <b>{start_date}</b> to <b>{end_date}</b> {topics}')
+                        main_title = f'Showing all articles from <b>{start_date}</b> to <b>{end_date}</b> {topics}'
+                        keys = '<b>Legend: G =</b> Generalization, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misinterpretation, <b>H =</b> Headline'
+                        title_html = f'{main_title}<br>{keys}'
+                        title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(title_html)
 
                         # Apply formatting
                         filtered_df['color'] = np.select(
@@ -720,15 +687,15 @@ def register_callbacks(app):
                                 'white',
                                 '#2E2C2B'
                             ],
-                            '#2E2C2B'
+                            default='#2E2C2B'
                         )
                         filtered_df['title_label'] = "<a href='" + filtered_df['article_url'] + "' target='_blank' style='color:" + filtered_df['color'] + ";'>" + filtered_df['title'] + "</a>"
                         filtered_df['bias_rating_label'] = np.select(
                             [
-                                filtered_df['bias_rating']==-1,
-                                filtered_df['bias_rating']==0,
-                                filtered_df['bias_rating']==1,
-                                filtered_df['bias_rating']==2
+                                filtered_df['bias_rating'] == -1,
+                                filtered_df['bias_rating'] == 0,
+                                filtered_df['bias_rating'] == 1,
+                                filtered_df['bias_rating'] == 2
                             ],
                             [
                                 'Inconclusive',
@@ -738,20 +705,37 @@ def register_callbacks(app):
                             ],
                             default='Unknown'
                         )
+                        categories = ['generalisation', 'prominence', 'negative_behaviour', 'misrepresentation', 'headline_or_imagery']
+                        for category in categories:
+                            filtered_df[category] = np.where(filtered_df[category] == 1, 'Y', 'N')
                         filtered_df['date_published_label_(yyyy-mm-dd)'] = filtered_df['date_published'].dt.date
-                        # filtered_df['explore_further'] = "<a href='" + filtered_df['explainability_url'] + "' target='_blank' style='color:#2E2C2B;'>" + "<b>Explore model results ➡️</b>" + "</a>"
-                        filtered_df['explore_further'] = "<a href='" + '' + "' target='_blank' style='color:#2E2C2B;'>" + "<b>Explore model results ➡️</b>" + "</a>"  # CHANGE THIS TO URL LATER
+                        filtered_df['explore_further'] = "<a href='" + '' + "' target='_blank' style='color:#2E2C2B;'>" + "<b>Explore model results ➡️</b>" + "</a>"
 
                         # Save to csv
-                        csv_df = filtered_df[['publisher', 'title', 'article_url', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label']]
-                        csv_df.columns = ['Publisher', 'Title', 'Article URL', 'Date Published (YYYY-MM-DD)', 'Topic', 'Bias Rating']
+                        csv_df = filtered_df[['publisher', 'title', 'article_url', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label'] + categories]
+                        csv_df.columns = ['Publisher', 'Title', 'Article URL', 'Date Published (YYYY-MM-DD)', 'Topic', 'Bias Rating'] + [c.upper() for c in categories]
                         csv_string = "data:text/csv;charset=utf-8,%EF%BB%BF" + urllib.parse.quote(csv_df.to_csv(index=False, encoding='utf-8'))
 
+                        # Mapping for specific columns to their new names
+                        column_name_map = {
+                            'publisher': 'Publisher',
+                            'title_label': 'Title Label',
+                            'date_published_label_(yyyy-mm-dd)': 'Date Published (YYYY-MM-DD)',
+                            'topic': 'Topic',
+                            'bias_rating_label': 'Bias Rating',
+                            'generalisation': 'G',
+                            'prominence': 'O',
+                            'negative_behaviour': 'N',
+                            'misrepresentation': 'M',
+                            'headline_or_imagery': 'H',
+                            'explore_further': 'Explore Further'
+                        }
+
                         # Dash
-                        filtered_df = filtered_df.sort_values('date_published_label_(yyyy-mm-dd)', ascending=False)[['publisher', 'title_label', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label', 'explore_further']]
+                        filtered_df = filtered_df.sort_values('date_published_label_(yyyy-mm-dd)', ascending=False)[['publisher', 'title_label', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label'] + categories + ['explore_further']]
                         table = dash_table.DataTable(
-                            css=[dict(selector= "p", rule = "margin: 0; text-align: left")],
-                            columns=[{'id': x, 'name': x.replace('_', ' ').title(), 'presentation': 'markdown'} if 'title' or 'explore' in x else {'id': x, 'name': x.replace('_', ' ').replace('label', '').title().replace('Or', 'or').replace('Yyyy-Mm-Dd', 'yyyy-mm-dd')} for x in filtered_df.columns],
+                            css=[dict(selector="p", rule="margin:0; text-align:left")],
+                            columns=[{'id': x, 'name': column_name_map.get(x, x.replace('_', ' ').title()), 'presentation': 'markdown'} if 'title' in x or 'explore' in x else {'id': x, 'name': column_name_map.get(x, x.replace('_', ' ').replace('label', '').title().replace('Or', 'or').replace('Yyyy-Mm-Dd', 'yyyy-mm-dd'))} for x in filtered_df.columns],
                             markdown_options={"html": True},
                             data=filtered_df.to_dict('records'),
                             sort_action='native',
@@ -762,7 +746,7 @@ def register_callbacks(app):
                             page_size=20,
                             style_table={'margin': 'auto', 'padding': '0 5px', 'overflowX': 'auto', 'overflowY': 'auto'},
                             style_header={'textAlign': 'center', 'fontWeight': 'bold'},
-                            style_data={'minWidth':'120px', 'maxWidth':'120px', 'width':'120px'},
+                            style_data={'textAlign': 'left', 'padding': '5px', 'font-family': 'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
                             style_data_conditional=[
                                 {
                                     'if': {
@@ -781,19 +765,28 @@ def register_callbacks(app):
                                     'color': '#2E2C2B'
                                 }
                             ],
-                            style_cell={'textAlign': 'left', 'padding': '5px', 'font-family':'sans-serif', 'whiteSpace': 'normal', 'height': 'auto', 'minWidth':'180px', 'maxWidth':'180px', 'width':'180px'},
+                            style_cell={'textAlign': 'left', 'padding': '5px', 'font-family':'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
                             style_cell_conditional=[
-                                {
-                                    'if': {
-                                        'column_id': ['topic', 'title']
-                                    },
-                                    'width': '600px'
-                                }
+                                {'if': {'column_id': 'publisher'}, 'width': '150px'},
+                                {'if': {'column_id': 'title_label'}, 'width': '300px'},
+                                {'if': {'column_id': 'date_published_label_(yyyy-mm-dd)'}, 'width': '150px'},
+                                {'if': {'column_id': 'topic'}, 'width': '200px'},
+                                {'if': {'column_id': 'bias_rating_label'}, 'width': '150px'},
+                                {'if': {'column_id': 'generalisation'}, 'width': '50px'},
+                                {'if': {'column_id': 'prominence'}, 'width': '50px'},
+                                {'if': {'column_id': 'negative_behaviour'}, 'width': '50px'},
+                                {'if': {'column_id': 'misrepresentation'}, 'width': '50px'},
+                                {'if': {'column_id': 'headline_or_imagery'}, 'width': '50px'},
+                                {'if': {'column_id': 'explore_further'}, 'width': '200px'}
                             ]
                         )
 
                     else:
-                        title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(f'Showing biased/very biased articles from <b>{publisher}</b> published <b>{start_date}</b> to <b>{end_date}</b> {topics}')
+                        main_title = f'Showing biased/very biased articles from <b>{publisher}</b> published <b>{start_date}</b> to <b>{end_date}</b> {topics}'
+                        keys = '<b>Legend: G =</b> Generalization, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misinterpretation, <b>H =</b> Headline'
+                        title_html = f'{main_title}<br>{keys}'
+                        title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(title_html)
+
                         filtered_df['color'] = np.select(
                             [
                                 filtered_df['bias_rating'] == 2,
@@ -803,7 +796,7 @@ def register_callbacks(app):
                                 'white',
                                 '#2E2C2B'
                             ],
-                            '#2E2C2B'
+                            default='#2E2C2B'
                         )
                         filtered_df['title_label'] = "<a href='" + filtered_df['article_url'] + "' target='_blank' style='color:" + filtered_df['color'] + ";'>" + filtered_df['title'] + "</a>"
                         filtered_df['bias_rating_label'] = np.select(
@@ -825,19 +818,33 @@ def register_callbacks(app):
                         for category in categories:
                             filtered_df[category] = np.where(filtered_df[category]==1, 'Y', 'N')
                         filtered_df['date_published_label_(yyyy-mm-dd)'] = filtered_df['date_published'].dt.date
-                        # filtered_df['explore_further'] = "<a href='" + filtered_df['explainability_url'] + "' target='_blank' style='color:#2E2C2B;'>" + "<b>Explore model results ➡️</b>" + "</a>"
-                        filtered_df['explore_further'] = "<a href='" + '' + "' target='_blank' style='color:#2E2C2B;'>" + "<b>Explore model results ➡️</b>" + "</a>" # CHANGE THIS TO URL LATER
+                        filtered_df['explore_further'] = "<a href='" + '' + "' target='_blank' style='color:#2E2C2B;'>" + "<b>Explore model results ➡️</b>" + "</a>"
 
                         # Save to csv
-                        csv_df = filtered_df[['publisher', 'title', 'article_url', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label']+categories]
+                        csv_df = filtered_df[['publisher', 'title', 'article_url', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label'] + categories]
                         csv_df.columns = ['Publisher', 'Title', 'Article URL', 'Date Published (YYYY-MM-DD)', 'Topic', 'Bias Rating'] + [c.upper() for c in categories]
                         csv_string = "data:text/csv;charset=utf-8,%EF%BB%BF" + urllib.parse.quote(csv_df.to_csv(index=False, encoding='utf-8'))
 
+                        # Mapping for specific columns to their new names
+                        column_name_map = {
+                            'publisher': 'Publisher',
+                            'title_label': 'Title Label',
+                            'date_published_label_(yyyy-mm-dd)': 'Date Published (YYYY-MM-DD)',
+                            'topic': 'Topic',
+                            'bias_rating_label': 'Bias Rating',
+                            'generalisation': 'G',
+                            'prominence': 'O',
+                            'negative_behaviour': 'N',
+                            'misrepresentation': 'M',
+                            'headline_or_imagery': 'H',
+                            'explore_further': 'Explore Further'
+                        }
+
                         # Dash
-                        filtered_df = filtered_df.sort_values('date_published_label_(yyyy-mm-dd)', ascending=False)[['publisher', 'title_label', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label']+categories+['explore_further']]
+                        filtered_df = filtered_df.sort_values('date_published_label_(yyyy-mm-dd)', ascending=False)[['publisher', 'title_label', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label'] + categories + ['explore_further']]
                         table = dash_table.DataTable(
                             css=[dict(selector="p", rule="margin:0; text-align:left")],
-                            columns=[{'id': x, 'name': x.replace('_', ' ').title(), 'presentation': 'markdown'} if 'title' or 'explore' in x else {'id': x, 'name': x.replace('_', ' ').replace('label', '').title().replace('Or', 'or').replace('Yyyy-Mm-Dd', 'yyyy-mm-dd')} for x in filtered_df.columns],
+                            columns=[{'id': x, 'name': column_name_map.get(x, x.replace('_', ' ').title()), 'presentation': 'markdown'} if 'title' in x or 'explore' in x else {'id': x, 'name': column_name_map.get(x, x.replace('_', ' ').replace('label', '').title().replace('Or', 'or').replace('Yyyy-Mm-Dd', 'yyyy-mm-dd'))} for x in filtered_df.columns],
                             markdown_options={"html": True},
                             data=filtered_df.to_dict('records'),
                             sort_action='native',
@@ -848,7 +855,7 @@ def register_callbacks(app):
                             page_size=20,
                             style_table={'margin': 'auto', 'padding': '0 5px', 'overflowX': 'auto', 'overflowY': 'auto'},
                             style_header={'textAlign': 'center', 'fontWeight': 'bold'},
-                            style_data={'minWidth':'120px', 'maxWidth':'120px', 'width':'120px'},
+                            style_data={'textAlign': 'left', 'padding': '5px', 'font-family': 'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
                             style_data_conditional=[
                                 {
                                     'if': {
@@ -865,54 +872,21 @@ def register_callbacks(app):
                                         },
                                     'backgroundColor': '#eb8483',
                                     'color': '#2E2C2B'
-                                },
-                                {
-                                    'if': {
-                                        'filter_query': '{generalisation}="Y"',
-                                        'column_id': 'generalisation'
-                                        },
-                                    'backgroundColor': '#4185A0',
-                                    'color': 'white'
-                                },
-                                {
-                                    'if': {
-                                        'filter_query': '{prominence}="Y"',
-                                        'column_id': 'prominence'
-                                        },
-                                    'backgroundColor': '#AA4D71',
-                                    'color': 'white'
-                                },
-                                {
-                                    'if': {
-                                        'filter_query': '{negative_behaviour}="Y"',
-                                        'column_id': 'negative_behaviour'
-                                        },
-                                    'backgroundColor': '#B85C3B',
-                                    'color': 'white'
-                                },
-                                {
-                                    'if': {
-                                        'filter_query': '{misrepresentation}="Y"',
-                                        'column_id': 'misrepresentation'
-                                        },
-                                    'backgroundColor': '#C5BE71',
-                                    'color': '#2E2C2B'
-                                },
-                                {
-                                    'if': {
-                                        'filter_query': '{headline_or_imagery}="Y"',
-                                        'column_id': 'headline_or_imagery'
-                                        },
-                                    'backgroundColor': '#7658A0',
-                                    'color': 'white'
                                 }
                             ],
                             style_cell={'textAlign': 'left', 'padding': '5px', 'font-family':'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
                             style_cell_conditional=[
-                                {
-                                    'if': {'column_id': ['topic', 'title']},
-                                    'width': '600px'
-                                }
+                                {'if': {'column_id': 'publisher'}, 'width': '150px'},
+                                {'if': {'column_id': 'title_label'}, 'width': '300px'},
+                                {'if': {'column_id': 'date_published_label_(yyyy-mm-dd)'}, 'width': '150px'},
+                                {'if': {'column_id': 'topic'}, 'width': '200px'},
+                                {'if': {'column_id': 'bias_rating_label'}, 'width': '150px'},
+                                {'if': {'column_id': 'generalisation'}, 'width': '50px'},
+                                {'if': {'column_id': 'prominence'}, 'width': '50px'},
+                                {'if': {'column_id': 'negative_behaviour'}, 'width': '50px'},
+                                {'if': {'column_id': 'misrepresentation'}, 'width': '50px'},
+                                {'if': {'column_id': 'headline_or_imagery'}, 'width': '50px'},
+                                {'if': {'column_id': 'explore_further'}, 'width': '200px'}
                             ]
                         )
 
@@ -926,7 +900,6 @@ def register_callbacks(app):
 
         else:
             return [], None, {'display': 'none'}, {'display': 'none'}, ''
-        
 
     # Callback for Table 1B
     @app.callback(
@@ -951,7 +924,6 @@ def register_callbacks(app):
     )
 
     def update_table1b(selected_start_date, selected_end_date, selected_publishers, selected_bias_ratings, selected_bias_categories, selected_topics, color_by, clickData, n_clicks):
-        # triggered = None
         triggered = dash.callback_context.triggered
         topics = ''
 
@@ -965,7 +937,7 @@ def register_callbacks(app):
                 if (selected_start_date is not None) & (selected_end_date is not None):
                     start_date = pd.to_datetime(str(selected_start_date))
                     end_date = pd.to_datetime(str(selected_end_date))
-                    filtered_df = filtered_df[(filtered_df['date_published']>=start_date) & (filtered_df['date_published']<=end_date)]
+                    filtered_df = filtered_df[(filtered_df['date_published'] >= start_date) & (filtered_df['date_published'] <= end_date)]
                 if selected_publishers:
                     filtered_df = filtered_df[filtered_df['publisher'].isin(selected_publishers)]
                 if selected_bias_ratings:
@@ -976,15 +948,18 @@ def register_callbacks(app):
                     filtered_df = filtered_df[filtered_df['topic'].str.contains('|'.join(selected_topics))]
                     topics = 'having any of the selected topics'
 
-                if (clickData is not None) or (clickData is None & id=='export-button1b'):
+                if (clickData is not None) or (clickData is None & id == 'export-button1'):
                     publisher = str(clickData['points'][0]['label'])
-                    filtered_df = filtered_df[filtered_df['publisher']==publisher]
+                    filtered_df = filtered_df[filtered_df['publisher'] == publisher]
                     start_date = pd.to_datetime(str(selected_start_date)).strftime('%d %b %Y')
                     end_date = pd.to_datetime(str(selected_end_date)).strftime('%d %b %Y')
 
                     if color_by == 'bias_ratings':
                         # Table title
-                        title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(f'Showing all articles from <b>{publisher}</b> published <b>{start_date}</b> to <b>{end_date}</b> {topics}')
+                        main_title = f'Showing all articles from <b>{start_date}</b> to <b>{end_date}</b> {topics}'
+                        keys = '<b>Legend: G =</b> Generalization, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misinterpretation, <b>H =</b> Headline'
+                        title_html = f'{main_title}<br>{keys}'
+                        title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(title_html)
 
                         # Apply formatting
                         filtered_df['color'] = np.select(
@@ -996,15 +971,15 @@ def register_callbacks(app):
                                 'white',
                                 '#2E2C2B'
                             ],
-                            '#2E2C2B'
+                            default='#2E2C2B'
                         )
                         filtered_df['title_label'] = "<a href='" + filtered_df['article_url'] + "' target='_blank' style='color:" + filtered_df['color'] + ";'>" + filtered_df['title'] + "</a>"
                         filtered_df['bias_rating_label'] = np.select(
                             [
-                                filtered_df['bias_rating']==-1,
-                                filtered_df['bias_rating']==0,
-                                filtered_df['bias_rating']==1,
-                                filtered_df['bias_rating']==2
+                                filtered_df['bias_rating'] == -1,
+                                filtered_df['bias_rating'] == 0,
+                                filtered_df['bias_rating'] == 1,
+                                filtered_df['bias_rating'] == 2
                             ],
                             [
                                 'Inconclusive',
@@ -1014,20 +989,37 @@ def register_callbacks(app):
                             ],
                             default='Unknown'
                         )
+                        categories = ['generalisation', 'prominence', 'negative_behaviour', 'misrepresentation', 'headline_or_imagery']
+                        for category in categories:
+                            filtered_df[category] = np.where(filtered_df[category] == 1, 'Y', 'N')
                         filtered_df['date_published_label_(yyyy-mm-dd)'] = filtered_df['date_published'].dt.date
-                        # filtered_df['explore_further'] = "<a href='" + filtered_df['explainability_url'] + "' target='_blank' style='color:#2E2C2B;'>" + "<b>Explore model results ➡️</b>" + "</a>"
-                        filtered_df['explore_further'] = "<a href='" + '' + "' target='_blank' style='color:#2E2C2B;'>" + "<b>Explore model results ➡️</b>" + "</a>"  # CHANGE THIS TO URL LATER
+                        filtered_df['explore_further'] = "<a href='" + '' + "' target='_blank' style='color:#2E2C2B;'>" + "<b>Explore model results ➡️</b>" + "</a>"
 
                         # Save to csv
-                        csv_df = filtered_df[['publisher', 'title', 'article_url', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label']]
-                        csv_df.columns = ['Publisher', 'Title', 'Article URL', 'Date Published (YYYY-MM-DD)', 'Topic', 'Bias Rating']
+                        csv_df = filtered_df[['publisher', 'title', 'article_url', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label'] + categories]
+                        csv_df.columns = ['Publisher', 'Title', 'Article URL', 'Date Published (YYYY-MM-DD)', 'Topic', 'Bias Rating'] + [c.upper() for c in categories]
                         csv_string = "data:text/csv;charset=utf-8,%EF%BB%BF" + urllib.parse.quote(csv_df.to_csv(index=False, encoding='utf-8'))
 
+                        # Mapping for specific columns to their new names
+                        column_name_map = {
+                            'publisher': 'Publisher',
+                            'title_label': 'Title Label',
+                            'date_published_label_(yyyy-mm-dd)': 'Date Published (YYYY-MM-DD)',
+                            'topic': 'Topic',
+                            'bias_rating_label': 'Bias Rating',
+                            'generalisation': 'G',
+                            'prominence': 'O',
+                            'negative_behaviour': 'N',
+                            'misrepresentation': 'M',
+                            'headline_or_imagery': 'H',
+                            'explore_further': 'Explore Further'
+                        }
+
                         # Dash
-                        filtered_df = filtered_df.sort_values('date_published_label_(yyyy-mm-dd)', ascending=False)[['publisher', 'title_label', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label', 'explore_further']]
+                        filtered_df = filtered_df.sort_values('date_published_label_(yyyy-mm-dd)', ascending=False)[['publisher', 'title_label', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label'] + categories + ['explore_further']]
                         table = dash_table.DataTable(
-                            css=[dict(selector= "p", rule = "margin: 0; text-align: left")],
-                            columns=[{'id': x, 'name': x.replace('_', ' ').title(), 'presentation': 'markdown'} if 'title' or 'explore' in x else {'id': x, 'name': x.replace('_', ' ').replace('label', '').title().replace('Or', 'or').replace('Yyyy-Mm-Dd', 'yyyy-mm-dd')} for x in filtered_df.columns],
+                            css=[dict(selector="p", rule="margin:0; text-align:left")],
+                            columns=[{'id': x, 'name': column_name_map.get(x, x.replace('_', ' ').title()), 'presentation': 'markdown'} if 'title' in x or 'explore' in x else {'id': x, 'name': column_name_map.get(x, x.replace('_', ' ').replace('label', '').title().replace('Or', 'or').replace('Yyyy-Mm-Dd', 'yyyy-mm-dd'))} for x in filtered_df.columns],
                             markdown_options={"html": True},
                             data=filtered_df.to_dict('records'),
                             sort_action='native',
@@ -1038,7 +1030,7 @@ def register_callbacks(app):
                             page_size=20,
                             style_table={'margin': 'auto', 'padding': '0 5px', 'overflowX': 'auto', 'overflowY': 'auto'},
                             style_header={'textAlign': 'center', 'fontWeight': 'bold'},
-                            style_data={'minWidth':'120px', 'maxWidth':'120px', 'width':'120px'},
+                            style_data={'textAlign': 'left', 'padding': '5px', 'font-family': 'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
                             style_data_conditional=[
                                 {
                                     'if': {
@@ -1057,19 +1049,28 @@ def register_callbacks(app):
                                     'color': '#2E2C2B'
                                 }
                             ],
-                            style_cell={'textAlign': 'left', 'padding': '5px', 'font-family':'sans-serif', 'whiteSpace': 'normal', 'height': 'auto', 'minWidth':'180px', 'maxWidth':'180px', 'width':'180px'},
+                            style_cell={'textAlign': 'left', 'padding': '5px', 'font-family':'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
                             style_cell_conditional=[
-                                {
-                                    'if': {
-                                        'column_id': ['topic', 'title']
-                                    },
-                                    'width': '600px'
-                                }
+                                {'if': {'column_id': 'publisher'}, 'width': '150px'},
+                                {'if': {'column_id': 'title_label'}, 'width': '300px'},
+                                {'if': {'column_id': 'date_published_label_(yyyy-mm-dd)'}, 'width': '150px'},
+                                {'if': {'column_id': 'topic'}, 'width': '200px'},
+                                {'if': {'column_id': 'bias_rating_label'}, 'width': '150px'},
+                                {'if': {'column_id': 'generalisation'}, 'width': '50px'},
+                                {'if': {'column_id': 'prominence'}, 'width': '50px'},
+                                {'if': {'column_id': 'negative_behaviour'}, 'width': '50px'},
+                                {'if': {'column_id': 'misrepresentation'}, 'width': '50px'},
+                                {'if': {'column_id': 'headline_or_imagery'}, 'width': '50px'},
+                                {'if': {'column_id': 'explore_further'}, 'width': '200px'}
                             ]
                         )
 
                     else:
-                        title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(f'Showing biased/very biased articles from <b>{publisher}</b> published <b>{start_date}</b> to <b>{end_date}</b> {topics}')
+                        main_title = f'Showing biased/very biased articles from <b>{publisher}</b> published <b>{start_date}</b> to <b>{end_date}</b> {topics}'
+                        keys = '<b>Legend: G =</b> Generalization, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misinterpretation, <b>H =</b> Headline'
+                        title_html = f'{main_title}<br>{keys}'
+                        title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(title_html)
+
                         filtered_df['color'] = np.select(
                             [
                                 filtered_df['bias_rating'] == 2,
@@ -1079,7 +1080,7 @@ def register_callbacks(app):
                                 'white',
                                 '#2E2C2B'
                             ],
-                            '#2E2C2B'
+                            default='#2E2C2B'
                         )
                         filtered_df['title_label'] = "<a href='" + filtered_df['article_url'] + "' target='_blank' style='color:" + filtered_df['color'] + ";'>" + filtered_df['title'] + "</a>"
                         filtered_df['bias_rating_label'] = np.select(
@@ -1101,19 +1102,33 @@ def register_callbacks(app):
                         for category in categories:
                             filtered_df[category] = np.where(filtered_df[category]==1, 'Y', 'N')
                         filtered_df['date_published_label_(yyyy-mm-dd)'] = filtered_df['date_published'].dt.date
-                        # filtered_df['explore_further'] = "<a href='" + filtered_df['explainability_url'] + "' target='_blank' style='color:#2E2C2B;'>" + "<b>Explore model results ➡️</b>" + "</a>"
-                        filtered_df['explore_further'] = "<a href='" + '' + "' target='_blank' style='color:#2E2C2B;'>" + "<b>Explore model results ➡️</b>" + "</a>" # CHANGE THIS TO URL LATER
+                        filtered_df['explore_further'] = "<a href='" + '' + "' target='_blank' style='color:#2E2C2B;'>" + "<b>Explore model results ➡️</b>" + "</a>"
 
                         # Save to csv
-                        csv_df = filtered_df[['publisher', 'title', 'article_url', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label']+categories]
+                        csv_df = filtered_df[['publisher', 'title', 'article_url', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label'] + categories]
                         csv_df.columns = ['Publisher', 'Title', 'Article URL', 'Date Published (YYYY-MM-DD)', 'Topic', 'Bias Rating'] + [c.upper() for c in categories]
                         csv_string = "data:text/csv;charset=utf-8,%EF%BB%BF" + urllib.parse.quote(csv_df.to_csv(index=False, encoding='utf-8'))
 
+                        # Mapping for specific columns to their new names
+                        column_name_map = {
+                            'publisher': 'Publisher',
+                            'title_label': 'Title Label',
+                            'date_published_label_(yyyy-mm-dd)': 'Date Published (YYYY-MM-DD)',
+                            'topic': 'Topic',
+                            'bias_rating_label': 'Bias Rating',
+                            'generalisation': 'G',
+                            'prominence': 'O',
+                            'negative_behaviour': 'N',
+                            'misrepresentation': 'M',
+                            'headline_or_imagery': 'H',
+                            'explore_further': 'Explore Further'
+                        }
+
                         # Dash
-                        filtered_df = filtered_df.sort_values('date_published_label_(yyyy-mm-dd)', ascending=False)[['publisher', 'title_label', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label']+categories+['explore_further']]
+                        filtered_df = filtered_df.sort_values('date_published_label_(yyyy-mm-dd)', ascending=False)[['publisher', 'title_label', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label'] + categories + ['explore_further']]
                         table = dash_table.DataTable(
                             css=[dict(selector="p", rule="margin:0; text-align:left")],
-                            columns=[{'id': x, 'name': x.replace('_', ' ').title(), 'presentation': 'markdown'} if 'title' or 'explore' in x else {'id': x, 'name': x.replace('_', ' ').replace('label', '').title().replace('Or', 'or').replace('Yyyy-Mm-Dd', 'yyyy-mm-dd')} for x in filtered_df.columns],
+                            columns=[{'id': x, 'name': column_name_map.get(x, x.replace('_', ' ').title()), 'presentation': 'markdown'} if 'title' in x or 'explore' in x else {'id': x, 'name': column_name_map.get(x, x.replace('_', ' ').replace('label', '').title().replace('Or', 'or').replace('Yyyy-Mm-Dd', 'yyyy-mm-dd'))} for x in filtered_df.columns],
                             markdown_options={"html": True},
                             data=filtered_df.to_dict('records'),
                             sort_action='native',
@@ -1124,7 +1139,7 @@ def register_callbacks(app):
                             page_size=20,
                             style_table={'margin': 'auto', 'padding': '0 5px', 'overflowX': 'auto', 'overflowY': 'auto'},
                             style_header={'textAlign': 'center', 'fontWeight': 'bold'},
-                            style_data={'minWidth':'120px', 'maxWidth':'120px', 'width':'120px'},
+                            style_data={'textAlign': 'left', 'padding': '5px', 'font-family': 'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
                             style_data_conditional=[
                                 {
                                     'if': {
@@ -1141,54 +1156,21 @@ def register_callbacks(app):
                                         },
                                     'backgroundColor': '#eb8483',
                                     'color': '#2E2C2B'
-                                },
-                                {
-                                    'if': {
-                                        'filter_query': '{generalisation}="Y"',
-                                        'column_id': 'generalisation'
-                                        },
-                                    'backgroundColor': '#4185A0',
-                                    'color': 'white'
-                                },
-                                {
-                                    'if': {
-                                        'filter_query': '{prominence}="Y"',
-                                        'column_id': 'prominence'
-                                        },
-                                    'backgroundColor': '#AA4D71',
-                                    'color': 'white'
-                                },
-                                {
-                                    'if': {
-                                        'filter_query': '{negative_behaviour}="Y"',
-                                        'column_id': 'negative_behaviour'
-                                        },
-                                    'backgroundColor': '#B85C3B',
-                                    'color': 'white'
-                                },
-                                {
-                                    'if': {
-                                        'filter_query': '{misrepresentation}="Y"',
-                                        'column_id': 'misrepresentation'
-                                        },
-                                    'backgroundColor': '#C5BE71',
-                                    'color': '#2E2C2B'
-                                },
-                                {
-                                    'if': {
-                                        'filter_query': '{headline_or_imagery}="Y"',
-                                        'column_id': 'headline_or_imagery'
-                                        },
-                                    'backgroundColor': '#7658A0',
-                                    'color': 'white'
                                 }
                             ],
                             style_cell={'textAlign': 'left', 'padding': '5px', 'font-family':'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
                             style_cell_conditional=[
-                                {
-                                    'if': {'column_id': ['topic', 'title']},
-                                    'width': '600px'
-                                }
+                                {'if': {'column_id': 'publisher'}, 'width': '150px'},
+                                {'if': {'column_id': 'title_label'}, 'width': '300px'},
+                                {'if': {'column_id': 'date_published_label_(yyyy-mm-dd)'}, 'width': '150px'},
+                                {'if': {'column_id': 'topic'}, 'width': '200px'},
+                                {'if': {'column_id': 'bias_rating_label'}, 'width': '150px'},
+                                {'if': {'column_id': 'generalisation'}, 'width': '50px'},
+                                {'if': {'column_id': 'prominence'}, 'width': '50px'},
+                                {'if': {'column_id': 'negative_behaviour'}, 'width': '50px'},
+                                {'if': {'column_id': 'misrepresentation'}, 'width': '50px'},
+                                {'if': {'column_id': 'headline_or_imagery'}, 'width': '50px'},
+                                {'if': {'column_id': 'explore_further'}, 'width': '200px'}
                             ]
                         )
 
@@ -1202,3 +1184,4 @@ def register_callbacks(app):
 
         else:
             return [], None, {'display': 'none'}, {'display': 'none'}, ''
+        
