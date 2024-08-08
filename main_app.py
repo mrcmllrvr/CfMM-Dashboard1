@@ -525,7 +525,14 @@ def update_homepage_chart4(text_by, ngram_value):
     else:
         # Generate n-grams
         text = ' '.join(filtered_df[text_by].dropna().values)
-        vectorizer = CountVectorizer(ngram_range=(ngram_value, ngram_value), stop_words='english')
+        if ngram_value:
+            if len(ngram_value)>1:
+                ngram_range = (ngram_value[0], ngram_value[-1])
+            else:
+                ngram_range = (ngram_value[0], ngram_value[0])
+        else:
+            ngram_range = (1, 3)
+        vectorizer = CountVectorizer(ngram_range=ngram_range, stop_words='english')
         ngram_counts = vectorizer.fit_transform([text])
         ngram_freq = ngram_counts.toarray().flatten()
         ngram_names = vectorizer.get_feature_names_out()
