@@ -259,6 +259,9 @@ def register_callbacks(app):
     def update_chart2a(selected_start_date, selected_end_date, selected_publishers, selected_bias_ratings, selected_bias_categories):
         filtered_df = df_corpus.copy()
 
+        # Focus on VB/B articles only
+        filtered_df = filtered_df[filtered_df['bias_rating']>=1]
+
         # Apply filters for dates, publishers, ratings, and categories
         if (selected_start_date is not None) & (selected_end_date is not None):
             start_date = pd.to_datetime(str(selected_start_date))
@@ -358,6 +361,9 @@ def register_callbacks(app):
 
     def update_chart2b(selected_start_date, selected_end_date, selected_publishers, selected_bias_ratings, selected_bias_categories):
         filtered_df = df_corpus.copy()
+
+        # Focus on VB/B articles only
+        filtered_df = filtered_df[filtered_df['bias_rating']>=1]
 
         # Apply filters for dates, publishers, ratings, and categories
         if (selected_start_date is not None) & (selected_end_date is not None):
