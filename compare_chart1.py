@@ -522,7 +522,7 @@ def register_callbacks(app):
                 }]
             }
         else:
-            publisher_totals = filtered_df.groupby('publisher', observed=True).size()
+            publisher_totals = filtered_df[filtered_df['bias_rating']>=1].groupby('publisher', observed=True).size()
             top_publishers = publisher_totals.sort_values(ascending=False).head(10).index[::-1]
             filtered_df = filtered_df[filtered_df['publisher'].isin(top_publishers)]
             filtered_df['publisher'] = pd.Categorical(filtered_df['publisher'], ordered=True, categories=top_publishers)
