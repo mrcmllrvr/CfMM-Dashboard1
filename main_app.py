@@ -491,8 +491,11 @@ def update_homepage_chart3():
         Input('homepage-chart4-ngram-dropdown', 'value')
     ]
 )
-def update_chart4(text_by, ngram_value):
+def update_homepage_chart4(text_by, ngram_value):
     filtered_df = df_corpus.copy()
+
+    # Focus on B/VB articles only
+    filtered_df = filtered_df[filtered_df['bias_rating']>=1]
 
     # Filter latest scraped date for homepage
     start_date = pd.to_datetime(str(df_corpus['date_published'].max()))
@@ -794,6 +797,7 @@ main_layout = html.Div(children=[
                             {'label': 'Very Biased', 'value': 2},
                             {'label': 'Not Biased', 'value': 0},
                         ],
+                        value=[1, 2],
                         placeholder='Select Overall Bias Score',
                         multi=True,
                         clearable=True,
@@ -964,6 +968,7 @@ main_layout = html.Div(children=[
                                 {'label': 'Not Biased', 'value': 0},
                                 {'label': 'Inconclusive', 'value': -1},
                             ],
+                            value=[1, 2],
                             placeholder='Select Overall Bias Score',
                             multi=True,
                             clearable=True,
