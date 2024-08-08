@@ -120,6 +120,7 @@ def create_layout():
                         {'label': 'Not Biased', 'value': 0},
                         {'label': 'Inconclusive', 'value': -1},
                     ],
+                    value=[1,2],
                     placeholder='Select Overall Bias Score',
                     multi=True,
                     clearable=True,
@@ -166,7 +167,8 @@ def create_layout():
                         {'label': 'Two-Word Phrases', 'value': 2},
                         {'label': 'Three-Word Phrases', 'value': 3}
                     ],
-                    value=1,  # default value on load
+                    value=[1,2,3],  # default value on load
+                    multi=True,
                     clearable=False,
                     style={'width': '70%'}
                 )
@@ -249,6 +251,7 @@ def create_layout():
                         {'label': 'Not Biased', 'value': 0},
                         {'label': 'Inconclusive', 'value': -1},
                     ],
+                    value=[1,2],
                     placeholder='Select Overall Bias Score',
                     multi=True,
                     clearable=True,
@@ -295,8 +298,9 @@ def create_layout():
                         {'label': 'Two-Word Phrases', 'value': 2},
                         {'label': 'Three-Word Phrases', 'value': 3}
                     ],
-                    value=1,  # default value on load
+                    value=[1,2,3],  # default value on load
                     clearable=False,
+                    multi=True,
                     style={'width': '70%'}
                 )
             ], style={'display': 'flex', 'margin-bottom': '30px', 'align-items': 'center'}),
@@ -392,7 +396,14 @@ def register_callbacks(app):
         else:
             # Generate n-grams
             text = ' '.join(filtered_df[text_by].dropna().values)
-            vectorizer = CountVectorizer(ngram_range=(ngram_value, ngram_value), stop_words='english')
+            if ngram_value:
+                if len(ngram_value)>1:
+                    ngram_range = (ngram_value[0], ngram_value[-1])
+                else:
+                    ngram_range = (ngram_value[0], ngram_value[0])
+            else:
+                ngram_range = (1, 3)
+            vectorizer = CountVectorizer(ngram_range=ngram_range, stop_words='english')
             ngram_counts = vectorizer.fit_transform([text])
             ngram_freq = ngram_counts.toarray().flatten()
             ngram_names = vectorizer.get_feature_names_out()
@@ -563,7 +574,14 @@ def register_callbacks(app):
         else:
             # Generate n-grams
             text = ' '.join(filtered_df[text_by].dropna().values)
-            vectorizer = CountVectorizer(ngram_range=(ngram_value, ngram_value), stop_words='english')
+            if ngram_value:
+                if len(ngram_value)>1:
+                    ngram_range = (ngram_value[0], ngram_value[-1])
+                else:
+                    ngram_range = (ngram_value[0], ngram_value[0])
+            else:
+                ngram_range = (1, 3)
+            vectorizer = CountVectorizer(ngram_range=ngram_range, stop_words='english')
             ngram_counts = vectorizer.fit_transform([text])
             ngram_freq = ngram_counts.toarray().flatten()
             ngram_names = vectorizer.get_feature_names_out()
