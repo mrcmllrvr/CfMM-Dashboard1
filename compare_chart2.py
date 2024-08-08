@@ -202,6 +202,7 @@ def create_layout():
                     {'label': 'Very Biased', 'value': 2},
                     {'label': 'Not Biased', 'value': 0},
                 ],
+                value=[1, 2],
                 placeholder='Select Overall Bias Score',
                 multi=True,
                 clearable=True,
