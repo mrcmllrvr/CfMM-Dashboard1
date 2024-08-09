@@ -362,10 +362,10 @@ def register_callbacks(app):
                         articles = filtered_df[(filtered_df['publisher'] == publisher) & (filtered_df['bias_rating'] == rating)]['bias_rating'].count()
                         percentage_of_total = (articles / total_biased_articles) * 100 if total_biased_articles > 0 else 0
                         tooltip_text = (
-                            f"<b>Publisher: </b>{publisher}<br>"
+                            # f"<b>Publisher: </b>{publisher}<br>"
                             f"<b>Overall Bias Score:</b> {name}<br>"
                             f"<b>Count:</b> {articles}<br>"
-                            f"<b>Proportion: </b> {percentage_of_total:.2f}%"
+                            f"<b>Proportion: </b> {percentage_of_total:.1f}%"
                             # f"This accounts for <b>{percentage_of_total:.2f}%</b> of the total available articles in the current selection.<br>"
                         )
                         showlegend = name not in legend_added
@@ -433,10 +433,10 @@ def register_callbacks(app):
                         articles_list += [articles]
                         percentage_of_total = (articles / total_biased_articles * 100) if total_biased_articles > 0 else 0
                         tooltip_text = (
-                            f"<b>Publisher: </b>{publisher}<br>"
+                            # f"<b>Publisher: </b>{publisher}<br>"
                             f"<b>Category of Bias: </b>{category.replace('_', ' ').title().replace('Or', 'or')}<br>"
                             f"<b>Count: </b> {articles}<br>"
-                            f"<b>Proportion: </b>{percentage_of_total:.2f}%<br>"
+                            f"<b>Proportion: </b>{percentage_of_total:.1f}%<br>"
                             # f"Of the {total_biased_articles} articles, <b>{articles}</b> of them committed <b>{category.replace('_', ' ').title().replace('Or', 'or')}</b>.<br>"
                             # f"This accounts for <b>{percentage_of_total:.2f}%</b> of the total available articles for <b>{category.replace('_', ' ').title().replace('Or', 'or')}</b>.<br>"
                         )
@@ -562,10 +562,10 @@ def register_callbacks(app):
                             articles = filtered_df[(filtered_df['publisher'] == publisher) & (filtered_df['bias_rating'] == rating)]['bias_rating'].count()
                             percentage_of_total = (articles / total_biased_articles) * 100 if total_biased_articles > 0 else 0
                             tooltip_text = (
-                                f"<b>Publisher: </b>{publisher}<br>"
+                                # f"<b>Publisher: </b>{publisher}<br>"
                                 f"<b>Overall Bias Score:</b> {name}<br>"
                                 f"<b>Count: </b> {articles}<br>"
-                                f"<b>Proportion: {percentage_of_total:.2f}%"
+                                f"<b>Proportion: {percentage_of_total:.1f}%"
                                 # f"This accounts for <b>{percentage_of_total:.2f}%</b> of the total available articles in the current selection.<br>"
                             )
                             showlegend = name not in legend_added
@@ -633,10 +633,10 @@ def register_callbacks(app):
                             articles_list += [articles]
                             percentage_of_total = (articles / total_biased_articles * 100) if total_biased_articles > 0 else 0
                             tooltip_text = (
-                                f"<b>Publisher: </b>{publisher}<br>"
+                                # f"<b>Publisher: </b>{publisher}<br>"
                                 f"<b>Category of Bias: </b>{category.replace('_', ' ').title().replace('Or', 'or')}<br>"
                                 f"<b>Count: </b>{articles}<br>"
-                                f"<b>Proportion: </b>{percentage_of_total:.2f}%<br>"
+                                f"<b>Proportion: </b>{percentage_of_total:.1f}%<br>"
                                 # f"Of the {total_biased_articles} articles, <b>{articles}</b> of them committed <b>{category.replace('_', ' ').title().replace('Or', 'or')}</b>.<br>"
                                 # f"This accounts for <b>{percentage_of_total:.2f}%</b> of the total available articles for <b>{category.replace('_', ' ').title().replace('Or', 'or')}</b>.<br>"
                             )
