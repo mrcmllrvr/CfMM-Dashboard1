@@ -66,12 +66,10 @@ end_date = df_corpus['date_published'].max()
 unique_publishers = sorted(df_corpus['publisher'].unique())
 unique_topics = df_corpus['topic_list'].explode().dropna().unique()
 
-# Calculate relevant parameters for the main page (cards)
+# Calculate relevant parameters for the main page (boxes)
 total_articles = len(df_corpus)
-vb_count = df_corpus[df_corpus['bias_rating'] == 2]['bias_rating'].count()
-b_count = df_corpus[df_corpus['bias_rating'] == 1]['bias_rating'].count()
-nb_count = df_corpus[df_corpus['bias_rating'] == 0]['bias_rating'].count()
-inconclusive_count = df_corpus[df_corpus['bias_rating'] == -1]['bias_rating'].count()
+total_publishers = len(unique_publishers)
+total_locations = len(df_corpus['location'].dropna().unique())
 
 # Get today's date
 date_today = datetime.today().strftime('%B %d, %Y')
@@ -376,9 +374,6 @@ def update_homepage_chart2():
 def update_homepage_chart3():
     filtered_df = df_corpus.copy()
 
-    # Focus on VB/B articles only
-    filtered_df = filtered_df[filtered_df['bias_rating']>=1]
-
     # Filter latest scraped date for homepage
     start_date = pd.to_datetime(str(df_corpus['date_published'].max()))
     end_date = pd.to_datetime(str(df_corpus['date_published'].max()))
@@ -416,7 +411,7 @@ def update_homepage_chart3():
         filtered_df['bias_category_label'] = pd.Categorical(filtered_df['bias_category_label'], labels, ordered=True)
         bias_counts = filtered_df.groupby('bias_category_label', observed=True)['count'].sum()
         total_articles = filtered_df[filtered_df['count']>=1]['article_url'].nunique()
-        percentage_of_total = (count / total_articles * 100) if total_articles > 0 else 0
+        percentage_of_total = (articles / total_articles * 100) if total_articles > 0 else 0
         
         # Predefine colors for the top 5 topics
         colors = ['#4185A0', '#AA4D71', '#B85C3B', '#C5BE71', '#7658A0']
@@ -1062,7 +1057,7 @@ main_layout = html.Div(children=[
                     dbc.Button(
                         html.Div([
                             html.Div(f'{total_articles}', style={'font-size': '55px', 'font-weight': 'bolder'}),
-                            html.Div('Total Articles', style={'font-size': '18px', 'margin-top': '0px'})
+                            html.Div('Articles', style={'font-size': '18px', 'margin-top': '0px'})
                         ], style={'text-align': 'center'}),
                         id='total-articles-card',
                         style={
@@ -1090,14 +1085,14 @@ main_layout = html.Div(children=[
                 html.A(
                     dbc.Button(
                         html.Div([
-                            html.Div(f'{vb_count}', style={'font-size': '55px', 'font-weight': 'bolder'}),
-                            html.Div('Very Biased Count', style={'font-size': '18px', 'margin-top': '0px'})
+                            html.Div(f'{total_publishers}', style={'font-size': '55px', 'font-weight': 'bolder'}),
+                            html.Div('Publishers', style={'font-size': '18px', 'margin-top': '0px'})
                         ], style={'text-align': 'center'}),
                         id='total-publishers-card',
                         style={
                             'width': '98%',
                             'height': '100%',
-                            'background-color': '#C22625',
+                            'background-color': '#E7E5E3',
                             'color': '#2E2C2B',
                             'border': 'none',
                             'display': 'flex',
@@ -1118,14 +1113,14 @@ main_layout = html.Div(children=[
                 html.A(
                     dbc.Button(
                         html.Div([
-                            html.Div(f'{b_count}', style={'font-size': '55px', 'font-weight': 'bolder'}),
-                            html.Div('Biased Count', style={'font-size': '18px', 'margin-top': '0px'})
+                            html.Div(f'{total_locations}', style={'font-size': '55px', 'font-weight': 'bolder'}),
+                            html.Div('Locations', style={'font-size': '18px', 'margin-top': '0px'})
                         ], style={'text-align': 'center'}),
                         id='total-locations-card',
                         style={
                             'width': '98%',
                             'height': '100%',
-                            'background-color': '#eb8483', 
+                            'background-color': '#E7E5E3',
                             'color': '#2E2C2B',
                             'border': 'none',
                             'display': 'flex',
@@ -1141,63 +1136,7 @@ main_layout = html.Div(children=[
                     target="_blank",
                     style={'text-decoration': 'none', 'width': '100%', 'height': '100%'}
                 )
-            ),
-            html.Div(
-                html.A(
-                    dbc.Button(
-                        html.Div([
-                            html.Div(f'{nb_count}', style={'font-size': '55px', 'font-weight': 'bolder'}),
-                            html.Div('Not Biased Count', style={'font-size': '18px', 'margin-top': '0px'})
-                        ], style={'text-align': 'center'}),
-                        id='total-locations-card',
-                        style={
-                            'width': '98%',
-                            'height': '100%',
-                            'background-color': '#f2eadf',
-                            'color': '#2E2C2B',
-                            'border': 'none',
-                            'display': 'flex',
-                            'flex-direction': 'column',
-                            'justify-content': 'center',
-                            'align-items': 'center',
-                            'padding': '20px',
-                            'margin-top': '10px',
-                            'margin-left': '10px'
-                        }
-                    ),
-                    href='/total-locations-card',
-                    target="_blank",
-                    style={'text-decoration': 'none', 'width': '100%', 'height': '100%'}
-                )
-            ),
-            html.Div(
-                html.A(
-                    dbc.Button(
-                        html.Div([
-                            html.Div(f'{inconclusive_count}', style={'font-size': '55px', 'font-weight': 'bolder'}),
-                            html.Div('Inconclusive Count', style={'font-size': '18px', 'margin-top': '0px'})
-                        ], style={'text-align': 'center'}),
-                        id='total-locations-card',
-                        style={
-                            'width': '98%',
-                            'height': '100%',
-                            'background-color': '#CAC6C2',
-                            'color': '#2E2C2B',
-                            'border': 'none',
-                            'display': 'flex',
-                            'flex-direction': 'column',
-                            'justify-content': 'center',
-                            'align-items': 'center',
-                            'padding': '20px',
-                            'margin-top': '10px',
-                            'margin-left': '10px'
-                        }
-                    ),
-                    href='/total-locations-card',
-                    target="_blank",
-                    style={'text-decoration': 'none', 'width': '100%', 'height': '100%'}
-                )
-            ),
+            )
         ]
     ),
 
@@ -2479,7 +2418,7 @@ def update_table3(selected_start_date, selected_end_date, selected_publishers, s
         if id in ['top-offending-articles-bar-chart', 'export-button3']:
             filtered_df = df_corpus.copy()
 
-            # Apply filters for dates, publishers, and other criteria
+            # Apply filters for quarters, publishers, and topics
             if (selected_start_date is not None) & (selected_end_date is not None):
                 start_date = pd.to_datetime(str(selected_start_date))
                 end_date = pd.to_datetime(str(selected_end_date))
@@ -2492,39 +2431,27 @@ def update_table3(selected_start_date, selected_end_date, selected_publishers, s
                 filtered_df = filtered_df[filtered_df['topic'].str.contains('|'.join(selected_topics))]
                 topics = 'having any of the selected topics'
 
-            # label_map = {
-            #     -1: 'Inconclusive',
-            #     0: 'Not Biased',
-            #     1: 'Biased',
-            #     2: 'Very Biased'
-            # }
-            # filtered_df['bias_rating_label'] = filtered_df['bias_rating'].map(label_map)
-            # filtered_df['bias_rating_label'] = pd.Categorical(filtered_df['bias_rating_label'], categories=['Inconclusive', 'Not Biased', 'Biased', 'Very Biased'], ordered=True)
+            label_map = {
+                -1: 'Inconclusive',
+                0: 'Not Biased',
+                1: 'Biased',
+                2: 'Very Biased'
+            }
+            filtered_df['bias_rating_label'] = filtered_df['bias_rating'].map(label_map)
+            filtered_df['bias_rating_label'] = pd.Categorical(filtered_df['bias_rating_label'], categories=['Inconclusive', 'Not Biased', 'Biased', 'Very Biased'], ordered=True)
 
             if (clickData is not None) or (clickData is None and id == 'export-button3'):
                 bias = str(clickData['points'][0]['label'])
 
-                # Ensure this category is correctly mapped
-                category_map = {
-                    'Generalisation': 'generalisation',
-                    'Omit Due Prominence': 'prominence',
-                    'Negative Behaviour': 'negative_behaviour',
-                    'Misrepresentation': 'misrepresentation',
-                    'Headline': 'headline_or_imagery'
-                }
-
-                # Apply the bias category filter
-                filtered_df = filtered_df[filtered_df[category_map[bias]] > 0]
-
                 # Table title
                 main_title = f'Showing all articles that were rated <b>{bias}</b> by the model.'
-                keys = '<b>Legend: G =</b> Generalisation, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misrepresentation, <b>H =</b> Headline'
+                keys = '<b>Legend: G =</b> Generalisation, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misrepresentationn, <b>H =</b> Headline'
                 title_html = f'{main_title}<br>{keys}'
                 
                 title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(title_html)
 
                 # Apply formatting
-                # filtered_df = filtered_df[filtered_df['bias_rating_label'] == bias]
+                filtered_df = filtered_df[filtered_df['bias_rating_label'] == bias]
                 filtered_df['color'] = '#0066CB'
                 # filtered_df['color'] = np.select(
                 #     [
@@ -2538,21 +2465,6 @@ def update_table3(selected_start_date, selected_end_date, selected_publishers, s
                 #     '#2E2C2B'
                 # )
                 filtered_df['title_label'] = "<a href='" + filtered_df['article_url'] + "' target='_blank' style='color:" + filtered_df['color'] + ";'>" + filtered_df['title'] + "</a>"
-                filtered_df['bias_rating_label'] = np.select(
-                    [
-                        filtered_df['bias_rating'] == -1,
-                        filtered_df['bias_rating'] == 0,
-                        filtered_df['bias_rating'] == 1,
-                        filtered_df['bias_rating'] == 2
-                    ],
-                    [
-                        'Inconclusive',
-                        'Not Biased',
-                        'Biased',
-                        'Very Biased'
-                    ],
-                    default='Unknown'
-                )
 
                 categories = ['generalisation', 'prominence', 'negative_behaviour', 'misrepresentation', 'headline_or_imagery']
                 for category in categories:
@@ -2580,7 +2492,7 @@ def update_table3(selected_start_date, selected_end_date, selected_publishers, s
                     'explore_further': 'Explore Further'
                 }
 
-                # Dash Table
+                # Dash
                 filtered_df = filtered_df.sort_values('date_published_label_(yyyy-mm-dd)', ascending=False)[['publisher', 'title_label', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label'] + categories + ['explore_further']]
                 table = dash_table.DataTable(
                     css=[dict(selector="p", rule="margin:0; text-align:left")],
@@ -2640,7 +2552,6 @@ def update_table3(selected_start_date, selected_end_date, selected_publishers, s
 
     else:
         return [], None, {'display': 'none'}, {'display': 'none'}, ''
-
 
 
 
