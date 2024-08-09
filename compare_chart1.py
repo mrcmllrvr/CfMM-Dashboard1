@@ -428,7 +428,7 @@ def register_callbacks(app):
                     articles_list = []
                     tooltip_text_list = []
                     for publisher in filtered_df['publisher'].unique():
-                        total_biased_articles = filtered_df[filtered_df['publisher'] == publisher].shape[0]
+                        total_biased_articles = filtered_df[filtered_df['publisher'] == publisher]['article_url'].nunique()
                         articles = filtered_df[(filtered_df['publisher'] == publisher) & (filtered_df[category] == 1)].shape[0]
                         articles_list += [articles]
                         percentage_of_total = (articles / total_biased_articles * 100) if total_biased_articles > 0 else 0
@@ -628,7 +628,7 @@ def register_callbacks(app):
                         articles_list = []
                         tooltip_text_list = []
                         for publisher in filtered_df['publisher'].unique():
-                            total_biased_articles = filtered_df[filtered_df['publisher'] == publisher].shape[0]
+                            total_biased_articles = filtered_df[filtered_df['publisher'] == publisher]['article_url'].nunique()
                             articles = filtered_df[(filtered_df['publisher'] == publisher) & (filtered_df[category] == 1)].shape[0]
                             articles_list += [articles]
                             percentage_of_total = (articles / total_biased_articles * 100) if total_biased_articles > 0 else 0
