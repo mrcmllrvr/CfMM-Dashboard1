@@ -153,11 +153,11 @@ def update_homepage_chart1(color_by):
                     percentage_of_total = (articles / total_biased_articles) * 100 if total_biased_articles > 0 else 0
 
                     tooltip_text = (
-                        f"<b>Publisher: </b>{publisher}<br>"
+                        # f"<b>Publisher: </b>{publisher}<br>"
                         f"<b>Overall Bias Score: </b> {name}<br>"
                         f"<b>Count: </b>{articles}<br>"
                         f"<b>Proportion: </b>{percentage_of_total:.2f}%<br>"
-                        # f"<b>Percentage of Total:</b> {percentage_of_total:.2f}%"
+                        # f"<b>Percentage of Total:</b> {percentage_of_total:.1f}%"
                     )
 
                     showlegend = name not in legend_added
@@ -237,10 +237,10 @@ def update_homepage_chart1(color_by):
                     # Calculate the percentage of total articles for the current category
                     percentage_of_total = (articles / total_biased_articles * 100) if total_biased_articles > 0 else 0
                     tooltip_text = (
-                            f"<b>Publisher: </b>{publisher}<br>"
+                            # f"<b>Publisher: </b>{publisher}<br>"
                             f"<b>Category of Bias: </b>{category.replace('_', ' ').title().replace('Or', 'or')}<br>"
                             f"<b>Count: </b>{articles}<br>"
-                            f"<b>Proportion: </b>{percentage_of_total:.2f}%<br>"
+                            f"<b>Proportion: </b>{percentage_of_total:.1f}%<br>"
                             # f"Of the {total_biased_articles} articles, <b>{articles}</b> of them committed <b>{category.replace('_', ' ').title().replace('Or', 'or')}</b>.<br>"
                             # f"This accounts for <b>{percentage_of_total:.2f}%</b> of the total available articles for <b>{category.replace('_', ' ').title().replace('Or', 'or')}</b>.<br>"
                             # f"<b>Percentage of Total: </b>{percentage_of_total:.2f}%"
@@ -329,9 +329,9 @@ def update_homepage_chart2():
         data = []
         for i, (topic, count) in enumerate(topic_counts.items()):
             tooltip_text = (
-                f"<b>Topic: </b>{topic}<br>"
+                # f"<b>Topic: </b>{topic}<br>"
                 f"<b>Count: </b>{count}<br>"
-                f"<b>Proportion: </b>{count/total_articles:.2%}<br>"
+                f"<b>Proportion: </b>{count/total_articles:.1%}<br>"
                 # f"This accounts for <b>{count/total_articles:.2%}%</b> of the total available articles in the current selection.<br>"
                 # f"<b>Percentage of Total: </b>{count/total_articles:.2%}"
             )
@@ -423,9 +423,9 @@ def update_homepage_chart3():
         data = []
         for (bias, count) in bias_counts.items():
             tooltip_text = (
-                f"<b>Overall Bias Score: </b>{bias}<br>"
+                # f"<b>Overall Bias Score: </b>{bias}<br>"
                 f"<b>Count: </b>{count}<br>"
-                f"<b>Proportion: </b>{count/total_articles:.2%}<br>"
+                f"<b>Proportion: </b>{count/total_articles:.1%}<br>"
                 # f"This accounts for <b>{count/total_articles:.2%}%</b> of the total available articles in the current selection.<br>"
                 # f"<b>Percentage of Total: </b>{count/total_articles:.2%}"
             )
@@ -569,8 +569,8 @@ def update_homepage_chart4(text_by, ngram_value):
             raw_count = word_counts[word]
             percentage = (raw_count / total_words) * 100
             hover_texts.append(f"<b>Word: </b>{word}<br>"
-                            f"<b>Count: </b>{raw_count}<br>"
-                            f"<b>Proportion: </b>{percentage:.2f}%<br>"
+                            f"<b>Count: </b>{raw_count}"
+                            # f"<b>Proportion: </b>{percentage:.2f}%<br>"
                             #   f"The word <b>'{word}'</b> appeared <b>{raw_count}</b> times across all articles in the current selection.<br>"
                             #   f"This accounts for <b>{percentage:.2f}%</b> of the total available word/phrases.<br>"
                             )
@@ -1427,10 +1427,10 @@ def update_chart1(selected_start_date, selected_end_date, selected_publishers, s
                     percentage_of_total = (articles / total_biased_articles) * 100 if total_biased_articles > 0 else 0
     
                     tooltip_text = (
-                        f"<b>Publisher: </b>{publisher}<br>"
+                        # f"<b>Publisher: </b>{publisher}<br>"
                         f"<b>Overall Bias Score:</b> {name}<br>"
                         f"<b>Count:</b> {articles}<br>"
-                        f"<b>Proportion:</b> {percentage_of_total:.2f}%<br>"
+                        f"<b>Proportion:</b> {percentage_of_total:.1f}%<br>"
                         # f"This accounts for <b>{percentage_of_total:.2f}%</b> of the total available articles in the current selection.<br>"
                     )
     
@@ -1512,10 +1512,10 @@ def update_chart1(selected_start_date, selected_end_date, selected_publishers, s
                     # Calculate the percentage of total articles for the current category
                     percentage_of_total = (articles / total_biased_articles * 100) if total_biased_articles > 0 else 0
                     tooltip_text = (
-                            f"<b>Publisher: </b>{publisher}<br>"
+                            # f"<b>Publisher: </b>{publisher}<br>"
                             f"<b>Category of Bias: </b>{category.replace('_', ' ').title().replace('Or', 'or')}<br>"
                             f"<b>Count:</b> {articles}<br>"
-                            f"<b>Proportion:</b> {percentage_of_total:.2f}%<br>"
+                            f"<b>Proportion:</b> {percentage_of_total:.1f}%<br>"
                             # f"Of the {total_biased_articles} articles, <b>{articles}</b> of them committed <b>{category.replace('_', ' ').title().replace('Or', 'or')}</b>.<br>"
                             # f"This accounts for <b>{percentage_of_total:.2f}%</b> of the total available articles for <b>{category.replace('_', ' ').title().replace('Or', 'or')}</b>.<br>"
                     )
@@ -1619,9 +1619,9 @@ def update_chart2(selected_start_date, selected_end_date, selected_publishers, s
         data = []
         for i, (topic, count) in enumerate(topic_counts.items()):
             tooltip_text = (
-                f"<b>Topic: </b>{topic}<br>"
+                # f"<b>Topic: </b>{topic}<br>"
                 f"<b>Count: </b>{count}<br>"
-                f"<b>Proportion: </b>{count/total_articles:.2%}"
+                f"<b>Proportion: </b>{count/total_articles:.1%}"
                 # f"This accounts for <b>{count/total_articles:.2%}%</b> of the total available articles in the current selection.<br>"
                 # f"<b>Percentage of Total: </b>{count/total_articles:.2%}"
             )
@@ -1731,9 +1731,9 @@ def update_chart3(selected_start_date, selected_end_date, selected_publishers, s
         data = []
         for (bias, count) in bias_counts.items():
             tooltip_text = (
-                f"<b>Overall Bias Score: </b>{bias}<br>"
+                # f"<b>Overall Bias Score: </b>{bias}<br>"
                 f"<b>Count: </b>{count}<br>"
-                f"<b>Proportion: </b>{count/total_articles:.2%}<br>"
+                f"<b>Proportion: </b>{count/total_articles:.1%}<br>"
                 # f"This accounts for <b>{count/total_articles:.2%}%</b> of the total available articles in the current selection.<br>"
             )
 
@@ -1888,8 +1888,8 @@ def update_chart4(selected_start_date, selected_end_date, selected_publishers, s
             raw_count = word_counts[word]
             percentage = (raw_count / total_words) * 100
             hover_texts.append(f"<b>Word: </b>{word}<br>"
-                              f"<b>Count: </b>{raw_count}<br>"
-                              f"<b>Proportion: </b>{percentage:.2f}%<br>"
+                              f"<b>Count: </b>{raw_count}"
+                            #  f"<b>Proportion: </b>{percentage:.2f}%<br>"
                             #   f"The word <b>'{word}'</b> appeared <b>{raw_count}</b> times across all articles in the current selection.<br>"
                             #   f"This accounts for <b>{percentage:.2f}%</b> of the total available word/phrases.<br>"
                               f"<br>"
