@@ -306,9 +306,9 @@ def register_callbacks(app):
             data = []
             for i, (topic, count) in enumerate(topic_counts.items()):
                 tooltip_text = (
-                    f"<b>Topic: </b>{topic}<br>"
+                    # f"<b>Topic: </b>{topic}<br>"
                     f"<b>Count: </b>{count}<br>"
-                    f"<b>Proportion: </b>{count/total_articles:.2%}<br>"
+                    f"<b>Proportion: </b>{count/total_articles:.1%}<br>"
                     # f"This accounts for <b>{count/total_articles:.2%}%</b> of the total available articles in the current selection.<br>"
                 )
 
@@ -406,9 +406,9 @@ def register_callbacks(app):
             data = []
             for i, (topic, count) in enumerate(topic_counts.items()):
                 tooltip_text = (
-                    f"<b>Topic: </b>{topic}<br>"
+                    # f"<b>Topic: </b>{topic}<br>"
                     f"<b>Count: </b>{count}<br>"
-                    f"<b>Proportion: </b>{count/total_articles:.2%}<br>"
+                    f"<b>Proportion: </b>{count/total_articles:.1%}<br>"
                     # f"This accounts for <b>{count/total_articles:.2%}%</b> of the total available articles in the current selection.<br>"
                     # f"<b>Percentage of Total: </b>{count/total_articles:.2%}"
                 )
