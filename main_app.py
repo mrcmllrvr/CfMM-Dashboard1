@@ -2031,7 +2031,7 @@ def update_table1(selected_start_date, selected_end_date, selected_publishers, s
                 if color_by == 'bias_ratings':
                     # Table title
                     main_title = f'Showing all articles from <b>{start_date}</b> to <b>{end_date}</b> {topics}'
-                    keys = '<b>Legend: G =</b> Generalization, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misinterpretation, <b>H =</b> Headline'
+                    keys = '<b>Legend: G =</b> Generalisation, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misinterpretation, <b>H =</b> Headline'
                     title_html = f'{main_title}<br>{keys}'
                     title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(title_html)
 
@@ -2141,7 +2141,7 @@ def update_table1(selected_start_date, selected_end_date, selected_publishers, s
 
                 else:
                     main_title = f'Showing biased/very biased articles from <b>{publisher}</b> published <b>{start_date}</b> to <b>{end_date}</b> {topics}'
-                    keys = '<b>Legend: G =</b> Generalization, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misinterpretation, <b>H =</b> Headline'
+                    keys = '<b>Legend: G =</b> Generalisation, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misinterpretation, <b>H =</b> Headline'
                     title_html = f'{main_title}<br>{keys}'
                     title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(title_html)
 
@@ -2307,7 +2307,7 @@ def update_table2(selected_start_date, selected_end_date, selected_publishers, s
 
                 # Table title
                 main_title = f'Showing all articles about <b>{topic}</b>'
-                keys = '<b>Legend: G =</b> Generalization, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misinterpretation, <b>H =</b> Headline'
+                keys = '<b>Legend: G =</b> Generalisation, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misinterpretation, <b>H =</b> Headline'
                 title_html = f'{main_title}<br>{keys}'
                     
                 title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(title_html)
@@ -2487,7 +2487,7 @@ def update_table3(selected_start_date, selected_end_date, selected_publishers, s
 
                 # Table title
                 main_title = f'Showing all articles that were rated <b>{bias}</b> by the model.'
-                keys = '<b>Legend: G =</b> Generalization, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misinterpretation, <b>H =</b> Headline'
+                keys = '<b>Legend: G =</b> Generalisation, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misinterpretation, <b>H =</b> Headline'
                 title_html = f'{main_title}<br>{keys}'
                 
                 title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(title_html)
@@ -2656,7 +2656,7 @@ def update_table4(n_clicks_search, n_clicks_clear, selected_start_date, selected
 
             # Title
             main_title = f"Showing {filtered_df.shape[0]} articles having <b>'{search_word}'</b> in their <b>{text}</b>"
-            keys = '<b>Legend: G =</b> Generalization, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misinterpretation, <b>H =</b> Headline'
+            keys = '<b>Legend: G =</b> Generalisation, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misinterpretation, <b>H =</b> Headline'
             title_html = f'{main_title}<br>{keys}'
             
             title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(title_html)
