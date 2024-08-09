@@ -398,71 +398,21 @@ def update_homepage_chart3():
             }]
         }
 
-    else:
+    else: 
         # Aggregate count per bias rating
-        label_map = {
-                -1: 'Inconclusive',
-                0: 'Not Biased',
-                1: 'Biased',
-                2: 'Very Biased'
-            }
-        filtered_df['bias_rating_label'] = filtered_df['bias_rating'].map(label_map)
-        filtered_df['bias_rating_label'] = pd.Categorical(filtered_df['bias_rating_label'], categories=['Inconclusive', 'Not Biased', 'Biased', 'Very Biased'], ordered=True)
-        bias_counts = filtered_df.groupby('bias_rating_label', observed=True).size()
-        total_articles = bias_counts.sum()
+        categories = ['generalisation', 'prominence', 'negative_behaviour', 'misrepresentation', 'headline_or_imagery']
+        labels = ['Generalisation', 'Omit Due Prominence', 'Negative Behaviour', 'Misrepresentation', 'Headline']
+        label_map = dict(zip(categories, labels))
 
-        # Predefine colors for the top 5 topics
-        color_map = {
-                'Inconclusive': '#CAC6C2',
-                'Not Biased': '#f2eadf',
-                'Biased': '#eb8483',
-                'Very Biased': '#C22625'
-            }
+        filtered_df = filtered_df[['article_url']+categories].melt(id_vars='article_url')
+        filtered_df = filtered_df.sort_values(['article_url', 'variable'])
+        filtered_df.columns = ['article_url', 'bias_category', 'count']
+        filtered_df['bias_category_label'] = filtered_df['bias_category'].map(label_map)
+        filtered_df['bias_category_label'] = pd.Categorical(filtered_df['bias_category_label'], labels, ordered=True)
+        bias_counts = filtered_df.groupby('bias_category_label', observed=True)['count'].sum()
+        total_articles = filtered_df[filtered_df['count']>=1]['article_url'].nunique()
 
-        # Create bars for the bar chart
-        data = []
-        for (bias, count) in bias_counts.items():
-            tooltip_text = (
-                # f"<b>Overall Bias Score: </b>{bias}<br>"
-                f"<b>Count: </b>{count}<br>"
-                f"<b>Proportion: </b>{count/total_articles:.1%}<br>"
-                # f"This accounts for <b>{count/total_articles:.2%}%</b> of the total available articles in the current selection.<br>"
-                # f"<b>Percentage of Total: </b>{count/total_articles:.2%}"
-            )
-
-            bar = go.Bar(
-                y=[bias],
-                x=[count],
-                orientation='h',
-                marker=dict(color=color_map[bias]),
-                text=tooltip_text,
-                hoverinfo='text',
-                textposition='none'
-            )
-            data.append(bar)
-
-        # Update the layout
-        layout = go.Layout(
-            title='<b>Which category of bias is highest today?</b>',
-            xaxis=dict(title='Number of Articles'),
-            yaxis=dict(title='Bias Rating', tickmode='array', tickvals=list(range(len(bias_counts))), ticktext=bias_counts.index.tolist()),
-            hovermode='closest',
-            barmode='stack',
-            showlegend=False,
-            hoverlabel=dict(
-                align='left'
-            ),
-            template="simple_white",
-            plot_bgcolor='white',
-            paper_bgcolor='white',
-            font_color='#2E2C2B',
-            font_size=14,
-            height=800,
-            margin={'l': 150, 'r': 20, 'b': 40, 't': 40}
-        )
-
-        # If chart is empty, show text instead
-        if filtered_df.shape[0]==0:
+        if total_articles == 0:
             data = []
             layout = {
                 'xaxis': {'visible': False},
@@ -479,6 +429,52 @@ def update_homepage_chart3():
                     'font': {'size': 20, 'color': '#2E2C2B'}
                 }]
             }
+        
+        else:
+            # Predefine colors for the top 5 topics
+            colors = ['#4185A0', '#AA4D71', '#B85C3B', '#C5BE71', '#7658A0']
+            color_map = dict(zip(labels, colors))
+
+            # Create bars for the bar chart
+            data = []
+            for (bias, count) in bias_counts.items():
+                tooltip_text = (
+                    # f"<b>Overall Bias Score: </b>{bias}<br>"
+                    f"<b>Count:</b> {count}<br>"
+                    f"<b>Proportion:</b> {count/total_articles:.1%} (Among {total_articles} articles that committed<br>at least 1 category of bias, {count/total_articles:.1%} are {bias}.)"
+                    # f"<b>Percentage of Total: </b>{count/total_articles:.2%}"
+                )
+
+                bar = go.Bar(
+                    y=[bias],
+                    x=[count],
+                    orientation='h',
+                    marker=dict(color=color_map[bias]),
+                    text=tooltip_text,
+                    hoverinfo='text',
+                    textposition='none'
+                )
+                data.append(bar)
+
+            # Update the layout
+            layout = go.Layout(
+                title='<b>Which category of bias is highest today?</b>',
+                xaxis=dict(title='Number of Articles'),
+                yaxis=dict(title='Category of Bias', tickmode='array', tickvals=list(range(len(bias_counts))), ticktext=bias_counts.index.tolist()),
+                hovermode='closest',
+                barmode='stack',
+                showlegend=False,
+                hoverlabel=dict(
+                    align='left'
+                ),
+                template="simple_white",
+                plot_bgcolor='white',
+                paper_bgcolor='white',
+                font_color='#2E2C2B',
+                font_size=14,
+                height=800,
+                margin={'l': 150, 'r': 20, 'b': 40, 't': 40}
+            )
 
     return {'data': data, 'layout': layout}
 
@@ -1706,35 +1702,32 @@ def update_chart3(selected_start_date, selected_end_date, selected_publishers, s
             }]
         }
 
-    else:
+    else: 
         # Aggregate count per bias rating
-        label_map = {
-                -1: 'Inconclusive',
-                0: 'Not Biased',
-                1: 'Biased',
-                2: 'Very Biased'
-            }
-        filtered_df['bias_rating_label'] = filtered_df['bias_rating'].map(label_map)
-        filtered_df['bias_rating_label'] = pd.Categorical(filtered_df['bias_rating_label'], categories=['Inconclusive', 'Not Biased', 'Biased', 'Very Biased'], ordered=True)
-        bias_counts = filtered_df.groupby('bias_rating_label', observed=True).size()
-        total_articles = bias_counts.sum()
+        categories = ['generalisation', 'prominence', 'negative_behaviour', 'misrepresentation', 'headline_or_imagery']
+        labels = ['Generalisation', 'Omit Due Prominence', 'Negative Behaviour', 'Misrepresentation', 'Headline']
+        label_map = dict(zip(categories, labels))
 
+        filtered_df = filtered_df[['article_url']+categories].melt(id_vars='article_url')
+        filtered_df = filtered_df.sort_values(['article_url', 'variable'])
+        filtered_df.columns = ['article_url', 'bias_category', 'count']
+        filtered_df['bias_category_label'] = filtered_df['bias_category'].map(label_map)
+        filtered_df['bias_category_label'] = pd.Categorical(filtered_df['bias_category_label'], labels, ordered=True)
+        bias_counts = filtered_df.groupby('bias_category_label', observed=True)['count'].sum()
+        total_articles = filtered_df[filtered_df['count']>=1]['article_url'].nunique()
+        
         # Predefine colors for the top 5 topics
-        color_map = {
-                'Inconclusive': '#CAC6C2',
-                'Not Biased': '#f2eadf',
-                'Biased': '#eb8483',
-                'Very Biased': '#C22625'
-            }
+        colors = ['#4185A0', '#AA4D71', '#B85C3B', '#C5BE71', '#7658A0']
+        color_map = dict(zip(labels, colors))
 
         # Create bars for the bar chart
         data = []
         for (bias, count) in bias_counts.items():
             tooltip_text = (
                 # f"<b>Overall Bias Score: </b>{bias}<br>"
-                f"<b>Count: </b>{count}<br>"
-                f"<b>Proportion: </b>{count/total_articles:.1%}<br>"
-                # f"This accounts for <b>{count/total_articles:.2%}%</b> of the total available articles in the current selection.<br>"
+                f"<b>Count:</b> {count}<br>"
+                f"<b>Proportion:</b> {count/total_articles:.1%} (Among {total_articles} articles that committed<br>at least 1 category of bias, {count/total_articles:.1%} are {bias}.)"
+                # f"<b>Percentage of Total: </b>{count/total_articles:.2%}"
             )
 
             bar = go.Bar(
@@ -1752,7 +1745,7 @@ def update_chart3(selected_start_date, selected_end_date, selected_publishers, s
         layout = go.Layout(
             title='<b>Which category of bias is highest today?</b>',
             xaxis=dict(title='Number of Articles'),
-            yaxis=dict(title='Bias Rating', tickmode='array', tickvals=list(range(len(bias_counts))), ticktext=bias_counts.index.tolist()),
+            yaxis=dict(title='Category of Bias', tickmode='array', tickvals=list(range(len(bias_counts))), ticktext=bias_counts.index.tolist()),
             hovermode='closest',
             barmode='stack',
             showlegend=False,
@@ -1767,25 +1760,6 @@ def update_chart3(selected_start_date, selected_end_date, selected_publishers, s
             height=800,
             margin={'l': 150, 'r': 20, 'b': 40, 't': 40}
         )
-
-        # If chart is empty, show text instead
-        if filtered_df.shape[0]==0:
-            data = []
-            layout = {
-                'xaxis': {'visible': False},
-                'yaxis': {'visible': False},
-                'template': 'simple_white',
-                'height': 400,
-                'annotations': [{
-                    'text': 'No articles found in the current selection.',
-                    'showarrow': False,
-                    'xref': 'paper',
-                    'yref': 'paper',
-                    'x': 0.5,
-                    'y': 0.5,
-                    'font': {'size': 20, 'color': '#2E2C2B'}
-                }]
-            }
 
     return {'data': data, 'layout': layout}
 
