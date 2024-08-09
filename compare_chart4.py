@@ -765,17 +765,18 @@ def register_callbacks(app):
                 title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(title_html)
 
                 # Formatting
-                filtered_df['color'] = np.select(
-                    [
-                        filtered_df['bias_rating'] == 2,
-                        filtered_df['bias_rating'] == 1
-                    ],
-                    [
-                        'white',
-                        '#2E2C2B'
-                    ],
-                    '#2E2C2B'
-                )
+                filtered_df['color'] = '#0066CB'
+                # filtered_df['color'] = np.select(
+                #     [
+                #         filtered_df['bias_rating'] == 2,
+                #         filtered_df['bias_rating'] == 1
+                #     ],
+                #     [
+                #         'white',
+                #         '#2E2C2B'
+                #     ],
+                #     '#2E2C2B'
+                # )
                 filtered_df['title_label'] = "<a href='" + filtered_df['article_url'] + "' target='_blank' style='color:" + filtered_df['color'] + ";'>" + filtered_df['title'] + "</a>"
                 filtered_df['bias_rating_label'] = np.select(
                     [
@@ -831,24 +832,24 @@ def register_callbacks(app):
                     style_table={'margin': 'auto', 'padding': '0 5px', 'overflowX': 'auto', 'overflowY': 'auto'},
                     style_header={'textAlign': 'center', 'fontWeight': 'bold'},
                     style_data={'textAlign': 'left', 'padding': '5px', 'font-family': 'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
-                    style_data_conditional=[
-                        {
-                            'if': {
-                                'filter_query': '{bias_rating_label}="Very Biased"',
-                                'column_id': ['title_label', 'bias_rating_label']
-                            },
-                            'backgroundColor': '#C22625',
-                            'color': 'white'
-                        },
-                        {
-                            'if': {
-                                'filter_query': '{bias_rating_label}="Biased"',
-                                'column_id': ['title_label', 'bias_rating_label']
-                            },
-                            'backgroundColor': '#eb8483',
-                            'color': '#2E2C2B'
-                        }
-                    ],
+                    # style_data_conditional=[
+                    #     {
+                    #         'if': {
+                    #             'filter_query': '{bias_rating_label}="Very Biased"',
+                    #             'column_id': ['title_label', 'bias_rating_label']
+                    #         },
+                    #         'backgroundColor': '#C22625',
+                    #         'color': 'white'
+                    #     },
+                    #     {
+                    #         'if': {
+                    #             'filter_query': '{bias_rating_label}="Biased"',
+                    #             'column_id': ['title_label', 'bias_rating_label']
+                    #         },
+                    #         'backgroundColor': '#eb8483',
+                    #         'color': '#2E2C2B'
+                    #     }
+                    # ],
                     style_cell={'textAlign': 'left', 'padding': '5px', 'font-family':'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
                     style_cell_conditional=[
                         {'if': {'column_id': 'publisher'}, 'width': '150px'},
@@ -942,17 +943,18 @@ def register_callbacks(app):
                 title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(title_html)
 
                 # Formatting
-                filtered_df['color'] = np.select(
-                    [
-                        filtered_df['bias_rating'] == 2,
-                        filtered_df['bias_rating'] == 1
-                    ],
-                    [
-                        'white',
-                        '#2E2C2B'
-                    ],
-                    '#2E2C2B'
-                )
+                filtered_df['color'] = '#0066CB'
+                # filtered_df['color'] = np.select(
+                #     [
+                #         filtered_df['bias_rating'] == 2,
+                #         filtered_df['bias_rating'] == 1
+                #     ],
+                #     [
+                #         'white',
+                #         '#2E2C2B'
+                #     ],
+                #     '#2E2C2B'
+                # )
                 filtered_df['title_label'] = "<a href='" + filtered_df['article_url'] + "' target='_blank' style='color:" + filtered_df['color'] + ";'>" + filtered_df['title'] + "</a>"
                 filtered_df['bias_rating_label'] = np.select(
                     [
@@ -1008,24 +1010,24 @@ def register_callbacks(app):
                     style_table={'margin': 'auto', 'padding': '0 5px', 'overflowX': 'auto', 'overflowY': 'auto'},
                     style_header={'textAlign': 'center', 'fontWeight': 'bold'},
                     style_data={'textAlign': 'left', 'padding': '5px', 'font-family': 'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
-                    style_data_conditional=[
-                        {
-                            'if': {
-                                'filter_query': '{bias_rating_label}="Very Biased"',
-                                'column_id': ['title_label', 'bias_rating_label']
-                            },
-                            'backgroundColor': '#C22625',
-                            'color': 'white'
-                        },
-                        {
-                            'if': {
-                                'filter_query': '{bias_rating_label}="Biased"',
-                                'column_id': ['title_label', 'bias_rating_label']
-                            },
-                            'backgroundColor': '#eb8483',
-                            'color': '#2E2C2B'
-                        }
-                    ],
+                    # style_data_conditional=[
+                    #     {
+                    #         'if': {
+                    #             'filter_query': '{bias_rating_label}="Very Biased"',
+                    #             'column_id': ['title_label', 'bias_rating_label']
+                    #         },
+                    #         'backgroundColor': '#C22625',
+                    #         'color': 'white'
+                    #     },
+                    #     {
+                    #         'if': {
+                    #             'filter_query': '{bias_rating_label}="Biased"',
+                    #             'column_id': ['title_label', 'bias_rating_label']
+                    #         },
+                    #         'backgroundColor': '#eb8483',
+                    #         'color': '#2E2C2B'
+                    #     }
+                    # ],
                     style_cell={'textAlign': 'left', 'padding': '5px', 'font-family':'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
                     style_cell_conditional=[
                         {'if': {'column_id': 'publisher'}, 'width': '150px'},
