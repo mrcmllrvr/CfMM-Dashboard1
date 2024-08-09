@@ -2036,17 +2036,18 @@ def update_table1(selected_start_date, selected_end_date, selected_publishers, s
                     title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(title_html)
 
                     # Apply formatting
-                    filtered_df['color'] = np.select(
-                        [
-                            filtered_df['bias_rating'] == 2,
-                            filtered_df['bias_rating'] == 1
-                        ],
-                        [
-                            'white',
-                            '#2E2C2B'
-                        ],
-                        default='#2E2C2B'
-                    )
+                    filtered_df['color'] = '#0066CB'
+                    # filtered_df['color'] = np.select(
+                    #     [
+                    #         filtered_df['bias_rating'] == 2,
+                    #         filtered_df['bias_rating'] == 1
+                    #     ],
+                    #     [
+                    #         'white',
+                    #         '#2E2C2B'
+                    #     ],
+                    #     default='#2E2C2B'
+                    # )
                     filtered_df['title_label'] = "<a href='" + filtered_df['article_url'] + "' target='_blank' style='color:" + filtered_df['color'] + ";'>" + filtered_df['title'] + "</a>"
                     filtered_df['bias_rating_label'] = np.select(
                         [
@@ -2105,24 +2106,24 @@ def update_table1(selected_start_date, selected_end_date, selected_publishers, s
                         style_table={'margin': 'auto', 'padding': '0 5px', 'overflowX': 'auto', 'overflowY': 'auto'},
                         style_header={'textAlign': 'center', 'fontWeight': 'bold'},
                         style_data={'textAlign': 'left', 'padding': '5px', 'font-family': 'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
-                        style_data_conditional=[
-                            {
-                                'if': {
-                                    'filter_query': '{bias_rating_label}="Very Biased"',
-                                    'column_id': ['title_label', 'bias_rating_label']
-                                    },
-                                'backgroundColor': '#C22625',
-                                'color': 'white'
-                            },
-                            {
-                                'if': {
-                                    'filter_query': '{bias_rating_label}="Biased"',
-                                    'column_id': ['title_label', 'bias_rating_label']
-                                    },
-                                'backgroundColor': '#eb8483',
-                                'color': '#2E2C2B'
-                            }
-                        ],
+                        # style_data_conditional=[
+                        #     {
+                        #         'if': {
+                        #             'filter_query': '{bias_rating_label}="Very Biased"',
+                        #             'column_id': ['title_label', 'bias_rating_label']
+                        #             },
+                        #         'backgroundColor': '#C22625',
+                        #         'color': 'white'
+                        #     },
+                        #     {
+                        #         'if': {
+                        #             'filter_query': '{bias_rating_label}="Biased"',
+                        #             'column_id': ['title_label', 'bias_rating_label']
+                        #             },
+                        #         'backgroundColor': '#eb8483',
+                        #         'color': '#2E2C2B'
+                        #     }
+                        # ],
                         style_cell={'textAlign': 'left', 'padding': '5px', 'font-family':'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
                         style_cell_conditional=[
                             {'if': {'column_id': 'publisher'}, 'width': '150px'},
@@ -2144,18 +2145,18 @@ def update_table1(selected_start_date, selected_end_date, selected_publishers, s
                     keys = '<b>Legend: G =</b> Generalisation, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misinterpretation, <b>H =</b> Headline'
                     title_html = f'{main_title}<br>{keys}'
                     title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(title_html)
-
-                    filtered_df['color'] = np.select(
-                        [
-                            filtered_df['bias_rating'] == 2,
-                            filtered_df['bias_rating'] == 1
-                        ],
-                        [
-                            'white',
-                            '#2E2C2B'
-                        ],
-                        default='#2E2C2B'
-                    )
+                    filtered_df['color'] = '#0066CB'
+                    # filtered_df['color'] = np.select(
+                    #     [
+                    #         filtered_df['bias_rating'] == 2,
+                    #         filtered_df['bias_rating'] == 1
+                    #     ],
+                    #     [
+                    #         'white',
+                    #         '#2E2C2B'
+                    #     ],
+                    #     default='#2E2C2B'
+                    # )
                     filtered_df['title_label'] = "<a href='" + filtered_df['article_url'] + "' target='_blank' style='color:" + filtered_df['color'] + ";'>" + filtered_df['title'] + "</a>"
                     filtered_df['bias_rating_label'] = np.select(
                         [
@@ -2214,24 +2215,24 @@ def update_table1(selected_start_date, selected_end_date, selected_publishers, s
                         style_table={'margin': 'auto', 'padding': '0 5px', 'overflowX': 'auto', 'overflowY': 'auto'},
                         style_header={'textAlign': 'center', 'fontWeight': 'bold'},
                         style_data={'textAlign': 'left', 'padding': '5px', 'font-family': 'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
-                        style_data_conditional=[
-                            {
-                                'if': {
-                                    'filter_query': '{bias_rating_label}="Very Biased"',
-                                    'column_id': ['title_label', 'bias_rating_label']
-                                    },
-                                'backgroundColor': '#C22625',
-                                'color': 'white'
-                            },
-                            {
-                                'if': {
-                                    'filter_query': '{bias_rating_label}="Biased"',
-                                    'column_id': ['title_label', 'bias_rating_label']
-                                    },
-                                'backgroundColor': '#eb8483',
-                                'color': '#2E2C2B'
-                            }
-                        ],
+                        # style_data_conditional=[
+                        #     {
+                        #         'if': {
+                        #             'filter_query': '{bias_rating_label}="Very Biased"',
+                        #             'column_id': ['title_label', 'bias_rating_label']
+                        #             },
+                        #         'backgroundColor': '#C22625',
+                        #         'color': 'white'
+                        #     },
+                        #     {
+                        #         'if': {
+                        #             'filter_query': '{bias_rating_label}="Biased"',
+                        #             'column_id': ['title_label', 'bias_rating_label']
+                        #             },
+                        #         'backgroundColor': '#eb8483',
+                        #         'color': '#2E2C2B'
+                        #     }
+                        # ],
                         style_cell={'textAlign': 'left', 'padding': '5px', 'font-family':'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
                         style_cell_conditional=[
                             {'if': {'column_id': 'publisher'}, 'width': '150px'},
@@ -2315,17 +2316,18 @@ def update_table2(selected_start_date, selected_end_date, selected_publishers, s
 
                 # Apply formatting
                 filtered_df = filtered_df[filtered_df['topic'].str.contains('|'.join([topic]))]
-                filtered_df['color'] = np.select(
-                    [
-                        filtered_df['bias_rating'] == 2,
-                        filtered_df['bias_rating'] == 1
-                    ],
-                    [
-                        'white',
-                        '#2E2C2B'
-                    ],
-                    '#2E2C2B'
-                )
+                filtered_df['color'] = '#0066CB'
+                # filtered_df['color'] = np.select(
+                #     [
+                #         filtered_df['bias_rating'] == 2,
+                #         filtered_df['bias_rating'] == 1
+                #     ],
+                #     [
+                #         'white',
+                #         '#2E2C2B'
+                #     ],
+                #     '#2E2C2B'
+                # )
                 filtered_df['title_label'] = "<a href='" + filtered_df['article_url'] + "' target='_blank' style='color:" + filtered_df['color'] + ";'>" + filtered_df['title'] + "</a>"
                 filtered_df['bias_rating_label'] = np.select(
                     [
@@ -2384,24 +2386,24 @@ def update_table2(selected_start_date, selected_end_date, selected_publishers, s
                     style_table={'margin': 'auto', 'padding': '0 5px', 'overflowX': 'auto', 'overflowY': 'auto'},
                     style_header={'textAlign': 'center', 'fontWeight': 'bold'},
                     style_data={'textAlign': 'left', 'padding': '5px', 'font-family': 'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
-                    style_data_conditional=[
-                        {
-                            'if': {
-                                'filter_query': '{bias_rating_label}="Very Biased"',
-                                'column_id': ['title_label', 'bias_rating_label']
-                            },
-                            'backgroundColor': '#C22625',
-                            'color': 'white'
-                        },
-                        {
-                            'if': {
-                                'filter_query': '{bias_rating_label}="Biased"',
-                                'column_id': ['title_label', 'bias_rating_label']
-                            },
-                            'backgroundColor': '#eb8483',
-                            'color': '#2E2C2B'
-                        }
-                    ],
+                    # style_data_conditional=[
+                    #     {
+                    #         'if': {
+                    #             'filter_query': '{bias_rating_label}="Very Biased"',
+                    #             'column_id': ['title_label', 'bias_rating_label']
+                    #         },
+                    #         'backgroundColor': '#C22625',
+                    #         'color': 'white'
+                    #     },
+                    #     {
+                    #         'if': {
+                    #             'filter_query': '{bias_rating_label}="Biased"',
+                    #             'column_id': ['title_label', 'bias_rating_label']
+                    #         },
+                    #         'backgroundColor': '#eb8483',
+                    #         'color': '#2E2C2B'
+                    #     }
+                    # ],
                     style_cell={'textAlign': 'left', 'padding': '5px', 'font-family':'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
                     style_cell_conditional=[
                         {'if': {'column_id': 'publisher'}, 'width': '150px'},
@@ -2494,17 +2496,18 @@ def update_table3(selected_start_date, selected_end_date, selected_publishers, s
 
                 # Apply formatting
                 filtered_df = filtered_df[filtered_df['bias_rating_label'] == bias]
-                filtered_df['color'] = np.select(
-                    [
-                        filtered_df['bias_rating'] == 2,
-                        filtered_df['bias_rating'] == 1
-                    ],
-                    [
-                        'white',
-                        '#2E2C2B'
-                    ],
-                    '#2E2C2B'
-                )
+                filtered_df['color'] = '#0066CB'
+                # filtered_df['color'] = np.select(
+                #     [
+                #         filtered_df['bias_rating'] == 2,
+                #         filtered_df['bias_rating'] == 1
+                #     ],
+                #     [
+                #         'white',
+                #         '#2E2C2B'
+                #     ],
+                #     '#2E2C2B'
+                # )
                 filtered_df['title_label'] = "<a href='" + filtered_df['article_url'] + "' target='_blank' style='color:" + filtered_df['color'] + ";'>" + filtered_df['title'] + "</a>"
 
                 categories = ['generalisation', 'prominence', 'negative_behaviour', 'misrepresentation', 'headline_or_imagery']
@@ -2549,24 +2552,24 @@ def update_table3(selected_start_date, selected_end_date, selected_publishers, s
                     style_table={'margin': 'auto', 'padding': '0 5px', 'overflowX': 'auto', 'overflowY': 'auto'},
                     style_header={'textAlign': 'center', 'fontWeight': 'bold'},
                     style_data={'textAlign': 'left', 'padding': '5px', 'font-family': 'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
-                    style_data_conditional=[
-                        {
-                            'if': {
-                                'filter_query': '{bias_rating_label}="Very Biased"',
-                                'column_id': ['title_label', 'bias_rating_label']
-                            },
-                            'backgroundColor': '#C22625',
-                            'color': 'white'
-                        },
-                        {
-                            'if': {
-                                'filter_query': '{bias_rating_label}="Biased"',
-                                'column_id': ['title_label', 'bias_rating_label']
-                            },
-                            'backgroundColor': '#eb8483',
-                            'color': '#2E2C2B'
-                        }
-                    ],
+                    # style_data_conditional=[
+                    #     {
+                    #         'if': {
+                    #             'filter_query': '{bias_rating_label}="Very Biased"',
+                    #             'column_id': ['title_label', 'bias_rating_label']
+                    #         },
+                    #         'backgroundColor': '#C22625',
+                    #         'color': 'white'
+                    #     },
+                    #     {
+                    #         'if': {
+                    #             'filter_query': '{bias_rating_label}="Biased"',
+                    #             'column_id': ['title_label', 'bias_rating_label']
+                    #         },
+                    #         'backgroundColor': '#eb8483',
+                    #         'color': '#2E2C2B'
+                    #     }
+                    # ],
                     style_cell={'textAlign': 'left', 'padding': '5px', 'font-family':'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
                     style_cell_conditional=[
                         {'if': {'column_id': 'publisher'}, 'width': '150px'},
@@ -2662,17 +2665,18 @@ def update_table4(n_clicks_search, n_clicks_clear, selected_start_date, selected
             title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(title_html)
 
             # Formatting
-            filtered_df['color'] = np.select(
-                [
-                    filtered_df['bias_rating'] == 2,
-                    filtered_df['bias_rating'] == 1
-                ],
-                [
-                    'white',
-                    '#2E2C2B'
-                ],
-                '#2E2C2B'
-            )
+            filtered_df['color'] = '#0066CB'
+            # filtered_df['color'] = np.select(
+            #     [
+            #         filtered_df['bias_rating'] == 2,
+            #         filtered_df['bias_rating'] == 1
+            #     ],
+            #     [
+            #         'white',
+            #         '#2E2C2B'
+            #     ],
+            #     '#2E2C2B'
+            # )
             filtered_df['title_label'] = "<a href='" + filtered_df['article_url'] + "' target='_blank' style='color:" + filtered_df['color'] + ";'>" + filtered_df['title'] + "</a>"
             filtered_df['bias_rating_label'] = np.select(
                 [
@@ -2728,24 +2732,24 @@ def update_table4(n_clicks_search, n_clicks_clear, selected_start_date, selected
                 style_table={'margin': 'auto', 'padding': '0 5px', 'overflowX': 'auto', 'overflowY': 'auto'},
                 style_header={'textAlign': 'center', 'fontWeight': 'bold'},
                 style_data={'textAlign': 'left', 'padding': '5px', 'font-family': 'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
-                style_data_conditional=[
-                    {
-                        'if': {
-                            'filter_query': '{bias_rating_label}="Very Biased"',
-                            'column_id': ['title_label', 'bias_rating_label']
-                        },
-                        'backgroundColor': '#C22625',
-                        'color': 'white'
-                    },
-                    {
-                        'if': {
-                            'filter_query': '{bias_rating_label}="Biased"',
-                            'column_id': ['title_label', 'bias_rating_label']
-                        },
-                        'backgroundColor': '#eb8483',
-                        'color': '#2E2C2B'
-                    }
-                ],
+                # style_data_conditional=[
+                #     {
+                #         'if': {
+                #             'filter_query': '{bias_rating_label}="Very Biased"',
+                #             'column_id': ['title_label', 'bias_rating_label']
+                #         },
+                #         'backgroundColor': '#C22625',
+                #         'color': 'white'
+                #     },
+                #     {
+                #         'if': {
+                #             'filter_query': '{bias_rating_label}="Biased"',
+                #             'column_id': ['title_label', 'bias_rating_label']
+                #         },
+                #         'backgroundColor': '#eb8483',
+                #         'color': '#2E2C2B'
+                #     }
+                # ],
                 style_cell={'textAlign': 'left', 'padding': '5px', 'font-family':'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
                 style_cell_conditional=[
                     {'if': {'column_id': 'publisher'}, 'width': '150px'},
