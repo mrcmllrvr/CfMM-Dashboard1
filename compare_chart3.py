@@ -302,9 +302,9 @@ def register_callbacks(app):
             data = []
             for (bias, count) in bias_counts.items():
                 tooltip_text = (
-                    f"<b>Bias Rating: </b>{bias}<br>"
+                    # f"<b>Bias Rating: </b>{bias}<br>"
                     f"<b>Count: </b>{count}<br>"
-                    f"<b>Proportion: </b>{count/total_articles:.2%}"
+                    f"<b>Proportion: </b>{count/total_articles:.1%}"
                     # f"This accounts for <b>{count/total_articles:.2%}%</b> of the total available articles in the current selection.<br>"
                     # f"<b>Percentage of Total: </b>{count/total_articles:.2%}"
                 )
@@ -433,9 +433,9 @@ def register_callbacks(app):
             data = []
             for (bias, count) in bias_counts.items():
                 tooltip_text = (
-                    f"<b>Bias Rating: </b>{bias}<br>"
+                    # f"<b>Bias Rating: </b>{bias}<br>"
                     f"<b>Count: </b>{count}<br>"
-                    f"<b>Proportion: </b>{count/total_articles:.2%}"
+                    f"<b>Proportion: </b>{count/total_articles:.1%}"
                     # f"This accounts for <b>{count/total_articles:.2%}%</b> of the total available articles in the current selection.<br>"
                     # f"<b>Percentage of Total: </b>{count/total_articles:.2%}"
                 )
