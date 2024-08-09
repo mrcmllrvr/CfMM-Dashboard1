@@ -731,7 +731,7 @@ def register_callbacks(app):
                     if color_by == 'bias_ratings':
                         # Table title
                         main_title = f'Showing all articles from <b>{start_date}</b> to <b>{end_date}</b> {topics}'
-                        keys = '<b>Legend: G =</b> Generalization, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misinterpretation, <b>H =</b> Headline'
+                        keys = '<b>Legend: G =</b> Generalisation, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misinterpretation, <b>H =</b> Headline'
                         title_html = f'{main_title}<br>{keys}'
                         title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(title_html)
 
@@ -841,7 +841,7 @@ def register_callbacks(app):
 
                     else:
                         main_title = f'Showing biased/very biased articles from <b>{publisher}</b> published <b>{start_date}</b> to <b>{end_date}</b> {topics}'
-                        keys = '<b>Legend: G =</b> Generalization, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misinterpretation, <b>H =</b> Headline'
+                        keys = '<b>Legend: G =</b> Generalisation, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misinterpretation, <b>H =</b> Headline'
                         title_html = f'{main_title}<br>{keys}'
                         title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(title_html)
 
@@ -1015,7 +1015,7 @@ def register_callbacks(app):
                     if color_by == 'bias_ratings':
                         # Table title
                         main_title = f'Showing all articles from <b>{start_date}</b> to <b>{end_date}</b> {topics}'
-                        keys = '<b>Legend: G =</b> Generalization, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misinterpretation, <b>H =</b> Headline'
+                        keys = '<b>Legend: G =</b> Generalisation, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misinterpretation, <b>H =</b> Headline'
                         title_html = f'{main_title}<br>{keys}'
                         title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(title_html)
 
@@ -1125,7 +1125,7 @@ def register_callbacks(app):
 
                     else:
                         main_title = f'Showing biased/very biased articles from <b>{publisher}</b> published <b>{start_date}</b> to <b>{end_date}</b> {topics}'
-                        keys = '<b>Legend: G =</b> Generalization, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misinterpretation, <b>H =</b> Headline'
+                        keys = '<b>Legend: G =</b> Generalisation, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misinterpretation, <b>H =</b> Headline'
                         title_html = f'{main_title}<br>{keys}'
                         title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(title_html)
 
