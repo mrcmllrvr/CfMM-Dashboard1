@@ -550,7 +550,7 @@ def register_callbacks(app):
 
                     # Table title
                     main_title = f'Showing all articles that were rated <b>{bias}</b> by the model.'
-                    keys = '<b>Legend: G =</b> Generalisation, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misinterpretation, <b>H =</b> Headline'
+                    keys = '<b>Legend: G =</b> Generalisation, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misrepresentation, <b>H =</b> Headline'
                     title_html = f'{main_title}<br>{keys}'
                     
                     title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(title_html)
@@ -716,7 +716,7 @@ def register_callbacks(app):
 
                     # Table title
                     main_title = f'Showing all articles that were rated <b>{bias}</b> by the model.'
-                    keys = '<b>Legend: G =</b> Generalisation, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misinterpretation, <b>H =</b> Headline'
+                    keys = '<b>Legend: G =</b> Generalisation, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misrepresentation, <b>H =</b> Headline'
                     title_html = f'{main_title}<br>{keys}'
                     
                     title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(title_html)
