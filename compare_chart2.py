@@ -296,7 +296,7 @@ def register_callbacks(app):
             # Aggregate topics
             filtered_df_exploded = filtered_df[['article_url', 'topic_list']].explode('topic_list')
             topic_counts = filtered_df_exploded.groupby('topic_list', observed=True).size().sort_values(ascending=False)
-            total_articles = topic_counts.sum()
+            total_articles = filtered_df_exploded['article_url'].nunique()
 
             # Predefine colors for the top 5 topics
             top_colors = ['#4185A0', '#AA4D71', '#B85C3B', '#C5BE71', '#7658A0']
@@ -396,7 +396,7 @@ def register_callbacks(app):
             # Aggregate topics
             filtered_df_exploded = filtered_df[['article_url', 'topic_list']].explode('topic_list')
             topic_counts = filtered_df_exploded.groupby('topic_list', observed=True).size().sort_values(ascending=False)
-            total_articles = topic_counts.sum()
+            total_articles = filtered_df_exploded['article_url'].nunique()
 
             # Predefine colors for the top 5 topics
             top_colors = ['#4185A0', '#AA4D71', '#B85C3B', '#C5BE71', '#7658A0']
