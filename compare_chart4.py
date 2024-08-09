@@ -440,8 +440,8 @@ def register_callbacks(app):
                 raw_count = word_counts[word]
                 percentage = (raw_count / total_words) * 100
                 hover_texts.append(f"<b>Word: </b>{word}<br>"
-                                   f"<b>Count: </b>{raw_count}<br>"
-                                   f"<b>Proportion: </b>{percentage:.2f}%<br>"
+                                   f"<b>Count: </b>{raw_count}"
+                                   # f"<b>Proportion: </b>{percentage:.2f}%<br>"
                                 # f"The word <b>'{word}'</b> appeared <b>{raw_count}</b> times across all articles in the current selection.<br>"
                                 # f"This accounts for <b>{percentage:.2f}%</b> of the total available word/phrases.<br>"
                                 f"<br>"
@@ -618,8 +618,8 @@ def register_callbacks(app):
                 raw_count = word_counts[word]
                 percentage = (raw_count / total_words) * 100
                 hover_texts.append(f"<b>Word: </b>{word}<br>"
-                                   f"<b>Count: </b>{raw_count}<br>"
-                                   f"<b>Proportion: </b>{percentage:.2f}%<br>"
+                                   f"<b>Count: </b>{raw_count}"
+                                   # f"<b>Proportion: </b>{percentage:.2f}%<br>"
                                 # f"The word <b>'{word}'</b> appeared <b>{raw_count}</b> times across all articles in the current selection.<br>"
                                 # f"This accounts for <b>{percentage:.2f}%</b> of the total available word/phrases.<br>"
                                 f"<br>"
