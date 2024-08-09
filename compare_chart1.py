@@ -805,7 +805,7 @@ def register_callbacks(app):
                             page_size=20,
                             style_table={'margin': 'auto', 'padding': '0 5px', 'overflowX': 'auto', 'overflowY': 'auto'},
                             style_header={'textAlign': 'center', 'fontWeight': 'bold'},
-                            style_data={'textAlign': 'left', 'padding': '5px', 'font-family': 'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
+                            # style_data={'textAlign': 'left', 'padding': '5px', 'font-family': 'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
                             # style_data_conditional=[
                             #     {
                             #         'if': {
@@ -824,12 +824,12 @@ def register_callbacks(app):
                             #         'color': '#2E2C2B'
                             #     }
                             # ],
-                            style_cell={'textAlign': 'left', 'padding': '5px', 'font-family':'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
+                            style_cell={'textAlign': 'center', 'padding': '5px', 'font-family':'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
                             style_cell_conditional=[
                                 {'if': {'column_id': 'publisher'}, 'width': '150px'},
-                                {'if': {'column_id': 'title_label'}, 'width': '300px'},
+                                {'if': {'column_id': 'title_label'}, 'width': '300px', 'textAlign': 'left'},
                                 {'if': {'column_id': 'date_published_label_(yyyy-mm-dd)'}, 'width': '150px'},
-                                {'if': {'column_id': 'topic'}, 'width': '200px'},
+                                {'if': {'column_id': 'topic'}, 'width': '200px', 'textAlign': 'left'},
                                 {'if': {'column_id': 'bias_rating_label'}, 'width': '150px'},
                                 {'if': {'column_id': 'generalisation'}, 'width': '50px'},
                                 {'if': {'column_id': 'prominence'}, 'width': '50px'},
@@ -914,7 +914,7 @@ def register_callbacks(app):
                             page_size=20,
                             style_table={'margin': 'auto', 'padding': '0 5px', 'overflowX': 'auto', 'overflowY': 'auto'},
                             style_header={'textAlign': 'center', 'fontWeight': 'bold'},
-                            style_data={'textAlign': 'left', 'padding': '5px', 'font-family': 'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
+                            # style_data={'textAlign': 'left', 'padding': '5px', 'font-family': 'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
                             # style_data_conditional=[
                             #     {
                             #         'if': {
@@ -933,12 +933,12 @@ def register_callbacks(app):
                             #         'color': '#2E2C2B'
                             #     }
                             # ],
-                            style_cell={'textAlign': 'left', 'padding': '5px', 'font-family':'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
+                            style_cell={'textAlign': 'center', 'padding': '5px', 'font-family':'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
                             style_cell_conditional=[
                                 {'if': {'column_id': 'publisher'}, 'width': '150px'},
-                                {'if': {'column_id': 'title_label'}, 'width': '300px'},
+                                {'if': {'column_id': 'title_label'}, 'width': '300px', 'textAlign': 'left'},
                                 {'if': {'column_id': 'date_published_label_(yyyy-mm-dd)'}, 'width': '150px'},
-                                {'if': {'column_id': 'topic'}, 'width': '200px'},
+                                {'if': {'column_id': 'topic'}, 'width': '200px', 'textAlign': 'left'},
                                 {'if': {'column_id': 'bias_rating_label'}, 'width': '150px'},
                                 {'if': {'column_id': 'generalisation'}, 'width': '50px'},
                                 {'if': {'column_id': 'prominence'}, 'width': '50px'},
@@ -1090,7 +1090,7 @@ def register_callbacks(app):
                             page_size=20,
                             style_table={'margin': 'auto', 'padding': '0 5px', 'overflowX': 'auto', 'overflowY': 'auto'},
                             style_header={'textAlign': 'center', 'fontWeight': 'bold'},
-                            style_data={'textAlign': 'left', 'padding': '5px', 'font-family': 'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
+                            # style_data={'textAlign': 'left', 'padding': '5px', 'font-family': 'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
                             # style_data_conditional=[
                             #     {
                             #         'if': {
@@ -1109,12 +1109,12 @@ def register_callbacks(app):
                             #         'color': '#2E2C2B'
                             #     }
                             # ],
-                            style_cell={'textAlign': 'left', 'padding': '5px', 'font-family':'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
+                            style_cell={'textAlign': 'center', 'padding': '5px', 'font-family':'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
                             style_cell_conditional=[
                                 {'if': {'column_id': 'publisher'}, 'width': '150px'},
-                                {'if': {'column_id': 'title_label'}, 'width': '300px'},
+                                {'if': {'column_id': 'title_label'}, 'width': '300px', 'textAlign': 'left'},
                                 {'if': {'column_id': 'date_published_label_(yyyy-mm-dd)'}, 'width': '150px'},
-                                {'if': {'column_id': 'topic'}, 'width': '200px'},
+                                {'if': {'column_id': 'topic'}, 'width': '200px', 'textAlign': 'left'},
                                 {'if': {'column_id': 'bias_rating_label'}, 'width': '150px'},
                                 {'if': {'column_id': 'generalisation'}, 'width': '50px'},
                                 {'if': {'column_id': 'prominence'}, 'width': '50px'},
@@ -1199,7 +1199,7 @@ def register_callbacks(app):
                             page_size=20,
                             style_table={'margin': 'auto', 'padding': '0 5px', 'overflowX': 'auto', 'overflowY': 'auto'},
                             style_header={'textAlign': 'center', 'fontWeight': 'bold'},
-                            style_data={'textAlign': 'left', 'padding': '5px', 'font-family': 'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
+                            # style_data={'textAlign': 'left', 'padding': '5px', 'font-family': 'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
                             # style_data_conditional=[
                             #     {
                             #         'if': {
@@ -1218,12 +1218,12 @@ def register_callbacks(app):
                             #         'color': '#2E2C2B'
                             #     }
                             # ],
-                            style_cell={'textAlign': 'left', 'padding': '5px', 'font-family':'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
+                            style_cell={'textAlign': 'center', 'padding': '5px', 'font-family':'sans-serif', 'whiteSpace': 'normal', 'height': 'auto'},
                             style_cell_conditional=[
                                 {'if': {'column_id': 'publisher'}, 'width': '150px'},
-                                {'if': {'column_id': 'title_label'}, 'width': '300px'},
+                                {'if': {'column_id': 'title_label'}, 'width': '300px', 'textAlign': 'left'},
                                 {'if': {'column_id': 'date_published_label_(yyyy-mm-dd)'}, 'width': '150px'},
-                                {'if': {'column_id': 'topic'}, 'width': '200px'},
+                                {'if': {'column_id': 'topic'}, 'width': '200px', 'textAlign': 'left'},
                                 {'if': {'column_id': 'bias_rating_label'}, 'width': '150px'},
                                 {'if': {'column_id': 'generalisation'}, 'width': '50px'},
                                 {'if': {'column_id': 'prominence'}, 'width': '50px'},
