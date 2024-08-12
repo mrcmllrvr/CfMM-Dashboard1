@@ -73,7 +73,7 @@ app = dash.Dash(__name__, external_stylesheets=stylesheets)
 # Define the comparison layout for Chart 3A and Chart 3B
 def create_layout():
     layout = html.Div(style={'justify-content': 'center'}, className='row', children=[
-        html.H1(children="Top Offending Articles", style={'textAlign': 'center'}),
+        html.H1(children="Top Overall Bias Score", style={'textAlign': 'center'}),
 
         # Chart 3A vs Chart 3B
         html.Div([
@@ -110,20 +110,20 @@ def create_layout():
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
             html.Div([
-                html.Label(['Category of Bias:'], style={'font-weight': 'bold', 'width': '20%'}),
+                html.Label(['Overall Bias Score:'], style={'font-weight': 'bold', 'width': '20%'}),
                 dcc.Dropdown(
-                id='chart3a-bias-category-dropdown',
-                options=[
-                    {'label': 'Generalisation', 'value': 'generalisation'},
-                    {'label': 'Prominence', 'value': 'prominence'},
-                    {'label': 'Negative Behaviour', 'value': 'negative_behaviour'},
-                    {'label': 'Misrepresentation', 'value': 'misrepresentation'},
-                    {'label': 'Headline or Imagery', 'value': 'headline_or_imagery'},
-                ],
-                placeholder='Select Category of Bias',
-                multi=True,
-                clearable=True,
-                style = {'width': '70%'}
+                    id='chart3a-bias-rating-dropdown',
+                    options=[
+                        {'label': 'Inconclusive', 'value':-1},
+                        {'label': 'Biased', 'value': 1},
+                        {'label': 'Very Biased', 'value': 2},
+                        {'label': 'Not Biased', 'value': 0},
+                    ],
+                    value=[1, 2],
+                    placeholder='Select Overall Bias Score',
+                    multi=True,
+                    clearable=True,
+                    style = {'width': '70%'}
                 )
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
@@ -186,20 +186,21 @@ def create_layout():
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
             html.Div([
-                html.Label(['Category of Bias:'], style={'font-weight': 'bold', 'width': '20%'}),
+                html.Label(['Overall Bias Score:'], style={'font-weight': 'bold', 'width': '20%'}),
                 dcc.Dropdown(
-                id='chart3b-bias-category-dropdown',
-                options=[
-                    {'label': 'Generalisation', 'value': 'generalisation'},
-                    {'label': 'Prominence', 'value': 'prominence'},
-                    {'label': 'Negative Behaviour', 'value': 'negative_behaviour'},
-                    {'label': 'Misrepresentation', 'value': 'misrepresentation'},
-                    {'label': 'Headline or Imagery', 'value': 'headline_or_imagery'},
-                ],
-                placeholder='Select Category of Bias',
-                multi=True,
-                clearable=True,
-                style = {'width': '70%'})
+                    id='chart3b-bias-rating-dropdown',
+                    options=[
+                        {'label': 'Inconclusive', 'value':-1},
+                        {'label': 'Biased', 'value': 1},
+                        {'label': 'Very Biased', 'value': 2},
+                        {'label': 'Not Biased', 'value': 0},
+                    ],
+                    value=[1, 2],
+                    placeholder='Select Overall Bias Score',
+                    multi=True,
+                    clearable=True,
+                    style = {'width': '70%'}
+                )
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
             html.Div([
@@ -231,19 +232,19 @@ def create_layout():
 
 
 def register_callbacks(app):
-    # Callback for Chart 3A
+    # Callback for Chart 3
     @app.callback(
         Output('top-offending-articles-bar-chart-3a', 'figure'),
         [
             Input('chart3a-datepickerrange', 'start_date'),
             Input('chart3a-datepickerrange', 'end_date'),
             Input('chart3a-publisher-dropdown', 'value'),
-            Input('chart3a-bias-category-dropdown', 'value'),
+            Input('chart3a-bias-rating-dropdown', 'value'),
             Input('chart3a-topic-dropdown', 'value')
         ]
     )
 
-    def update_chart3a(selected_start_date, selected_end_date, selected_publishers, selected_bias_categories, selected_topics):
+    def update_chart3a(selected_start_date, selected_end_date, selected_publishers, selected_bias_ratings, selected_topics):
         filtered_df = df_corpus.copy()
 
         # Apply filters for dates, publishers, ratings, and categories
@@ -253,8 +254,8 @@ def register_callbacks(app):
             filtered_df = filtered_df[(filtered_df['date_published']>=start_date) & (filtered_df['date_published']<=end_date)]
         if selected_publishers:
             filtered_df = filtered_df[filtered_df['publisher'].isin(selected_publishers)]
-        if selected_bias_categories:
-            filtered_df = filtered_df[filtered_df[selected_bias_categories].sum(axis=1) > 0]
+        if selected_bias_ratings:
+            filtered_df = filtered_df[filtered_df['bias_rating'].isin(selected_bias_ratings)]
         if selected_topics:
             filtered_df = filtered_df[filtered_df['topic'].str.contains('|'.join(selected_topics))]
 
@@ -285,10 +286,10 @@ def register_callbacks(app):
 
             filtered_df = filtered_df[['article_url']+categories].melt(id_vars='article_url')
             filtered_df = filtered_df.sort_values(['article_url', 'variable'])
-            filtered_df.columns = ['article_url', 'bias_category', 'count']
-            filtered_df['bias_category_label'] = filtered_df['bias_category'].map(label_map)
-            filtered_df['bias_category_label'] = pd.Categorical(filtered_df['bias_category_label'], labels, ordered=True)
-            bias_counts = filtered_df.groupby('bias_category_label', observed=True)['count'].sum()
+            filtered_df.columns = ['article_url', 'bias_rating', 'count']
+            filtered_df['bias_rating'] = filtered_df['bias_rating'].map(label_map)
+            filtered_df['bias_rating'] = pd.Categorical(filtered_df['bias_rating'], labels, ordered=True)
+            bias_counts = filtered_df.groupby('bias_rating', observed=True)['count'].sum()
             total_articles = filtered_df[filtered_df['count']>=1]['article_url'].nunique()
             
             # Predefine colors for the top 5 topics
@@ -318,9 +319,9 @@ def register_callbacks(app):
 
             # Update the layout
             layout = go.Layout(
-                title='<b>Which category of bias is highest today?</b>',
+                title='<b>Which overall bias score is highest today?</b>',
                 xaxis=dict(title='Number of Articles'),
-                yaxis=dict(title='Category of Bias', tickmode='array', tickvals=list(range(len(bias_counts))), ticktext=bias_counts.index.tolist()),
+                yaxis=dict(title='Overall Bias Score', tickmode='array', tickvals=list(range(len(bias_counts))), ticktext=bias_counts.index.tolist()),
                 hovermode='closest',
                 barmode='stack',
                 showlegend=False,
@@ -346,12 +347,12 @@ def register_callbacks(app):
             Input('chart3b-datepickerrange', 'start_date'),
             Input('chart3b-datepickerrange', 'end_date'),
             Input('chart3b-publisher-dropdown', 'value'),
-            Input('chart3b-bias-category-dropdown', 'value'),
+            Input('chart3b-bias-rating-dropdown', 'value'),
             Input('chart3b-topic-dropdown', 'value')
         ]
     )
 
-    def update_chart3b(selected_start_date, selected_end_date, selected_publishers, selected_bias_categories, selected_topics):
+    def update_chart3b(selected_start_date, selected_end_date, selected_publishers, selected_bias_ratings, selected_topics):
         filtered_df = df_corpus.copy()
 
         # Apply filters for dates, publishers, ratings, and categories
@@ -361,8 +362,8 @@ def register_callbacks(app):
             filtered_df = filtered_df[(filtered_df['date_published']>=start_date) & (filtered_df['date_published']<=end_date)]
         if selected_publishers:
             filtered_df = filtered_df[filtered_df['publisher'].isin(selected_publishers)]
-        if selected_bias_categories:
-            filtered_df = filtered_df[filtered_df[selected_bias_categories].sum(axis=1) > 0]
+        if selected_bias_ratings:
+            filtered_df = filtered_df[filtered_df['bias_rating'].isin(selected_bias_ratings)]
         if selected_topics:
             filtered_df = filtered_df[filtered_df['topic'].str.contains('|'.join(selected_topics))]
 
@@ -393,10 +394,10 @@ def register_callbacks(app):
 
             filtered_df = filtered_df[['article_url']+categories].melt(id_vars='article_url')
             filtered_df = filtered_df.sort_values(['article_url', 'variable'])
-            filtered_df.columns = ['article_url', 'bias_category', 'count']
-            filtered_df['bias_category_label'] = filtered_df['bias_category'].map(label_map)
-            filtered_df['bias_category_label'] = pd.Categorical(filtered_df['bias_category_label'], labels, ordered=True)
-            bias_counts = filtered_df.groupby('bias_category_label', observed=True)['count'].sum()
+            filtered_df.columns = ['article_url', 'bias_rating', 'count']
+            filtered_df['bias_rating'] = filtered_df['bias_rating'].map(label_map)
+            filtered_df['bias_rating'] = pd.Categorical(filtered_df['bias_rating'], labels, ordered=True)
+            bias_counts = filtered_df.groupby('bias_rating', observed=True)['count'].sum()
             total_articles = filtered_df[filtered_df['count']>=1]['article_url'].nunique()
             
             # Predefine colors for the top 5 topics
@@ -426,9 +427,9 @@ def register_callbacks(app):
 
             # Update the layout
             layout = go.Layout(
-                title='<b>Which category of bias is highest today?</b>',
+                title='<b>Which overall bias score is highest today?</b>',
                 xaxis=dict(title='Number of Articles'),
-                yaxis=dict(title='Category of Bias', tickmode='array', tickvals=list(range(len(bias_counts))), ticktext=bias_counts.index.tolist()),
+                yaxis=dict(title='Overall Bias Score', tickmode='array', tickvals=list(range(len(bias_counts))), ticktext=bias_counts.index.tolist()),
                 hovermode='closest',
                 barmode='stack',
                 showlegend=False,
@@ -460,14 +461,14 @@ def register_callbacks(app):
             Input('chart3a-datepickerrange', 'start_date'),
             Input('chart3a-datepickerrange', 'end_date'),
             Input('chart3a-publisher-dropdown', 'value'),
-            Input('chart3a-bias-category-dropdown', 'value'),
+            Input('chart3a-bias-rating-dropdown', 'value'),
             Input('chart3a-topic-dropdown', 'value'),
             Input('top-offending-articles-bar-chart-3a', 'clickData'),
             Input('clear-button3a', 'n_clicks')
         ]
     )
 
-    def update_table3a(selected_start_date, selected_end_date, selected_publishers, selected_bias_categories, selected_topics, clickData, n_clicks):
+    def update_table3a(selected_start_date, selected_end_date, selected_publishers, selected_bias_ratings, selected_topics, clickData, n_clicks):
         triggered = dash.callback_context.triggered
         topics = ''
 
@@ -484,8 +485,8 @@ def register_callbacks(app):
                     filtered_df = filtered_df[(filtered_df['date_published'] >= start_date) & (filtered_df['date_published'] <= end_date)]
                 if selected_publishers:
                     filtered_df = filtered_df[filtered_df['publisher'].isin(selected_publishers)]
-                if selected_bias_categories:
-                    filtered_df = filtered_df[filtered_df[selected_bias_categories].sum(axis=1) > 0]
+                if selected_bias_ratings:
+                    filtered_df = filtered_df[filtered_df['bias_rating'].isin(selected_bias_ratings)]
                 if selected_topics:
                     filtered_df = filtered_df[filtered_df['topic'].str.contains('|'.join(selected_topics))]
                     topics = 'having any of the selected topics'
@@ -633,14 +634,14 @@ def register_callbacks(app):
 
                 return [title], table, {'fontSize': 14, 'display': 'block'}, {'fontSize': 14, 'display': 'block', 'margin-left': '10px'}, csv_string
 
-            elif id in ['chart3a-datepickerrange', 'chart3a-publisher-dropdown', 'chart3a-bias-category-dropdown', 'chart3a-topic-dropdown', 'clear-button3a']:
+            elif id in ['chart3a-datepickerrange', 'chart3a-publisher-dropdown', 'chart3a-bias-rating-dropdown', 'chart3a-topic-dropdown', 'clear-button3a']:
                 return [], None, {'display': 'none'}, {'display': 'none'}, ''
 
         else:
             return [], None, {'display': 'none'}, {'display': 'none'}, ''
-        
-    
-    # Callback for Chart 3B
+
+
+    # Callback for Table 3B
     @app.callback(
         [
             Output('table3b-title', 'children'),
@@ -653,14 +654,14 @@ def register_callbacks(app):
             Input('chart3b-datepickerrange', 'start_date'),
             Input('chart3b-datepickerrange', 'end_date'),
             Input('chart3b-publisher-dropdown', 'value'),
-            Input('chart3b-bias-category-dropdown', 'value'),
+            Input('chart3b-bias-rating-dropdown', 'value'),
             Input('chart3b-topic-dropdown', 'value'),
             Input('top-offending-articles-bar-chart-3b', 'clickData'),
             Input('clear-button3b', 'n_clicks')
         ]
     )
 
-    def update_table3b(selected_start_date, selected_end_date, selected_publishers, selected_bias_categories, selected_topics, clickData, n_clicks):
+    def update_table3b(selected_start_date, selected_end_date, selected_publishers, selected_bias_ratings, selected_topics, clickData, n_clicks):
         triggered = dash.callback_context.triggered
         topics = ''
 
@@ -677,8 +678,8 @@ def register_callbacks(app):
                     filtered_df = filtered_df[(filtered_df['date_published'] >= start_date) & (filtered_df['date_published'] <= end_date)]
                 if selected_publishers:
                     filtered_df = filtered_df[filtered_df['publisher'].isin(selected_publishers)]
-                if selected_bias_categories:
-                    filtered_df = filtered_df[filtered_df[selected_bias_categories].sum(axis=1) > 0]
+                if selected_bias_ratings:
+                    filtered_df = filtered_df[filtered_df['bias_rating'].isin(selected_bias_ratings)]
                 if selected_topics:
                     filtered_df = filtered_df[filtered_df['topic'].str.contains('|'.join(selected_topics))]
                     topics = 'having any of the selected topics'
@@ -826,7 +827,7 @@ def register_callbacks(app):
 
                 return [title], table, {'fontSize': 14, 'display': 'block'}, {'fontSize': 14, 'display': 'block', 'margin-left': '10px'}, csv_string
 
-            elif id in ['chart3b-datepickerrange', 'chart3b-publisher-dropdown', 'chart3b-bias-category-dropdown', 'chart3b-topic-dropdown', 'clear-button3b']:
+            elif id in ['chart3b-datepickerrange', 'chart3b-publisher-dropdown', 'chart3b-bias-rating-dropdown', 'chart3b-topic-dropdown', 'clear-button3b']:
                 return [], None, {'display': 'none'}, {'display': 'none'}, ''
 
         else:
