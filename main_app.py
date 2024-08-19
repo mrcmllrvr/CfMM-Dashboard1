@@ -82,7 +82,7 @@ app = dash.Dash(__name__, external_stylesheets=stylesheets, suppress_callback_ex
 server = app.server
 
 # Define the main layout of the application
-app.layout = html.Div(children=[
+app.layout = html.Div(style={'backgroundColor': '#ffffff', 'height': '150vh', 'padding': '40px'}, children=[
     dcc.Location(id='url', refresh=False),
     html.Div(id='page-content')
 ])
@@ -632,8 +632,8 @@ def update_homepage_chart4(text_by, ngram_value):
 
 # Define the layout for the main page
 main_layout = html.Div(children=[
-    html.H4(date_today, style={'margin': '20px'}),
-    html.H1(children="Today's Insight/Metrics", style={'margin': '20px', 'height': '100px', 'font-weight': 'bolder'}),
+    html.H4(date_today),
+    html.H2(children="Today's Insight/Metrics", style={'margin': '0px', 'height': '100px', 'font-weight': 'bold'}),
 
     # Modals
     # Modal for Chart 1
@@ -1055,7 +1055,7 @@ main_layout = html.Div(children=[
     # Cards
     html.Div(
         id='left-column',
-        style={'width': '13%', 'float': 'left'},
+        style={'width': '15%', 'float': 'left', 'margin': '5px'},
         children=[
             html.Div(
                 html.A(
@@ -1068,9 +1068,10 @@ main_layout = html.Div(children=[
                         style={
                             'width': '98%',
                             'height': '100%',
-                            'background-color': '#E7E5E3',
+                            'background-color': '#f5f5f5',
                             'color': '#2E2C2B',
                             'border': 'none',
+                            'border-radius': '0px',
                             'display': 'flex',
                             'flex-direction': 'column',
                             'justify-content': 'center',
@@ -1100,6 +1101,7 @@ main_layout = html.Div(children=[
                             'background-color': '#C22625',
                             'color': '#2E2C2B',
                             'border': 'none',
+                            'border-radius': '0px',
                             'display': 'flex',
                             'flex-direction': 'column',
                             'justify-content': 'center',
@@ -1128,6 +1130,7 @@ main_layout = html.Div(children=[
                             'background-color': '#eb8483', 
                             'color': '#2E2C2B',
                             'border': 'none',
+                            'border-radius': '0px',
                             'display': 'flex',
                             'flex-direction': 'column',
                             'justify-content': 'center',
@@ -1156,6 +1159,7 @@ main_layout = html.Div(children=[
                             'background-color': '#f2eadf',
                             'color': '#2E2C2B',
                             'border': 'none',
+                            'border-radius': '0px',
                             'display': 'flex',
                             'flex-direction': 'column',
                             'justify-content': 'center',
@@ -1184,6 +1188,7 @@ main_layout = html.Div(children=[
                             'background-color': '#CAC6C2',
                             'color': '#2E2C2B',
                             'border': 'none',
+                            'border-radius': '0px',
                             'display': 'flex',
                             'flex-direction': 'column',
                             'justify-content': 'center',
@@ -1203,61 +1208,62 @@ main_layout = html.Div(children=[
 
 
     # Charts 1, 2, 3, and 4
-    html.Div(style={'width': '87%', 'float': 'right', "display": "grid", "grid-template-columns": "110%"}, className='row', children=[
+    html.Div(style={'width': '85%', 'float': 'right', "display": "grid", "grid-template-columns": "110%"}, className='row', children=[
 
         # Charts 1 and 2 side by side
         html.Div(className='row',children=[
 
-            # All elements for Chart 1
-            html.Div([
-                html.A(dbc.Button('Explore', id='explore-button1', style={'margin-left': '85%', 'width': '15%', 'display': 'grid', 'background-color': '#D90429'}),
-                    target="_blank",
-                    style={'text-decoration': 'none'},
-                    n_clicks=0),
+                # All elements for Chart 1
+                html.Div([
+                    html.A(dbc.Button('Explore', id='explore-button1', style={'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '0px', 'border': 'none'}),
+                        target="_blank",
+                        style={'text-decoration': 'none'},
+                        n_clicks=0),
 
-                html.A(dbc.Button('Compare', id='compare-button1', style={'margin-left': '85%', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
-                    href='/compare-chart-1', target="_blank",
-                    style={'text-decoration': 'none'}),
+                    html.A(dbc.Button('Compare', id='compare-button1', style={'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '0px', 'border': 'none'}),
+                        href='/compare-chart-1', target="_blank",
+                        style={'text-decoration': 'none'}),
 
-                ## TODO: Place Homepage Chart 1 elements here
-                # Toggle for color by bias ratings or bias categories
-                dcc.RadioItems(
-                    id='homepage-chart1-color-toggle',
-                    options=[
-                        {'label': '    Show bias ratings', 'value': 'bias_ratings'},
-                        {'label': '    Show bias categories', 'value': 'bias_categories'}
-                    ],
-                    value='bias_ratings',  # default value on load
-                    labelStyle={'display': 'inline-block'},
-                    inputStyle={"margin-left": "10px"},
-                    style = {'margin-bottom': '50px'}
+                    ## TODO: Place Homepage Chart 1 elements here
+                    # Toggle for color by bias ratings or bias categories
+                    dcc.RadioItems(
+                        id='homepage-chart1-color-toggle',
+                        options=[
+                            {'label': '    Show bias ratings', 'value': 'bias_ratings'},
+                            {'label': '    Show bias categories', 'value': 'bias_categories'}
+                        ],
+                        value='bias_ratings',  # default value on load
+                        labelStyle={'display': 'inline-block'},
+                        inputStyle={"margin-left": "10px"},
+                        style = {'margin-bottom': '50px'}
+                    ),
+
+                    # Graph for displaying the top offending publishers
+                    dcc.Graph(id='homepage-top-offending-publishers-bar-chart', style = {'margin-bottom': '50px'}),
+                    
+                ],style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'box-shadow': '0 8px 15px rgba(0, 0, 0, 0.2)', 'border-radius': '0px', 'padding': '5px', 'margin': '5px'}
+
                 ),
 
-                # Graph for displaying the top offending publishers
-                dcc.Graph(id='homepage-top-offending-publishers-bar-chart', style = {'margin-bottom': '50px'}),
-                
-            ],style={'width': '45%', 'display': 'inline-block','border': '1px solid black', 'border-radius': '5px', 'padding': '10px'},
-            ),
+
+                # All elements for Chart 2
+                html.Div([
+                    html.A(dbc.Button('Explore', id='explore-button2', style={'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '0px', 'border': 'none'}),
+                        target="_blank",
+                        style={'text-decoration': 'none'},
+                        n_clicks=0),
+
+                    html.A(dbc.Button('Compare', id='compare-button2', style={'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '0px', 'border': 'none'}),
+                        href='/compare-chart-2', target="_blank",
+                        style={'text-decoration': 'none'}),
 
 
-            # All elements for Chart 2
-            html.Div([
-                html.A(dbc.Button('Explore', id='explore-button2', style={'margin-left': '85%', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
-                    target="_blank",
-                    style={'text-decoration': 'none'},
-                    n_clicks=0),
+                    ## TODO: Place Homepage Chart 2 elements Here
+                    # Graph for displaying the top topics
+                    dcc.Graph(id='homepage-top-topics-bar-chart', figure=update_homepage_chart2(), style={'margin-bottom': '50px'}),
 
-                html.A(dbc.Button('Compare', id='compare-button2', style={'margin-left': '85%', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
-                    href='/compare-chart-2', target="_blank",
-                    style={'text-decoration': 'none'}),
-
-
-                ## TODO: Place Homepage Chart 2 elements Here
-                # Graph for displaying the top topics
-                dcc.Graph(id='homepage-top-topics-bar-chart', figure=update_homepage_chart2(), style={'margin-bottom': '50px'}),
-
-            ],style={'width': '45%', 'display': 'inline-block','border': '1px solid black', 'border-radius': '5px', 'padding': '10px'},
-            ),
+                ],style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'box-shadow': '0 8px 15px rgba(0, 0, 0, 0.2)', 'border-radius': '0px', 'padding': '5px', 'margin': '5px'}
+                ),
 
         ]),
 
@@ -1266,12 +1272,12 @@ main_layout = html.Div(children=[
 
             # All elements for Chart 3
             html.Div([
-                html.A(dbc.Button('Explore', id='explore-button3', style={'margin-left': '85%', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
+                html.A(dbc.Button('Explore', id='explore-button3', style={'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '0px', 'border': 'none'}),
                     target="_blank",
                     style={'text-decoration': 'none'},
                     n_clicks=0),
 
-                html.A(dbc.Button('Compare', id='compare-button3', style={'margin-left': '85%', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
+                html.A(dbc.Button('Compare', id='compare-button3', style={'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '0px', 'border': 'none'}),
                     href='/compare-chart-3', target="_blank",
                     style={'text-decoration': 'none'}),
 
@@ -1279,17 +1285,18 @@ main_layout = html.Div(children=[
                 # Graph for displaying the top topics
                 dcc.Graph(id='homepage-top-offending-articles-bar-chart', figure=update_homepage_chart3(), style = {'margin-bottom': '50px'}),
 
-            ],style={'width': '45%', 'display': 'inline-block','border': '1px solid black', 'border-radius': '5px', 'padding': '10px'},
+            ],style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'box-shadow': '0 8px 15px rgba(0, 0, 0, 0.2)', 'border-radius': '0px', 'padding': '5px', 'margin': '5px'}
+
             ),
 
             # All elements for Chart 4
             html.Div([
-                html.A(dbc.Button('Explore', id='explore-button4', style={'margin-left': '85%', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
+                html.A(dbc.Button('Explore', id='explore-button4', style={'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '0px', 'border': 'none'}),
                     target="_blank",
                     style={'text-decoration': 'none'},
                     n_clicks=0),
 
-                html.A(dbc.Button('Compare', id='compare-button4', style={'margin-left': '85%', 'width': '15%', 'display': 'block', 'background-color': '#D90429'}),
+                html.A(dbc.Button('Compare', id='compare-button4', style={'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '0px', 'border': 'none'}),
                     href='/compare-chart-4', target="_blank",
                     style={'text-decoration': 'none'}),
 
@@ -1309,7 +1316,8 @@ main_layout = html.Div(children=[
                         clearable=False,
                         style={'width': '70%'}
                     )
-                ], style={'display': 'flex', 'margin-bottom': '30px', 'align-items': 'center'}),
+                ], style={'display': 'flex', 'margin-bottom': '30px', 'align-items': 'center', }),
+                
 
                 # Toggle for headline-only or full-text word clouds
                 dcc.RadioItems(
@@ -1330,7 +1338,8 @@ main_layout = html.Div(children=[
 
 
             ], 
-                style={'width': '45%', 'display': 'inline-block','border': '1px solid black', 'border-radius': '5px', 'padding': '10px'},
+               style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'box-shadow': '0 8px 15px rgba(0, 0, 0, 0.2)', 'border-radius': '0px', 'padding': '5px', 'margin': '5px'}
+
             )
 
         ]),
