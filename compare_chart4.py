@@ -191,8 +191,8 @@ def create_layout():
             # Word search input and button
             html.Div([
                 html.Label(['Word Search:'], style={'font-weight': 'bold', 'width': '20%', 'display': 'block'}),
-                dcc.Input(id='word-search-4a', type='text', style={'width': '49%', 'display': 'block'}),
-                dbc.Button('Search', id='search-button4a', style={'margin-left': '30px', 'width': '10%', 'display': 'block'})
+                dcc.Input(id='word-search-4a', type='text', style={'width': '100%', 'display': 'block'}),
+                dbc.Button('Search', id='search-button4a', style={'margin-left': '2%', 'width': '20%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '0px', 'border': 'none'})
             ], style={'display': 'flex', 'margin-top': '30px', 'margin-bottom': '30px', 'align-items': 'center'}),
 
             # Graph for displaying the word cloud
@@ -322,8 +322,8 @@ def create_layout():
             # Word search input and button
             html.Div([
                 html.Label(['Word Search:'], style={'font-weight': 'bold', 'width': '20%', 'display': 'block'}),
-                dcc.Input(id='word-search-4b', type='text', style={'width': '49%', 'display': 'block'}),
-                dbc.Button('Search', id='search-button4b', style={'margin-left': '30px', 'width': '10%', 'display': 'block'})
+                dcc.Input(id='word-search-4b', type='text', style={'width': '100%', 'display': 'block'}),
+                dbc.Button('Search', id='search-button4b', style={'margin-left': '2%', 'width': '20%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '0px', 'border': 'none'})
             ], style={'display': 'flex', 'margin-top': '30px', 'margin-bottom': '30px', 'align-items': 'center'}),
 
             # Graph for displaying the word cloud
