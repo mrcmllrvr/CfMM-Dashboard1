@@ -72,8 +72,8 @@ app = dash.Dash(__name__, external_stylesheets=stylesheets)
 
 # Define the comparison layout for Chart 1A and Chart 1B
 def create_layout():
-    layout = html.Div(style={'justify-content': 'center'}, className='row', children=[
-        html.H1(children="Top Offending Publishers", style={'textAlign': 'center'}),
+    layout = html.Div(style={'justify-content': 'center', 'backgroundColor': '#ffffff'}, className='row', children=[
+        html.H2(children="Top Offending Publishers", style={'textAlign': 'center'}),
 
         # Chart 1A vs Chart 1B
         html.Div([
@@ -180,7 +180,7 @@ def create_layout():
                 dbc.Button('Export to CSV', id='export-button1a', style = {'display': 'none'})
             ], style={'display':'flex', 'margin-top': '10px', 'align-items': 'center'}),
         ],
-        style={'width': '48%', 'display': 'inline-block', 'border': '1px solid black'}),
+        style={'width': '48%', 'display': 'inline-block', 'backgroundColor': 'white', 'box-shadow': '0 8px 15px rgba(0, 0, 0, 0.2)', 'border-radius': '0px', 'padding': '10px', 'margin': '5px'}),
 
         # All elements for Chart 1B
         html.Div([
@@ -285,7 +285,7 @@ def create_layout():
                 dbc.Button('Export to CSV', id='export-button1b', style = {'display': 'none'})
             ], style={'display':'flex', 'margin-top': '10px', 'align-items': 'center'}),
         ],
-        style={'width': '48%', 'display': 'inline-block', 'border': '1px solid black'}),
+        style={'width': '48%', 'display': 'inline-block', 'backgroundColor': 'white', 'box-shadow': '0 8px 15px rgba(0, 0, 0, 0.2)', 'border-radius': '0px', 'padding': '10px', 'margin': '5px'}),
     ])
 
     return layout
