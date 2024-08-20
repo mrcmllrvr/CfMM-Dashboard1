@@ -632,8 +632,8 @@ def update_homepage_chart4(text_by, ngram_value):
 
 # Define the layout for the main page
 main_layout = html.Div(children=[
-    html.H4(date_today),
-    html.H2(children="Today's Insight/Metrics", style={'margin': '0px', 'height': '100px', 'font-weight': 'bold'}),
+    html.H4(date_today, style={'padding': '0.5%', 'height': '25px'}),
+    html.H2(children="Today's Insight/Metrics", style={'padding': '0.5%', 'height': '100px', 'font-weight': 'bold'}),
 
     # Modals
     # Modal for Chart 1
@@ -1055,7 +1055,7 @@ main_layout = html.Div(children=[
     # Cards
     html.Div(
         id='left-column',
-        style={'width': '15%', 'float': 'left', 'margin': '5px'},
+        style={'width': '15%', 'float': 'left', 'margin': '0px'},
         children=[
             html.Div(
                 html.A(
@@ -1241,7 +1241,7 @@ main_layout = html.Div(children=[
                     # Graph for displaying the top offending publishers
                     dcc.Graph(id='homepage-top-offending-publishers-bar-chart', style = {'margin-bottom': '50px'}),
                     
-                ],style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'box-shadow': '0 8px 15px rgba(0, 0, 0, 0.2)', 'border-radius': '0px', 'padding': '5px', 'margin': '5px'}
+                ],style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'box-shadow': '0 8px 15px rgba(0, 0, 0, 0.2)', 'border-radius': '0px', 'padding': '5px', 'margin-right': '5px', 'margin-left': '5px', 'margin-bottom': '10px'}
 
                 ),
 
@@ -1262,7 +1262,7 @@ main_layout = html.Div(children=[
                     # Graph for displaying the top topics
                     dcc.Graph(id='homepage-top-topics-bar-chart', figure=update_homepage_chart2(), style={'margin-bottom': '50px'}),
 
-                ],style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'box-shadow': '0 8px 15px rgba(0, 0, 0, 0.2)', 'border-radius': '0px', 'padding': '5px', 'margin': '5px'}
+                ],style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'box-shadow': '0 8px 15px rgba(0, 0, 0, 0.2)', 'border-radius': '0px', 'padding': '5px', 'margin-right': '5px', 'margin-left': '5px', 'margin-bottom': '10px'}
                 ),
 
         ]),
@@ -1285,7 +1285,7 @@ main_layout = html.Div(children=[
                 # Graph for displaying the top topics
                 dcc.Graph(id='homepage-top-offending-articles-bar-chart', figure=update_homepage_chart3(), style = {'margin-bottom': '50px'}),
 
-            ],style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'box-shadow': '0 8px 15px rgba(0, 0, 0, 0.2)', 'border-radius': '0px', 'padding': '5px', 'margin': '5px'}
+            ],style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'box-shadow': '0 8px 15px rgba(0, 0, 0, 0.2)', 'border-radius': '0px', 'padding': '5px', 'margin-right': '5px', 'margin-left': '5px', 'margin-bottom': '10px'}
 
             ),
 
@@ -1338,7 +1338,7 @@ main_layout = html.Div(children=[
 
 
             ], 
-               style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'box-shadow': '0 8px 15px rgba(0, 0, 0, 0.2)', 'border-radius': '0px', 'padding': '5px', 'margin': '5px'}
+               style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'box-shadow': '0 8px 15px rgba(0, 0, 0, 0.2)', 'border-radius': '0px', 'padding': '5px', 'margin-right': '5px', 'margin-left': '5px', 'margin-bottom': '10px'}
 
             )
 
