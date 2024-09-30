@@ -158,7 +158,7 @@ def create_layout():
             ], style={'display':'flex', 'margin-top': '10px', 'align-items': 'center'}),
 
         ],
-        style={'width': '48%', 'display': 'inline-block', 'backgroundColor': 'white', 'box-shadow': '0 8px 15px rgba(0, 0, 0, 0.2)', 'border-radius': '0px', 'padding': '10px', 'margin': '5px'}),
+        style={'width': '48%', 'display': 'inline-block', 'backgroundColor': 'white', 'border': '2px solid #d3d3d3', 'border-radius': '8px', 'padding': '10px', 'margin': '5px'}),
 
 
         # All elements for Chart 2B
@@ -240,7 +240,7 @@ def create_layout():
             ], style={'display':'flex', 'margin-top': '10px', 'align-items': 'center'}),
 
         ],
-        style={'width': '48%', 'display': 'inline-block', 'backgroundColor': 'white', 'box-shadow': '0 8px 15px rgba(0, 0, 0, 0.2)', 'border-radius': '0px', 'padding': '10px', 'margin': '5px'}),
+        style={'width': '48%', 'display': 'inline-block', 'backgroundColor': 'white', 'border': '2px solid #d3d3d3', 'border-radius': '8px', 'padding': '10px', 'margin': '5px'}),
 
     ])
 
