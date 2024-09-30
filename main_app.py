@@ -29,6 +29,11 @@ from wordcloud import WordCloud, STOPWORDS
 from sklearn.feature_extraction.text import CountVectorizer
 import urllib.parse
 
+import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg')
+import random
+
 import compare_chart1
 import compare_chart2
 import compare_chart3
@@ -467,168 +472,285 @@ def update_homepage_chart3():
 
 
 # Callback for Homepage Chart 4
+
+from threading import Lock
+import matplotlib.pyplot as plt
+
+plot_lock = Lock()
+
+# Helper function to generate a word cloud from word counts (Chart 4)
+def generate_word_cloud(word_counts, title):
+    sorted_words = sorted(word_counts.items(), key=lambda x: x[1], reverse=True)
+    top_10_words = {word: count for word, count in sorted_words[:10]}
+
+    # Define colors for the top 10 words
+    custom_colors = [
+        '#413F42',  # rank 10
+        '#6B2C32',  # rank 9
+        '#6B2C32',  # rank 8
+        '#983835',  # rank 7
+        '#983835',  # rank 6
+        '#BF4238',  # rank 5
+        '#BF4238',  # rank 4
+        '#C42625',  # rank 3
+        '#C42625',  # rank 2
+        '#C42625'   # rank 1
+    ]
+
+    def color_func(word, font_size, position, orientation, random_state=None, **kwargs):
+        if word in top_10_words:
+            rank = list(top_10_words.keys()).index(word)
+            return custom_colors[rank]  # Assign color based on rank
+        return '#CFCFCF'  # Default color for words outside top 10
+
+    with plot_lock:
+        wc = WordCloud(
+            background_color='white',
+            max_words=100,
+            width=1600,
+            height=1200,
+            scale=1.5,
+            margin=10,
+            max_font_size=100,
+            stopwords=set(STOPWORDS),
+            prefer_horizontal=0.9,
+            color_func=color_func  # Use the custom color function based on ranking
+        ).generate_from_frequencies(word_counts)
+
+
+    # Convert WordCloud to image and add title
+    img = BytesIO()
+    plt.figure(figsize=(10, 8), facecolor='white')
+    plt.imshow(wc, interpolation='bilinear')
+    plt.axis('off')
+    plt.title(title, fontsize=16, fontweight='bold', color='#2E2C2B', pad=20)
+    plt.tight_layout(pad=1, rect=[0, 0, 1, 1])
+    plt.savefig(img, format='png')
+    plt.close()
+
+    img.seek(0)
+    encoded_image = base64.b64encode(img.read()).decode()
+    return 'data:image/png;base64,{}'.format(encoded_image)
+
+
+# Generate no-data image if no articles found
+def generate_no_data_image():
+    img = BytesIO()
+    plt.figure(figsize=(8, 6), facecolor='white')
+    plt.text(0.5, 0.5, 'No articles found in the current selection.', horizontalalignment='center', verticalalignment='center', fontsize=20, color='#2E2C2B')
+    plt.axis('off')
+    plt.tight_layout(pad=0)
+    plt.savefig(img, format='png')
+    plt.close()
+    img.seek(0)
+    return 'data:image/png;base64,{}'.format(base64.b64encode(img.read()).decode())
+
+
+# Callback for Homepage Chart 4
 @app.callback(
-    Output('homepage-wordcloud-container', 'figure'),
+    Output('homepage-wordcloud-container', 'src'),
     [
         Input('homepage-chart4-text-toggle', 'value'),
         Input('homepage-chart4-ngram-dropdown', 'value')
     ]
 )
-def update_homepage_chart4(text_by, ngram_value):
+def update_homepage_chart4_static(text_by, ngram_value):
     filtered_df = df_corpus.copy()
 
     # Focus on B/VB articles only
     filtered_df = filtered_df[filtered_df['bias_rating']>=1]
 
-    # Filter latest scraped date for homepage
+    # # Filter latest scraped date for homepage
     start_date = pd.to_datetime(str(df_corpus['date_published'].max()))
     end_date = pd.to_datetime(str(df_corpus['date_published'].max()))
     filtered_df = filtered_df[(filtered_df['date_published']>=start_date) & (filtered_df['date_published']<=end_date)]
 
-    # If chart is empty, show text instead
-    if filtered_df.shape[0]==0:
-        data = []
-        layout = {
-            'xaxis': {'visible': False},
-            'yaxis': {'visible': False},
-            'template': 'simple_white',
-            'height': 400,
-            'annotations': [{
-                'text': 'No articles found in the current selection.',
-                'showarrow': False,
-                'xref': 'paper',
-                'yref': 'paper',
-                'x': 0.5,
-                'y': 0.5,
-                'font': {'size': 20, 'color': '#2E2C2B'}
-            }]
-        }
-        fig = go.Figure(data=data, layout=layout)
+    # If no data is found
+    if filtered_df.shape[0] == 0:
+        return generate_no_data_image()
 
-    else:
-        # Generate n-grams
-        text = ' '.join(filtered_df[text_by].dropna().values)
-        if ngram_value:
-            if len(ngram_value)>1:
-                ngram_range = (ngram_value[0], ngram_value[-1])
-            else:
-                ngram_range = (ngram_value[0], ngram_value[0])
+    # Step 2: Generate n-grams
+    text = ' '.join(filtered_df[text_by].dropna().values)
+    ngram_range = (1, 3)
+    if ngram_value:
+        if len(ngram_value) > 1:
+            ngram_range = (ngram_value[0], ngram_value[-1])
         else:
-            ngram_range = (1, 3)
-        vectorizer = CountVectorizer(ngram_range=ngram_range, stop_words='english')
-        ngram_counts = vectorizer.fit_transform([text])
-        ngram_freq = ngram_counts.toarray().flatten()
-        ngram_names = vectorizer.get_feature_names_out()
-        word_counts = dict(zip(ngram_names, ngram_freq))
+            ngram_range = (ngram_value[0], ngram_value[0])
 
-        total_words = sum(word_counts.values())
-        wc = WordCloud(background_color='white',
-                      max_words=100,
-                      width=1600,
-                      height=1200,
-                      scale=1.0,
-                      margin=100,
-                      max_font_size=100,
-                      stopwords=set(STOPWORDS)
-                      ).generate_from_frequencies(word_counts)
+    vectorizer = CountVectorizer(ngram_range=ngram_range, stop_words='english')
+    ngram_counts = vectorizer.fit_transform([text])
+    ngram_freq = ngram_counts.toarray().flatten()
+    ngram_names = vectorizer.get_feature_names_out()
+    word_counts = dict(zip(ngram_names, ngram_freq))
 
-        # Get word positions and frequencies
-        word_positions = wc.layout_
+    return generate_word_cloud(word_counts, "What are the trending words/phrases in today's biased/very biased articles?")
 
-        # Extract positions and other data for Scatter plot
-        words = []
-        x = []
-        y = []
-        sizes = []
-        hover_texts = []
-        frequencies = []
 
-        for (word, freq), font_size, position, orientation, color in word_positions:
-            words.append(word)
-            x.append(position[0])
-            y.append(position[1])
-            sizes.append(font_size)
-            frequencies.append(freq)
-            raw_count = word_counts[word]
-            percentage = (raw_count / total_words) * 100
-            hover_texts.append(f"<b>Word: </b>{word}<br>"
-                            f"<b>Count: </b>{raw_count}"
-                            # f"<b>Proportion: </b>{percentage:.2f}%<br>"
-                            #   f"The word <b>'{word}'</b> appeared <b>{raw_count}</b> times across all articles in the current selection.<br>"
-                            #   f"This accounts for <b>{percentage:.2f}%</b> of the total available word/phrases.<br>"
-                            )
 
-        # Identify top 10 words by frequency
-        top_10_indices = np.argsort(frequencies)[-10:]
-        colors = ['#CFCFCF'] * len(words)
-        custom_colors = [
-            # '#413F42', #top 5
-            # '#6B2C32',
-            # '#983835',
-            # '#BF4238',
-            # '#C42625', #top 1
+# @app.callback(
+#     Output('homepage-wordcloud-container', 'figure'),
+#     [
+#         Input('homepage-chart4-text-toggle', 'value'),
+#         Input('homepage-chart4-ngram-dropdown', 'value')
+#     ]
+# )
 
-            '#413F42', # top 10
+# def update_homepage_chart4(text_by, ngram_value):
+#     filtered_df = df_corpus.copy()
 
-            '#6B2C32', # top 9
-            '#6B2C32', # top 8
+#     # Focus on B/VB articles only
+#     filtered_df = filtered_df[filtered_df['bias_rating']>=1]
 
-            '#983835', # top 7
-            '#983835', # top 6
+#     # Filter latest scraped date for homepage
+#     start_date = pd.to_datetime(str(df_corpus['date_published'].max()))
+#     end_date = pd.to_datetime(str(df_corpus['date_published'].max()))
+#     filtered_df = filtered_df[(filtered_df['date_published']>=start_date) & (filtered_df['date_published']<=end_date)]
 
-            '#BF4238', # top 5
-            '#BF4238', # top 4
+#     # If chart is empty, show text instead
+#     if filtered_df.shape[0]==0:
+#         data = []
+#         layout = {
+#             'xaxis': {'visible': False},
+#             'yaxis': {'visible': False},
+#             'template': 'simple_white',
+#             'height': 400,
+#             'annotations': [{
+#                 'text': 'No articles found in the current selection.',
+#                 'showarrow': False,
+#                 'xref': 'paper',
+#                 'yref': 'paper',
+#                 'x': 0.5,
+#                 'y': 0.5,
+#                 'font': {'size': 20, 'color': '#2E2C2B'}
+#             }]
+#         }
+#         fig = go.Figure(data=data, layout=layout)
 
-            '#C42625', #top 3
-            '#C42625', #top 2
-            '#C42625', #top 1
-        ]
+#     else:
+#         # Generate n-grams
+#         text = ' '.join(filtered_df[text_by].dropna().values)
+#         if ngram_value:
+#             if len(ngram_value)>1:
+#                 ngram_range = (ngram_value[0], ngram_value[-1])
+#             else:
+#                 ngram_range = (ngram_value[0], ngram_value[0])
+#         else:
+#             ngram_range = (1, 3)
+#         vectorizer = CountVectorizer(ngram_range=ngram_range, stop_words='english')
+#         ngram_counts = vectorizer.fit_transform([text])
+#         ngram_freq = ngram_counts.toarray().flatten()
+#         ngram_names = vectorizer.get_feature_names_out()
+#         word_counts = dict(zip(ngram_names, ngram_freq))
 
-        # Apply custom colors to the top 10 words
-        for i, idx in enumerate(top_10_indices):
-            colors[idx] = custom_colors[i % len(custom_colors)]
+#         total_words = sum(word_counts.values())
+#         wc = WordCloud(background_color='white',
+#                       max_words=100,
+#                       width=1600,
+#                       height=1200,
+#                       scale=1.0,
+#                       margin=100,
+#                       max_font_size=100,
+#                       stopwords=set(STOPWORDS)
+#                       ).generate_from_frequencies(word_counts)
 
-        # Sort words by frequency to ensure top words appear on top
-        sorted_indices = np.argsort(frequencies)
-        words = [words[i] for i in sorted_indices]
-        x = [x[i] for i in sorted_indices]
-        y = [y[i] for i in sorted_indices]
-        sizes = [sizes[i] for i in sorted_indices]
-        hover_texts = [hover_texts[i] for i in sorted_indices]
-        colors = [colors[i] for i in sorted_indices]
+#         # Get word positions and frequencies
+#         word_positions = wc.layout_
 
-        # Create the Plotly figure with Scatter plot
-        fig = go.Figure()
+#         # Extract positions and other data for Scatter plot
+#         words = []
+#         x = []
+#         y = []
+#         sizes = []
+#         hover_texts = []
+#         frequencies = []
 
-        # Add words as Scatter plot points
-        fig.add_trace(go.Scatter(
-            x=x,
-            y=y,
-            mode='text',
-            text=words,
-            textfont=dict(size=sizes, color=colors),
-            hovertext=hover_texts,
-            hoverinfo='text'
-        ))
+#         for (word, freq), font_size, position, orientation, color in word_positions:
+#             words.append(word)
+#             x.append(position[0])
+#             y.append(position[1])
+#             sizes.append(font_size)
+#             frequencies.append(freq)
+#             raw_count = word_counts[word]
+#             percentage = (raw_count / total_words) * 100
+#             hover_texts.append(f"<b>Word: </b>{word}<br>"
+#                             f"<b>Count: </b>{raw_count}"
+#                             # f"<b>Proportion: </b>{percentage:.2f}%<br>"
+#                             #   f"The word <b>'{word}'</b> appeared <b>{raw_count}</b> times across all articles in the current selection.<br>"
+#                             #   f"This accounts for <b>{percentage:.2f}%</b> of the total available word/phrases.<br>"
+#                             )
 
-        # Update the layout to remove axes and make the word cloud bigger
-        fig.update_layout(
-            title="<b>What are the trending words/phrases in today's biased/very biased articles?</b>",
-            xaxis=dict(showgrid=False, zeroline=False, visible=False),
-            yaxis=dict(showgrid=False, zeroline=False, visible=False),
-            template='simple_white',
-            height=800,
-            plot_bgcolor='white',
-            paper_bgcolor='white',
-            font_color='#2E2C2B',
-            font_size=14,
-            margin={'l': 150, 'r': 20, 'b': 40, 't': 40}
-        )
+#         # Identify top 10 words by frequency
+#         top_10_indices = np.argsort(frequencies)[-10:]
+#         colors = ['#CFCFCF'] * len(words)
+#         custom_colors = [
+#             # '#413F42', #top 5
+#             # '#6B2C32',
+#             # '#983835',
+#             # '#BF4238',
+#             # '#C42625', #top 1
 
-        # Reverse the y-axis to match the word cloud orientation
-        fig.update_yaxes(autorange="reversed")
+#             '#413F42', # top 10
 
-    return fig
+#             '#6B2C32', # top 9
+#             '#6B2C32', # top 8
+
+#             '#983835', # top 7
+#             '#983835', # top 6
+
+#             '#BF4238', # top 5
+#             '#BF4238', # top 4
+
+#             '#C42625', #top 3
+#             '#C42625', #top 2
+#             '#C42625', #top 1
+#         ]
+
+#         # Apply custom colors to the top 10 words
+#         for i, idx in enumerate(top_10_indices):
+#             colors[idx] = custom_colors[i % len(custom_colors)]
+
+#         # Sort words by frequency to ensure top words appear on top
+#         sorted_indices = np.argsort(frequencies)
+#         words = [words[i] for i in sorted_indices]
+#         x = [x[i] for i in sorted_indices]
+#         y = [y[i] for i in sorted_indices]
+#         sizes = [sizes[i] for i in sorted_indices]
+#         hover_texts = [hover_texts[i] for i in sorted_indices]
+#         colors = [colors[i] for i in sorted_indices]
+
+#         # Create the Plotly figure with Scatter plot
+#         fig = go.Figure()
+
+#         # Add words as Scatter plot points
+#         fig.add_trace(go.Scatter(
+#             x=x,
+#             y=y,
+#             mode='text',
+#             text=words,
+#             textfont=dict(size=sizes, color=colors),
+#             hovertext=hover_texts,
+#             hoverinfo='text'
+#         ))
+
+#         # Update the layout to remove axes and make the word cloud bigger
+#         fig.update_layout(
+#             title="<b>What are the trending words/phrases in today's biased/very biased articles?</b>",
+#             xaxis=dict(showgrid=False, zeroline=False, visible=False),
+#             yaxis=dict(showgrid=False, zeroline=False, visible=False),
+#             template='simple_white',
+#             height=800,
+#             plot_bgcolor='white',
+#             paper_bgcolor='white',
+#             font_color='#2E2C2B',
+#             font_size=14,
+#             margin={'l': 150, 'r': 20, 'b': 40, 't': 40}
+#         )
+
+#         # Reverse the y-axis to match the word cloud orientation
+#         fig.update_yaxes(autorange="reversed")
+
+#     return fig
 
 # Define the layout for the main page
 main_layout = html.Div(children=[
@@ -1033,7 +1155,8 @@ main_layout = html.Div(children=[
                     ], style={'display': 'flex', 'margin-top': '30px', 'margin-bottom': '30px', 'align-items': 'center'}),
 
                     # Graph for displaying the word cloud
-                    dcc.Graph(id='wordcloud-container'),
+                    html.Img(id='wordcloud-container', style={'width': '100%'}),
+                    # dcc.Graph(id='wordcloud-container'),
 
                     # Table for displaying the result for word search
                     html.Div(id='table4-title', style={'fontSize': 20, 'color': '#2E2C2B', 'margin-bottom': '20px'}),
@@ -1071,7 +1194,7 @@ main_layout = html.Div(children=[
                             'background-color': '#f5f5f5',
                             'color': '#2E2C2B',
                             'border': 'none',
-                            'border-radius': '0px',
+                            'border-radius': '8px',
                             'display': 'flex',
                             'flex-direction': 'column',
                             'justify-content': 'center',
@@ -1101,7 +1224,7 @@ main_layout = html.Div(children=[
                             'background-color': '#C22625',
                             'color': '#2E2C2B',
                             'border': 'none',
-                            'border-radius': '0px',
+                            'border-radius': '8px',
                             'display': 'flex',
                             'flex-direction': 'column',
                             'justify-content': 'center',
@@ -1130,7 +1253,7 @@ main_layout = html.Div(children=[
                             'background-color': '#eb8483', 
                             'color': '#2E2C2B',
                             'border': 'none',
-                            'border-radius': '0px',
+                            'border-radius': '8px',
                             'display': 'flex',
                             'flex-direction': 'column',
                             'justify-content': 'center',
@@ -1159,7 +1282,7 @@ main_layout = html.Div(children=[
                             'background-color': '#f2eadf',
                             'color': '#2E2C2B',
                             'border': 'none',
-                            'border-radius': '0px',
+                            'border-radius': '8px',
                             'display': 'flex',
                             'flex-direction': 'column',
                             'justify-content': 'center',
@@ -1188,7 +1311,7 @@ main_layout = html.Div(children=[
                             'background-color': '#CAC6C2',
                             'color': '#2E2C2B',
                             'border': 'none',
-                            'border-radius': '0px',
+                            'border-radius': '8px',
                             'display': 'flex',
                             'flex-direction': 'column',
                             'justify-content': 'center',
@@ -1215,12 +1338,12 @@ main_layout = html.Div(children=[
 
                 # All elements for Chart 1
                 html.Div([
-                    html.A(dbc.Button('Explore', id='explore-button1', style={'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '0px', 'border': 'none'}),
+                    html.A(dbc.Button('Explore', id='explore-button1', style={'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
                         target="_blank",
                         style={'text-decoration': 'none'},
                         n_clicks=0),
 
-                    html.A(dbc.Button('Compare', id='compare-button1', style={'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '0px', 'border': 'none'}),
+                    html.A(dbc.Button('Compare', id='compare-button1', style={'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
                         href='/compare-chart-1', target="_blank",
                         style={'text-decoration': 'none'}),
 
@@ -1241,19 +1364,19 @@ main_layout = html.Div(children=[
                     # Graph for displaying the top offending publishers
                     dcc.Graph(id='homepage-top-offending-publishers-bar-chart', style = {'margin-bottom': '50px'}),
                     
-                ],style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'box-shadow': '0 8px 15px rgba(0, 0, 0, 0.2)', 'border-radius': '0px', 'padding': '5px', 'margin-right': '5px', 'margin-left': '5px', 'margin-bottom': '10px'}
+                ],style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'border': '2px solid #d3d3d3', 'border-radius': '8px', 'padding': '5px', 'margin-right': '5px', 'margin-left': '5px', 'margin-bottom': '10px'}
 
                 ),
 
 
                 # All elements for Chart 2
                 html.Div([
-                    html.A(dbc.Button('Explore', id='explore-button2', style={'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '0px', 'border': 'none'}),
+                    html.A(dbc.Button('Explore', id='explore-button2', style={'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
                         target="_blank",
                         style={'text-decoration': 'none'},
                         n_clicks=0),
 
-                    html.A(dbc.Button('Compare', id='compare-button2', style={'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '0px', 'border': 'none'}),
+                    html.A(dbc.Button('Compare', id='compare-button2', style={'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
                         href='/compare-chart-2', target="_blank",
                         style={'text-decoration': 'none'}),
 
@@ -1262,7 +1385,7 @@ main_layout = html.Div(children=[
                     # Graph for displaying the top topics
                     dcc.Graph(id='homepage-top-topics-bar-chart', figure=update_homepage_chart2(), style={'margin-bottom': '50px'}),
 
-                ],style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'box-shadow': '0 8px 15px rgba(0, 0, 0, 0.2)', 'border-radius': '0px', 'padding': '5px', 'margin-right': '5px', 'margin-left': '5px', 'margin-bottom': '10px'}
+                ],style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'border': '2px solid #d3d3d3', 'border-radius': '8px', 'padding': '5px', 'margin-right': '5px', 'margin-left': '5px', 'margin-bottom': '10px'}
                 ),
 
         ]),
@@ -1272,12 +1395,12 @@ main_layout = html.Div(children=[
 
             # All elements for Chart 3
             html.Div([
-                html.A(dbc.Button('Explore', id='explore-button3', style={'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '0px', 'border': 'none'}),
+                html.A(dbc.Button('Explore', id='explore-button3', style={'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
                     target="_blank",
                     style={'text-decoration': 'none'},
                     n_clicks=0),
 
-                html.A(dbc.Button('Compare', id='compare-button3', style={'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '0px', 'border': 'none'}),
+                html.A(dbc.Button('Compare', id='compare-button3', style={'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
                     href='/compare-chart-3', target="_blank",
                     style={'text-decoration': 'none'}),
 
@@ -1285,18 +1408,18 @@ main_layout = html.Div(children=[
                 # Graph for displaying the top topics
                 dcc.Graph(id='homepage-top-offending-articles-bar-chart', figure=update_homepage_chart3(), style = {'margin-bottom': '50px'}),
 
-            ],style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'box-shadow': '0 8px 15px rgba(0, 0, 0, 0.2)', 'border-radius': '0px', 'padding': '5px', 'margin-right': '5px', 'margin-left': '5px', 'margin-bottom': '10px'}
+            ],style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'border': '2px solid #d3d3d3', 'border-radius': '8px', 'padding': '5px', 'margin-right': '5px', 'margin-left': '5px', 'margin-bottom': '10px'}
 
             ),
 
             # All elements for Chart 4
             html.Div([
-                html.A(dbc.Button('Explore', id='explore-button4', style={'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '0px', 'border': 'none'}),
+                html.A(dbc.Button('Explore', id='explore-button4', style={'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
                     target="_blank",
                     style={'text-decoration': 'none'},
                     n_clicks=0),
 
-                html.A(dbc.Button('Compare', id='compare-button4', style={'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '0px', 'border': 'none'}),
+                html.A(dbc.Button('Compare', id='compare-button4', style={'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
                     href='/compare-chart-4', target="_blank",
                     style={'text-decoration': 'none'}),
 
@@ -1333,12 +1456,13 @@ main_layout = html.Div(children=[
                 ),
 
                 # Graph for displaying the word cloud
-                dcc.Graph(id='homepage-wordcloud-container'),
+                html.Img(id='homepage-wordcloud-container', style={'width': '100%'}),
+                # dcc.Graph(id='homepage-wordcloud-container'),
 
 
 
             ], 
-               style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'box-shadow': '0 8px 15px rgba(0, 0, 0, 0.2)', 'border-radius': '0px', 'padding': '5px', 'margin-right': '5px', 'margin-left': '5px', 'margin-bottom': '10px'}
+               style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'border': '2px solid #d3d3d3', 'border-radius': '8px', 'padding': '5px', 'margin-right': '5px', 'margin-left': '5px', 'margin-bottom': '10px'}
 
             )
 
@@ -1817,23 +1941,95 @@ def update_chart3(selected_start_date, selected_end_date, selected_publishers, s
 
 
 # Callback for Chart 4
+from threading import Lock
+import matplotlib.pyplot as plt
+
+plot_lock = Lock()
+
+# Helper function to generate a word cloud from word counts (Chart 4)
+def generate_word_cloud(word_counts, title):
+    sorted_words = sorted(word_counts.items(), key=lambda x: x[1], reverse=True)
+    top_10_words = {word: count for word, count in sorted_words[:10]}
+
+    # Define colors for the top 10 words
+    custom_colors = [
+        '#413F42',  # rank 10
+        '#6B2C32',  # rank 9
+        '#6B2C32',  # rank 8
+        '#983835',  # rank 7
+        '#983835',  # rank 6
+        '#BF4238',  # rank 5
+        '#BF4238',  # rank 4
+        '#C42625',  # rank 3
+        '#C42625',  # rank 2
+        '#C42625'   # rank 1
+    ]
+
+    def color_func(word, font_size, position, orientation, random_state=None, **kwargs):
+        if word in top_10_words:
+            rank = list(top_10_words.keys()).index(word)
+            return custom_colors[rank]  # Assign color based on rank
+        return '#CFCFCF'  # Default color for words outside top 10
+
+    with plot_lock:
+        wc = WordCloud(
+            background_color='white',
+            max_words=100,
+            width=1600,
+            height=1200,
+            scale=1.5,
+            margin=10,
+            max_font_size=100,
+            stopwords=set(STOPWORDS),
+            prefer_horizontal=0.9,
+            color_func=color_func  # Use the custom color function based on ranking
+        ).generate_from_frequencies(word_counts)
+
+
+    # Convert WordCloud to image and add title
+    img = BytesIO()
+    plt.figure(figsize=(10, 8), facecolor='white')
+    plt.imshow(wc, interpolation='bilinear')
+    plt.axis('off')
+    plt.title(title, fontsize=16, fontweight='bold', color='#2E2C2B', pad=20)
+    plt.tight_layout(pad=1, rect=[0, 0, 1, 1])
+    plt.savefig(img, format='png')
+    plt.close()
+
+    img.seek(0)
+    encoded_image = base64.b64encode(img.read()).decode()
+    return 'data:image/png;base64,{}'.format(encoded_image)
+
+
+# Generate no-data image if no articles found
+def generate_no_data_image():
+    img = BytesIO()
+    plt.figure(figsize=(8, 6), facecolor='white')
+    plt.text(0.5, 0.5, 'No articles found in the current selection.', horizontalalignment='center', verticalalignment='center', fontsize=20, color='#2E2C2B')
+    plt.axis('off')
+    plt.tight_layout(pad=0)
+    plt.savefig(img, format='png')
+    plt.close()
+    img.seek(0)
+    return 'data:image/png;base64,{}'.format(base64.b64encode(img.read()).decode())
+
+
+
+# Callback for Chart 4
 @app.callback(
-    Output('wordcloud-container', 'figure'),
-    [
-        Input('chart4-datepickerrange', 'start_date'),
+    Output('wordcloud-container', 'src'),
+    [Input('chart4-datepickerrange', 'start_date'),
         Input('chart4-datepickerrange', 'end_date'),
         Input('chart4-publisher-dropdown', 'value'),
         Input('chart4-topic-dropdown', 'value'),
         Input('chart4-bias-category-dropdown', 'value'),
         Input('chart4-bias-rating-dropdown', 'value'),
         Input('chart4-text-toggle', 'value'),
-        Input('chart4-ngram-dropdown', 'value')
-    ]
+        Input('chart4-ngram-dropdown', 'value')]
 )
-def update_chart4(selected_start_date, selected_end_date, selected_publishers, selected_topics, selected_bias_categories, selected_bias_ratings, text_by, ngram_value):
+def update_chart4_static(selected_start_date, selected_end_date, selected_publishers, selected_topics, selected_bias_categories, selected_bias_ratings, text_by, ngram_value):
+    # Step 1: Filter the data based on the selected inputs
     filtered_df = df_corpus.copy()
-
-    # Apply filters for dates, publishers, and topics
     if selected_start_date and selected_end_date:
         start_date = pd.to_datetime(selected_start_date)
         end_date = pd.to_datetime(selected_end_date)
@@ -1841,164 +2037,215 @@ def update_chart4(selected_start_date, selected_end_date, selected_publishers, s
     if selected_publishers:
         filtered_df = filtered_df[filtered_df['publisher'].isin(selected_publishers)]
     if selected_topics:
-        filtered_df = filtered_df[filtered_df['topic'].str.contains('|'.join(selected_topics))]
+        filtered_df = filtered_df[filtered_df['topic'].str.contains('|'.join(selected_topics), case=False, na=False)]
     if selected_bias_ratings:
         filtered_df = filtered_df[filtered_df['bias_rating'].isin(selected_bias_ratings)]
     if selected_bias_categories:
         filtered_df = filtered_df[filtered_df[selected_bias_categories].sum(axis=1) > 0]
 
-    # If chart is empty, show text instead
-    if filtered_df.shape[0]==0:
-        data = []
-        layout = {
-            'xaxis': {'visible': False},
-            'yaxis': {'visible': False},
-            'template': 'simple_white',
-            'height': 400,
-            'annotations': [{
-                'text': 'No articles found in the current selection.',
-                'showarrow': False,
-                'xref': 'paper',
-                'yref': 'paper',
-                'x': 0.5,
-                'y': 0.5,
-                'font': {'size': 20, 'color': '#2E2C2B'}
-            }]
-        }
-        fig = go.Figure(data=data, layout=layout)
+    # If no data is found
+    if filtered_df.shape[0] == 0:
+        return generate_no_data_image()
 
-    else:
-        # Generate n-grams
-        text = ' '.join(filtered_df[text_by].dropna().values)
-        if ngram_value:
-            if len(ngram_value)>1:
-                ngram_range = (ngram_value[0], ngram_value[-1])
-            else:
-                ngram_range = (ngram_value[0], ngram_value[0])
+    # Step 2: Generate n-grams
+    text = ' '.join(filtered_df[text_by].dropna().values)
+    ngram_range = (1, 3)
+    if ngram_value:
+        if len(ngram_value) > 1:
+            ngram_range = (ngram_value[0], ngram_value[-1])
         else:
-            ngram_range = (1, 3)
-        vectorizer = CountVectorizer(ngram_range=ngram_range, stop_words='english')
-        ngram_counts = vectorizer.fit_transform([text])
-        ngram_freq = ngram_counts.toarray().flatten()
-        ngram_names = vectorizer.get_feature_names_out()
-        word_counts = dict(zip(ngram_names, ngram_freq))
+            ngram_range = (ngram_value[0], ngram_value[0])
 
-        total_words = sum(word_counts.values())
-        wc = WordCloud(background_color='white',
-                      max_words=100,
-                      width=1600,
-                      height=1200,
-                      scale=1.5,
-                      margin=100,
-                      max_font_size=100,
-                      stopwords=set(STOPWORDS)
-                      ).generate_from_frequencies(word_counts)
+    vectorizer = CountVectorizer(ngram_range=ngram_range, stop_words='english')
+    ngram_counts = vectorizer.fit_transform([text])
+    ngram_freq = ngram_counts.toarray().flatten()
+    ngram_names = vectorizer.get_feature_names_out()
+    word_counts = dict(zip(ngram_names, ngram_freq))
 
-        # Get word positions and frequencies
-        word_positions = wc.layout_
+    return generate_word_cloud(word_counts, "What are the trending words/phrases in today's biased/very biased articles?")
 
-        # Extract positions and other data for Scatter plot
-        words = []
-        x = []
-        y = []
-        sizes = []
-        hover_texts = []
-        frequencies = []
+# @app.callback(
+#     Output('wordcloud-container', 'figure'),
+#     [
+#         Input('chart4-datepickerrange', 'start_date'),
+#         Input('chart4-datepickerrange', 'end_date'),
+#         Input('chart4-publisher-dropdown', 'value'),
+#         Input('chart4-topic-dropdown', 'value'),
+#         Input('chart4-bias-category-dropdown', 'value'),
+#         Input('chart4-bias-rating-dropdown', 'value'),
+#         Input('chart4-text-toggle', 'value'),
+#         Input('chart4-ngram-dropdown', 'value')
+#     ]
+# )
+# def update_chart4(selected_start_date, selected_end_date, selected_publishers, selected_topics, selected_bias_categories, selected_bias_ratings, text_by, ngram_value):
+#     filtered_df = df_corpus.copy()
 
-        for (word, freq), font_size, position, orientation, color in word_positions:
-            words.append(word)
-            x.append(position[0])
-            y.append(position[1])
-            sizes.append(font_size)
-            frequencies.append(freq)
-            raw_count = word_counts[word]
-            percentage = (raw_count / total_words) * 100
-            hover_texts.append(f"<b>Word: </b>{word}<br>"
-                              f"<b>Count: </b>{raw_count}"
-                            #  f"<b>Proportion: </b>{percentage:.2f}%<br>"
-                            #   f"The word <b>'{word}'</b> appeared <b>{raw_count}</b> times across all articles in the current selection.<br>"
-                            #   f"This accounts for <b>{percentage:.2f}%</b> of the total available word/phrases.<br>"
-                              f"<br>"
-                              f"Type <b>'{word}'</b> in the Word Search above to find out which articles used this word.")
-#                               f"<b>Percentage of Total: x</b>{percentage:.2f}%")
+#     # Apply filters for dates, publishers, and topics
+#     if selected_start_date and selected_end_date:
+#         start_date = pd.to_datetime(selected_start_date)
+#         end_date = pd.to_datetime(selected_end_date)
+#         filtered_df = filtered_df[(filtered_df['date_published'] >= start_date) & (filtered_df['date_published'] <= end_date)]
+#     if selected_publishers:
+#         filtered_df = filtered_df[filtered_df['publisher'].isin(selected_publishers)]
+#     if selected_topics:
+#         filtered_df = filtered_df[filtered_df['topic'].str.contains('|'.join(selected_topics))]
+#     if selected_bias_ratings:
+#         filtered_df = filtered_df[filtered_df['bias_rating'].isin(selected_bias_ratings)]
+#     if selected_bias_categories:
+#         filtered_df = filtered_df[filtered_df[selected_bias_categories].sum(axis=1) > 0]
 
-        # Identify top 10 words by frequency
-        top_10_indices = np.argsort(frequencies)[-10:]
-        colors = ['#CFCFCF'] * len(words)
-        custom_colors = [
-            # '#413F42', #top 5
-            # '#6B2C32',
-            # '#983835',
-            # '#BF4238',
-            # '#C42625', #top 1
+#     # If chart is empty, show text instead
+#     if filtered_df.shape[0]==0:
+#         data = []
+#         layout = {
+#             'xaxis': {'visible': False},
+#             'yaxis': {'visible': False},
+#             'template': 'simple_white',
+#             'height': 400,
+#             'annotations': [{
+#                 'text': 'No articles found in the current selection.',
+#                 'showarrow': False,
+#                 'xref': 'paper',
+#                 'yref': 'paper',
+#                 'x': 0.5,
+#                 'y': 0.5,
+#                 'font': {'size': 20, 'color': '#2E2C2B'}
+#             }]
+#         }
+#         fig = go.Figure(data=data, layout=layout)
 
-            '#413F42', # top 10
+#     else:
+#         # Generate n-grams
+#         text = ' '.join(filtered_df[text_by].dropna().values)
+#         if ngram_value:
+#             if len(ngram_value)>1:
+#                 ngram_range = (ngram_value[0], ngram_value[-1])
+#             else:
+#                 ngram_range = (ngram_value[0], ngram_value[0])
+#         else:
+#             ngram_range = (1, 3)
+#         vectorizer = CountVectorizer(ngram_range=ngram_range, stop_words='english')
+#         ngram_counts = vectorizer.fit_transform([text])
+#         ngram_freq = ngram_counts.toarray().flatten()
+#         ngram_names = vectorizer.get_feature_names_out()
+#         word_counts = dict(zip(ngram_names, ngram_freq))
 
-            '#6B2C32', # top 9
-            '#6B2C32', # top 8
+#         total_words = sum(word_counts.values())
+#         wc = WordCloud(background_color='white',
+#                       max_words=100,
+#                       width=1600,
+#                       height=1200,
+#                       scale=1.5,
+#                       margin=100,
+#                       max_font_size=100,
+#                       stopwords=set(STOPWORDS)
+#                       ).generate_from_frequencies(word_counts)
 
-            '#983835', # top 7
-            '#983835', # top 6
+#         # Get word positions and frequencies
+#         word_positions = wc.layout_
 
-            '#BF4238', # top 5
-            '#BF4238', # top 4
+#         # Extract positions and other data for Scatter plot
+#         words = []
+#         x = []
+#         y = []
+#         sizes = []
+#         hover_texts = []
+#         frequencies = []
 
-            '#C42625', #top 3
-            '#C42625', #top 2
-            '#C42625', #top 1
-        ]
+#         for (word, freq), font_size, position, orientation, color in word_positions:
+#             words.append(word)
+#             x.append(position[0])
+#             y.append(position[1])
+#             sizes.append(font_size)
+#             frequencies.append(freq)
+#             raw_count = word_counts[word]
+#             percentage = (raw_count / total_words) * 100
+#             hover_texts.append(f"<b>Word: </b>{word}<br>"
+#                               f"<b>Count: </b>{raw_count}"
+#                             #  f"<b>Proportion: </b>{percentage:.2f}%<br>"
+#                             #   f"The word <b>'{word}'</b> appeared <b>{raw_count}</b> times across all articles in the current selection.<br>"
+#                             #   f"This accounts for <b>{percentage:.2f}%</b> of the total available word/phrases.<br>"
+#                               f"<br>"
+#                               f"Type <b>'{word}'</b> in the Word Search above to find out which articles used this word.")
+# #                               f"<b>Percentage of Total: x</b>{percentage:.2f}%")
 
-        # Apply custom colors to the top 10 words
-        for i, idx in enumerate(top_10_indices):
-            colors[idx] = custom_colors[i % len(custom_colors)]
+#         # Identify top 10 words by frequency
+#         top_10_indices = np.argsort(frequencies)[-10:]
+#         colors = ['#CFCFCF'] * len(words)
+#         custom_colors = [
+#             # '#413F42', #top 5
+#             # '#6B2C32',
+#             # '#983835',
+#             # '#BF4238',
+#             # '#C42625', #top 1
 
-        # Sort words by frequency to ensure top words appear on top
-        sorted_indices = np.argsort(frequencies)
-        words = [words[i] for i in sorted_indices]
-        x = [x[i] for i in sorted_indices]
-        y = [y[i] for i in sorted_indices]
-        sizes = [sizes[i] for i in sorted_indices]
-        hover_texts = [hover_texts[i] for i in sorted_indices]
-        colors = [colors[i] for i in sorted_indices]
+#             '#413F42', # top 10
 
-        # Create the Plotly figure with Scatter plot
-        fig = go.Figure()
+#             '#6B2C32', # top 9
+#             '#6B2C32', # top 8
 
-        # Add words as Scatter plot points
-        fig.add_trace(go.Scatter(
-            x=x,
-            y=y,
-            mode='text',
-            text=words,
-            textfont=dict(size=sizes, color=colors),
-            hovertext=hover_texts,
-            hoverinfo='text'
-        ))
+#             '#983835', # top 7
+#             '#983835', # top 6
 
-        # Update the layout to remove axes and make the word cloud bigger
-        fig.update_layout(
-            title="<b>What are the trending words/phrases in today's biased/very biased articles?</b>",
-            xaxis=dict(showgrid=False, zeroline=False, visible=False),
-            yaxis=dict(showgrid=False, zeroline=False, visible=False),
-            hovermode='closest',
-            barmode='stack',
-            showlegend=False,
-            hoverlabel=dict(
-                align='left'
-            ),
-            template="simple_white",
-            plot_bgcolor='white',
-            paper_bgcolor='white',
-            font_color='#2E2C2B',
-            font_size=14,
-            height=800,
-            margin={'l': 150, 'r': 20, 'b': 40, 't': 40}
-        )
+#             '#BF4238', # top 5
+#             '#BF4238', # top 4
 
-        # Reverse the y-axis to match the word cloud orientation
-        fig.update_yaxes(autorange="reversed")
+#             '#C42625', #top 3
+#             '#C42625', #top 2
+#             '#C42625', #top 1
+#         ]
 
-    return fig
+#         # Apply custom colors to the top 10 words
+#         for i, idx in enumerate(top_10_indices):
+#             colors[idx] = custom_colors[i % len(custom_colors)]
+
+#         # Sort words by frequency to ensure top words appear on top
+#         sorted_indices = np.argsort(frequencies)
+#         words = [words[i] for i in sorted_indices]
+#         x = [x[i] for i in sorted_indices]
+#         y = [y[i] for i in sorted_indices]
+#         sizes = [sizes[i] for i in sorted_indices]
+#         hover_texts = [hover_texts[i] for i in sorted_indices]
+#         colors = [colors[i] for i in sorted_indices]
+
+#         # Create the Plotly figure with Scatter plot
+#         fig = go.Figure()
+
+#         # Add words as Scatter plot points
+#         fig.add_trace(go.Scatter(
+#             x=x,
+#             y=y,
+#             mode='text',
+#             text=words,
+#             textfont=dict(size=sizes, color=colors),
+#             hovertext=hover_texts,
+#             hoverinfo='text'
+#         ))
+
+#         # Update the layout to remove axes and make the word cloud bigger
+#         fig.update_layout(
+#             title="<b>What are the trending words/phrases in today's biased/very biased articles?</b>",
+#             xaxis=dict(showgrid=False, zeroline=False, visible=False),
+#             yaxis=dict(showgrid=False, zeroline=False, visible=False),
+#             hovermode='closest',
+#             barmode='stack',
+#             showlegend=False,
+#             hoverlabel=dict(
+#                 align='left'
+#             ),
+#             template="simple_white",
+#             plot_bgcolor='white',
+#             paper_bgcolor='white',
+#             font_color='#2E2C2B',
+#             font_size=14,
+#             height=800,
+#             margin={'l': 150, 'r': 20, 'b': 40, 't': 40}
+#         )
+
+#         # Reverse the y-axis to match the word cloud orientation
+#         fig.update_yaxes(autorange="reversed")
+
+#     return fig
 
 
 # Callback for Table 1
