@@ -67,7 +67,7 @@ unique_topics = df_corpus['topic_list'].explode().dropna().unique()
 
 
 # Initialize the Dash application
-stylesheets = [dbc.themes.FLATLY] # 'https://codepen.io/chriddyp/pen/bWLwgP.css'
+stylesheets = [dbc.themes.FLATLY, dbc.icons.BOOTSTRAP] # 'https://codepen.io/chriddyp/pen/bWLwgP.css'
 app = dash.Dash(__name__, external_stylesheets=stylesheets)
 
 # Define the comparison layout for Chart 2A and Chart 2B
@@ -82,7 +82,13 @@ def create_layout():
             html.H2("A", style={'textAlign': 'center'}),
 
             html.Div([
-                html.Label(['Date Published:'], style={'font-weight': 'bold', 'width': '20%'}),
+                html.Label(
+                    [
+                        html.I(className="bi-calendar-week", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
+                        html.Span(' Date Published:', style={'vertical-align': 'middle'})
+                    ],
+                    style={'font-weight': 'bold', 'width': '20%'}
+                ),
                 dcc.DatePickerRange(
                     id='chart2a-datepickerrange',
                     display_format='DD MMM YYYY',
@@ -98,7 +104,13 @@ def create_layout():
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
             html.Div([
-                html.Label(['Publishers:'], style={'font-weight': 'bold', 'width': '20%'}),
+                html.Label(
+                    [
+                        html.I(className="bi-person-fill", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
+                        html.Span(' Publishers:', style={'vertical-align': 'middle'})
+                    ],
+                    style={'font-weight': 'bold', 'width': '20%'}
+                ),
                 dcc.Dropdown(
                 id='chart2a-publisher-dropdown',
                 options=[{'label': publisher, 'value': publisher} for publisher in unique_publishers],
@@ -110,7 +122,13 @@ def create_layout():
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
             html.Div([
-                html.Label(['Overall Bias Score'], style={'font-weight': 'bold', 'width': '20%'}),
+                html.Label(
+                    [
+                        html.I(className="bi-speedometer2", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
+                        html.Span(' Overall Bias Score:', style={'vertical-align': 'middle'})
+                    ],
+                    style={'font-weight': 'bold', 'width': '20%'}
+                ),
                 dcc.Dropdown(
                 id='chart2a-bias-rating-dropdown',
                 options=[
@@ -128,7 +146,13 @@ def create_layout():
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
             html.Div([
-                html.Label(['Category of Bias:'], style={'font-weight': 'bold', 'width': '20%'}),
+                html.Label(
+                    [
+                        html.I(className="bi-boxes", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
+                        html.Span(' Category of Bias:', style={'vertical-align': 'middle'})
+                    ],
+                    style={'font-weight': 'bold', 'width': '20%'}
+                ),
                 dcc.Dropdown(
                 id='chart2a-bias-category-dropdown',
                 options=[
@@ -166,7 +190,13 @@ def create_layout():
             html.H2("B", style={'textAlign': 'center'}),
 
             html.Div([
-                html.Label(['Date Published:'], style={'font-weight': 'bold', 'width': '20%'}),
+                html.Label(
+                    [
+                        html.I(className="bi-calendar-week", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
+                        html.Span(' Date Published:', style={'vertical-align': 'middle'})
+                    ],
+                    style={'font-weight': 'bold', 'width': '20%'}
+                ),
                 dcc.DatePickerRange(
                     id='chart2b-datepickerrange',
                     display_format='DD MMM YYYY',
@@ -182,7 +212,13 @@ def create_layout():
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
             html.Div([
-                html.Label(['Publishers:'], style={'font-weight': 'bold', 'width': '20%'}),
+                html.Label(
+                    [
+                        html.I(className="bi-person-fill", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
+                        html.Span(' Publishers:', style={'vertical-align': 'middle'})
+                    ],
+                    style={'font-weight': 'bold', 'width': '20%'}
+                ),
                 dcc.Dropdown(
                 id='chart2b-publisher-dropdown',
                 options=[{'label': publisher, 'value': publisher} for publisher in unique_publishers],
@@ -194,7 +230,13 @@ def create_layout():
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
             html.Div([
-                html.Label(['Overall Bias Score'], style={'font-weight': 'bold', 'width': '20%'}),
+                html.Label(
+                    [
+                        html.I(className="bi-speedometer2", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
+                        html.Span(' Overall Bias Score:', style={'vertical-align': 'middle'})
+                    ],
+                    style={'font-weight': 'bold', 'width': '20%'}
+                ),
                 dcc.Dropdown(
                 id='chart2b-bias-rating-dropdown',
                 options=[
@@ -212,8 +254,13 @@ def create_layout():
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
             html.Div([
-                html.Label(['Category of Bias'], style={'font-weight': 'bold', 'width': '20%'}),
-                dcc.Dropdown(
+                html.Label(
+                    [
+                        html.I(className="bi-boxes", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
+                        html.Span(' Category of Bias:', style={'vertical-align': 'middle'})
+                    ],
+                    style={'font-weight': 'bold', 'width': '20%'}
+                ),                dcc.Dropdown(
                 id='chart2b-bias-category-dropdown',
                 options=[
                     {'label': 'Generalisation', 'value': 'generalisation'},

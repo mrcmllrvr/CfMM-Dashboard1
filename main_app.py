@@ -82,7 +82,7 @@ inconclusive_count = df_corpus[df_corpus['bias_rating'] == -1]['bias_rating'].co
 date_today = datetime.today().strftime('%B %d, %Y')
 
 # Initialize the Dash application
-stylesheets = [dbc.themes.FLATLY] # 'https://codepen.io/chriddyp/pen/bWLwgP.css'
+stylesheets = [dbc.themes.FLATLY, dbc.icons.BOOTSTRAP] # 'https://codepen.io/chriddyp/pen/bWLwgP.css'
 app = dash.Dash(__name__, external_stylesheets=stylesheets, suppress_callback_exceptions=True)
 server = app.server
 
@@ -1338,14 +1338,25 @@ main_layout = html.Div(children=[
 
                 # All elements for Chart 1
                 html.Div([
-                    html.A(dbc.Button('Explore', id='explore-button1', style={'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
-                        target="_blank",
-                        style={'text-decoration': 'none'},
-                        n_clicks=0),
+                    html.A(
+                        dbc.Button(
+                            [html.I(className="bi-binoculars-fill"), ' Explore'],
+                            id='explore-button1',
+                            style={'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            target="_blank",
+                            style={'text-decoration': 'none'},
+                            n_clicks=0
+                        ),
 
-                    html.A(dbc.Button('Compare', id='compare-button1', style={'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
-                        href='/compare-chart-1', target="_blank",
-                        style={'text-decoration': 'none'}),
+                    html.A(
+                        dbc.Button(
+                            [html.I(className="bi-arrow-left-right"), ' Compare'],
+                            id='compare-button1',
+                            style={'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            href='/compare-chart-1',
+                            target="_blank",
+                            style={'text-decoration': 'none'}
+                    ),
 
                     ## TODO: Place Homepage Chart 1 elements here
                     # Toggle for color by bias ratings or bias categories
@@ -1369,16 +1380,27 @@ main_layout = html.Div(children=[
                 ),
 
 
-                # All elements for Chart 2
+                # All elements for Chart 2         
                 html.Div([
-                    html.A(dbc.Button('Explore', id='explore-button2', style={'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
-                        target="_blank",
-                        style={'text-decoration': 'none'},
-                        n_clicks=0),
+                    html.A(
+                        dbc.Button(
+                            [html.I(className="bi-binoculars-fill"), ' Explore'],
+                            id='explore-button2',
+                            style={'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            target="_blank",
+                            style={'text-decoration': 'none'},
+                            n_clicks=0
+                        ),
 
-                    html.A(dbc.Button('Compare', id='compare-button2', style={'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
-                        href='/compare-chart-2', target="_blank",
-                        style={'text-decoration': 'none'}),
+                    html.A(
+                        dbc.Button(
+                            [html.I(className="bi-arrow-left-right"), ' Compare'],
+                            id='compare-button2',
+                            style={'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            href='/compare-chart-2',
+                            target="_blank",
+                            style={'text-decoration': 'none'}
+                    ),
 
 
                     ## TODO: Place Homepage Chart 2 elements Here
@@ -1395,14 +1417,25 @@ main_layout = html.Div(children=[
 
             # All elements for Chart 3
             html.Div([
-                html.A(dbc.Button('Explore', id='explore-button3', style={'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
-                    target="_blank",
-                    style={'text-decoration': 'none'},
-                    n_clicks=0),
+                    html.A(
+                        dbc.Button(
+                            [html.I(className="bi-binoculars-fill"), ' Explore'],
+                            id='explore-button3',
+                            style={'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            target="_blank",
+                            style={'text-decoration': 'none'},
+                            n_clicks=0
+                        ),
 
-                html.A(dbc.Button('Compare', id='compare-button3', style={'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
-                    href='/compare-chart-3', target="_blank",
-                    style={'text-decoration': 'none'}),
+                    html.A(
+                        dbc.Button(
+                            [html.I(className="bi-arrow-left-right"), ' Compare'],
+                            id='compare-button3',
+                            style={'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            href='/compare-chart-3',
+                            target="_blank",
+                            style={'text-decoration': 'none'}
+                    ),
 
                 ## TODO: Place Homepage Chart 3 elements here
                 # Graph for displaying the top topics
@@ -1414,14 +1447,25 @@ main_layout = html.Div(children=[
 
             # All elements for Chart 4
             html.Div([
-                html.A(dbc.Button('Explore', id='explore-button4', style={'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
-                    target="_blank",
-                    style={'text-decoration': 'none'},
-                    n_clicks=0),
+                    html.A(
+                        dbc.Button(
+                            [html.I(className="bi-binoculars-fill"), ' Explore'],
+                            id='explore-button4',
+                            style={'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            target="_blank",
+                            style={'text-decoration': 'none'},
+                            n_clicks=0
+                        ),
 
-                html.A(dbc.Button('Compare', id='compare-button4', style={'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
-                    href='/compare-chart-4', target="_blank",
-                    style={'text-decoration': 'none'}),
+                    html.A(
+                        dbc.Button(
+                            [html.I(className="bi-arrow-left-right"), ' Compare'],
+                            id='compare-button4',
+                            style={'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            href='/compare-chart-4',
+                            target="_blank",
+                            style={'text-decoration': 'none'}
+                    ),
 
                 ## TODO: Place Homepage Chart 4 elements here
                 # Dropdown for n-gram selection
