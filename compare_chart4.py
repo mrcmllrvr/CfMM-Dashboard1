@@ -233,7 +233,7 @@ def create_layout():
             html.Div([
                 html.Label(['Word Search:'], style={'font-weight': 'bold', 'width': '20%', 'display': 'block'}),
                 dcc.Input(id='word-search-4a', type='text', style={'width': '100%', 'display': 'block'}),
-                dbc.Button([html.I(className="bi-search"), ' Search'], id='search-button4a', style={'margin-left': '2%', 'width': '20%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'})
+                dbc.Button([html.I(className="bi-search"), ' Search'], id='search-button4a', style={'white-space': 'nowrap', 'margin-left': '2%', 'width': '20%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'})
             ], style={'display': 'flex', 'margin-top': '30px', 'margin-bottom': '30px', 'align-items': 'center'}),
 
             # Graph for displaying the word cloud
@@ -399,7 +399,7 @@ def create_layout():
             html.Div([
                 html.Label(['Word Search:'], style={'font-weight': 'bold', 'width': '20%', 'display': 'block'}),
                 dcc.Input(id='word-search-4b', type='text', style={'width': '100%', 'display': 'block'}),
-                dbc.Button([html.I(className="bi-search"), ' Search'], id='search-button4b', style={'margin-left': '2%', 'width': '20%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'})
+                dbc.Button([html.I(className="bi-search"), ' Search'], id='search-button4b', style={'white-space': 'nowrap', 'margin-left': '2%', 'width': '20%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'})
             ], style={'display': 'flex', 'margin-top': '30px', 'margin-bottom': '30px', 'align-items': 'center'}),
 
             # Graph for displaying the word cloud

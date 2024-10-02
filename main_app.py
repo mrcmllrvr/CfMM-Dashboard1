@@ -764,7 +764,13 @@ main_layout = html.Div(children=[
                 dbc.ModalHeader(),
                 dbc.ModalBody(children=[
                     html.Div([
-                        html.Label(['Date Published:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        html.Label(
+                            [
+                                html.I(className="bi-calendar-week", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
+                                html.Span(' Date Published:', style={'vertical-align': 'middle'})
+                            ],
+                            style={'font-weight': 'bold', 'width': '20%'}
+                        ),
                         dcc.DatePickerRange(
                             id='chart1-datepickerrange',
                             display_format='DD MMM YYYY',
@@ -780,7 +786,13 @@ main_layout = html.Div(children=[
                     ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
                     html.Div([
-                        html.Label(['Publishers:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        html.Label(
+                            [
+                                html.I(className="bi-person-fill", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
+                                html.Span(' Publishers:', style={'vertical-align': 'middle'})
+                            ],
+                            style={'font-weight': 'bold', 'width': '20%'}
+                        ),
                         dcc.Dropdown(
                         id='chart1-publisher-dropdown',
                         options=[{'label': publisher, 'value': publisher} for publisher in unique_publishers],
@@ -791,7 +803,13 @@ main_layout = html.Div(children=[
                     ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
                     html.Div([
-                        html.Label(['Overall Bias Score:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        html.Label(
+                            [
+                                html.I(className="bi-speedometer2", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
+                                html.Span(' Overall Bias Score:', style={'vertical-align': 'middle'})
+                            ],
+                            style={'font-weight': 'bold', 'width': '20%'}
+                        ),
                         dcc.Dropdown(
                         id='chart1-bias-rating-dropdown',
                         options=[
@@ -807,7 +825,13 @@ main_layout = html.Div(children=[
                     ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
                     html.Div([
-                        html.Label(['Category of Bias:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        html.Label(
+                            [
+                                html.I(className="bi-boxes", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
+                                html.Span(' Category of Bias:', style={'vertical-align': 'middle'})
+                            ],
+                            style={'font-weight': 'bold', 'width': '20%'}
+                        ),
                         dcc.Dropdown(
                         id='chart1-bias-category-dropdown',
                         options=[
@@ -824,7 +848,13 @@ main_layout = html.Div(children=[
                     ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
                     html.Div([
-                        html.Label(['Topics:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        html.Label(
+                            [
+                                html.I(className="bi-chat-dots", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
+                                html.Span(' Topics:', style={'vertical-align': 'middle'})
+                            ],
+                            style={'font-weight': 'bold', 'width': '20%'}
+                        ),
                         dcc.Dropdown(
                         id='chart1-topic-dropdown',
                         options=[{'label': topic, 'value': topic} for topic in unique_topics],
@@ -873,7 +903,13 @@ main_layout = html.Div(children=[
                 dbc.ModalHeader(),
                 dbc.ModalBody(children=[
                     html.Div([
-                        html.Label(['Date Published:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        html.Label(
+                            [
+                                html.I(className="bi-calendar-week", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
+                                html.Span(' Date Published:', style={'vertical-align': 'middle'})
+                            ],
+                            style={'font-weight': 'bold', 'width': '20%'}
+                        ),
                         dcc.DatePickerRange(
                             id='chart2-datepickerrange',
                             display_format='DD MMM YYYY',
@@ -889,7 +925,13 @@ main_layout = html.Div(children=[
                     ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
                     html.Div([
-                        html.Label(['Publishers:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        html.Label(
+                            [
+                                html.I(className="bi-person-fill", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
+                                html.Span(' Publishers:', style={'vertical-align': 'middle'})
+                            ],
+                            style={'font-weight': 'bold', 'width': '20%'}
+                        ),
                         dcc.Dropdown(
                         id='chart2-publisher-dropdown',
                         options=[{'label': publisher, 'value': publisher} for publisher in unique_publishers],
@@ -900,7 +942,13 @@ main_layout = html.Div(children=[
                     ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
                     html.Div([
-                        html.Label(['Overall Bias Score:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        html.Label(
+                            [
+                                html.I(className="bi-speedometer2", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
+                                html.Span(' Overall Bias Score:', style={'vertical-align': 'middle'})
+                            ],
+                            style={'font-weight': 'bold', 'width': '20%'}
+                        ),
                         dcc.Dropdown(
                         id='chart2-bias-rating-dropdown',
                         options=[
@@ -917,7 +965,13 @@ main_layout = html.Div(children=[
                     ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
                     html.Div([
-                        html.Label(['Category of Bias:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        html.Label(
+                            [
+                                html.I(className="bi-boxes", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
+                                html.Span(' Category of Bias:', style={'vertical-align': 'middle'})
+                            ],
+                            style={'font-weight': 'bold', 'width': '20%'}
+                        ),
                         dcc.Dropdown(
                         id='chart2-bias-category-dropdown',
                         options=[
@@ -959,7 +1013,13 @@ main_layout = html.Div(children=[
                 dbc.ModalHeader(),
                 dbc.ModalBody(children=[
                     html.Div([
-                        html.Label(['Date Published:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        html.Label(
+                            [
+                                html.I(className="bi-chat-dots", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
+                                html.Span(' Topics:', style={'vertical-align': 'middle'})
+                            ],
+                            style={'font-weight': 'bold', 'width': '20%'}
+                        ),
                         dcc.DatePickerRange(
                             id='chart3-datepickerrange',
                             display_format='DD MMM YYYY',
@@ -1119,7 +1179,13 @@ main_layout = html.Div(children=[
                     ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
 
                     html.Div([
-                        html.Label(['Select Word Grouping:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        html.Label(
+                            [
+                                html.I(className="bi-collection-fill", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
+                                html.Span(' Select Word Grouping:', style={'vertical-align': 'middle'})
+                            ],
+                            style={'font-weight': 'bold', 'width': '20%'}
+                        ),
                         dcc.Dropdown(
                             id='chart4-ngram-dropdown',
                             options=[
@@ -1342,7 +1408,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-binoculars-fill"), ' Explore'],
                             id='explore-button1',
-                            style={'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
                             target="_blank",
                             style={'text-decoration': 'none'},
                             n_clicks=0
@@ -1352,7 +1418,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-arrow-left-right"), ' Compare'],
                             id='compare-button1',
-                            style={'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
                             href='/compare-chart-1',
                             target="_blank",
                             style={'text-decoration': 'none'}
@@ -1386,7 +1452,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-binoculars-fill"), ' Explore'],
                             id='explore-button2',
-                            style={'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
                             target="_blank",
                             style={'text-decoration': 'none'},
                             n_clicks=0
@@ -1396,7 +1462,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-arrow-left-right"), ' Compare'],
                             id='compare-button2',
-                            style={'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
                             href='/compare-chart-2',
                             target="_blank",
                             style={'text-decoration': 'none'}
@@ -1421,7 +1487,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-binoculars-fill"), ' Explore'],
                             id='explore-button3',
-                            style={'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
                             target="_blank",
                             style={'text-decoration': 'none'},
                             n_clicks=0
@@ -1431,7 +1497,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-arrow-left-right"), ' Compare'],
                             id='compare-button3',
-                            style={'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
                             href='/compare-chart-3',
                             target="_blank",
                             style={'text-decoration': 'none'}
@@ -1451,7 +1517,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-binoculars-fill"), ' Explore'],
                             id='explore-button4',
-                            style={'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-left': '65%', 'width': '15%', 'display': 'right', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
                             target="_blank",
                             style={'text-decoration': 'none'},
                             n_clicks=0
@@ -1461,7 +1527,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-arrow-left-right"), ' Compare'],
                             id='compare-button4',
-                            style={'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
                             href='/compare-chart-4',
                             target="_blank",
                             style={'text-decoration': 'none'}
