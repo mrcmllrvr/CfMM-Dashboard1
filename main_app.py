@@ -1408,7 +1408,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-binoculars-fill"), ' Explore'],
                             id='explore-button1',
-                            style={'white-space': 'nowrap', 'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-left': '63%', 'width': '17%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
                             target="_blank",
                             style={'text-decoration': 'none'},
                             n_clicks=0
@@ -1418,7 +1418,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-arrow-left-right"), ' Compare'],
                             id='compare-button1',
-                            style={'white-space': 'nowrap', 'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-left': '3%','width': '17%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
                             href='/compare-chart-1',
                             target="_blank",
                             style={'text-decoration': 'none'}
@@ -1452,7 +1452,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-binoculars-fill"), ' Explore'],
                             id='explore-button2',
-                            style={'white-space': 'nowrap', 'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-left': '63%', 'width': '17%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
                             target="_blank",
                             style={'text-decoration': 'none'},
                             n_clicks=0
@@ -1462,7 +1462,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-arrow-left-right"), ' Compare'],
                             id='compare-button2',
-                            style={'white-space': 'nowrap', 'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-left': '3%','width': '17%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
                             href='/compare-chart-2',
                             target="_blank",
                             style={'text-decoration': 'none'}
@@ -1487,7 +1487,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-binoculars-fill"), ' Explore'],
                             id='explore-button3',
-                            style={'white-space': 'nowrap', 'margin-left': '65%', 'width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-left': '63%', 'width': '17%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
                             target="_blank",
                             style={'text-decoration': 'none'},
                             n_clicks=0
@@ -1497,7 +1497,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-arrow-left-right"), ' Compare'],
                             id='compare-button3',
-                            style={'white-space': 'nowrap', 'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-left': '3%','width': '17%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
                             href='/compare-chart-3',
                             target="_blank",
                             style={'text-decoration': 'none'}
@@ -1517,7 +1517,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-binoculars-fill"), ' Explore'],
                             id='explore-button4',
-                            style={'white-space': 'nowrap', 'margin-left': '65%', 'width': '15%', 'display': 'right', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-left': '63%', 'width': '17%', 'display': 'right', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
                             target="_blank",
                             style={'text-decoration': 'none'},
                             n_clicks=0
@@ -1527,7 +1527,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-arrow-left-right"), ' Compare'],
                             id='compare-button4',
-                            style={'white-space': 'nowrap', 'margin-left': '3%','width': '15%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-left': '3%','width': '17%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
                             href='/compare-chart-4',
                             target="_blank",
                             style={'text-decoration': 'none'}
