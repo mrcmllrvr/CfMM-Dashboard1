@@ -82,7 +82,11 @@ inconclusive_count = df_corpus[df_corpus['bias_rating'] == -1]['bias_rating'].co
 date_today = datetime.today().strftime('%B %d, %Y')
 
 # Initialize the Dash application
-stylesheets = [dbc.themes.FLATLY, dbc.icons.BOOTSTRAP] # 'https://codepen.io/chriddyp/pen/bWLwgP.css'
+stylesheets = [
+    dbc.themes.BOOTSTRAP,
+    dbc.icons.BOOTSTRAP,
+    '/assets/custom.css'
+]
 app = dash.Dash(__name__, external_stylesheets=stylesheets, suppress_callback_exceptions=True)
 server = app.server
 
@@ -290,7 +294,7 @@ def update_homepage_chart1(color_by):
             )
 
     return {'data': data, 'layout': layout}
-    
+
 # Function for Homepage Chart 2
 def update_homepage_chart2():
     filtered_df = df_corpus.copy()
@@ -408,7 +412,7 @@ def update_homepage_chart3():
             }]
         }
 
-    else: 
+    else:
         # Aggregate count per bias rating
         categories = ['generalisation', 'prominence', 'negative_behaviour', 'misrepresentation', 'headline_or_imagery']
         labels = ['Generalisation', 'Omit Due Prominence', 'Negative Behaviour', 'Misrepresentation', 'Headline']
@@ -422,7 +426,7 @@ def update_homepage_chart3():
         bias_counts = filtered_df.groupby('bias_category_label', observed=True)['count'].sum()
         total_articles = filtered_df[filtered_df['count']>=1]['article_url'].nunique()
         percentage_of_total = (count / total_articles * 100) if total_articles > 0 else 0
-        
+
         # Predefine colors for the top 5 topics
         colors = ['#4185A0', '#AA4D71', '#B85C3B', '#C5BE71', '#7658A0']
         color_map = dict(zip(labels, colors))
@@ -584,7 +588,7 @@ def update_homepage_chart4_static(text_by, ngram_value):
     ngram_names = vectorizer.get_feature_names_out()
     word_counts = dict(zip(ngram_names, ngram_freq))
 
-    return generate_word_cloud(word_counts, "What are the trending words/phrases in today's biased/very biased articles?")
+    return generate_word_cloud(word_counts, "<b>What are the trending words/phrases in today's biased/very biased articles?</b>")
 
 
 
@@ -754,8 +758,8 @@ def update_homepage_chart4_static(text_by, ngram_value):
 
 # Define the layout for the main page
 main_layout = html.Div(children=[
-    html.H4(date_today, style={'padding': '0.5%', 'height': '25px'}),
-    html.H2(children="Today's Insight/Metrics", style={'padding': '0.5%', 'height': '100px', 'font-weight': 'bold'}),
+    html.H4(date_today, style={'padding': '0.5%', 'height': '25px', 'font-weight': 'normal'}),
+    html.H2(children="Today's Insights and Metrics", style={'padding': '0.5%', 'height': '100px', 'font-weight': 'bold'}),
 
     # Modals
     # Modal for Chart 1
@@ -1288,7 +1292,7 @@ main_layout = html.Div(children=[
                             'width': '98%',
                             'height': '100%',
                             'background-color': '#C22625',
-                            'color': '#2E2C2B',
+                            'color': 'white',
                             'border': 'none',
                             'border-radius': '8px',
                             'display': 'flex',
@@ -1316,7 +1320,7 @@ main_layout = html.Div(children=[
                         style={
                             'width': '98%',
                             'height': '100%',
-                            'background-color': '#eb8483', 
+                            'background-color': '#eb8483',
                             'color': '#2E2C2B',
                             'border': 'none',
                             'border-radius': '8px',
@@ -1408,7 +1412,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-binoculars-fill"), ' Explore'],
                             id='explore-button1',
-                            style={'white-space': 'nowrap', 'margin-left': '63%', 'width': '17%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-left': '63%', 'width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             target="_blank",
                             style={'text-decoration': 'none'},
                             n_clicks=0
@@ -1418,7 +1422,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-arrow-left-right"), ' Compare'],
                             id='compare-button1',
-                            style={'white-space': 'nowrap', 'margin-left': '3%','width': '17%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-left': '3%','width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             href='/compare-chart-1',
                             target="_blank",
                             style={'text-decoration': 'none'}
@@ -1440,19 +1444,19 @@ main_layout = html.Div(children=[
 
                     # Graph for displaying the top offending publishers
                     dcc.Graph(id='homepage-top-offending-publishers-bar-chart', style = {'margin-bottom': '50px'}),
-                    
+
                 ],style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'border': '2px solid #d3d3d3', 'border-radius': '8px', 'padding': '5px', 'margin-right': '5px', 'margin-left': '5px', 'margin-bottom': '10px'}
 
                 ),
 
 
-                # All elements for Chart 2         
+                # All elements for Chart 2
                 html.Div([
                     html.A(
                         dbc.Button(
                             [html.I(className="bi-binoculars-fill"), ' Explore'],
                             id='explore-button2',
-                            style={'white-space': 'nowrap', 'margin-left': '63%', 'width': '17%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-left': '63%', 'width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             target="_blank",
                             style={'text-decoration': 'none'},
                             n_clicks=0
@@ -1462,7 +1466,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-arrow-left-right"), ' Compare'],
                             id='compare-button2',
-                            style={'white-space': 'nowrap', 'margin-left': '3%','width': '17%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-left': '3%','width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             href='/compare-chart-2',
                             target="_blank",
                             style={'text-decoration': 'none'}
@@ -1487,7 +1491,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-binoculars-fill"), ' Explore'],
                             id='explore-button3',
-                            style={'white-space': 'nowrap', 'margin-left': '63%', 'width': '17%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-left': '63%', 'width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             target="_blank",
                             style={'text-decoration': 'none'},
                             n_clicks=0
@@ -1497,7 +1501,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-arrow-left-right"), ' Compare'],
                             id='compare-button3',
-                            style={'white-space': 'nowrap', 'margin-left': '3%','width': '17%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-left': '3%','width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             href='/compare-chart-3',
                             target="_blank",
                             style={'text-decoration': 'none'}
@@ -1517,7 +1521,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-binoculars-fill"), ' Explore'],
                             id='explore-button4',
-                            style={'white-space': 'nowrap', 'margin-left': '63%', 'width': '17%', 'display': 'right', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-left': '63%', 'width': '17%', 'display': 'right', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             target="_blank",
                             style={'text-decoration': 'none'},
                             n_clicks=0
@@ -1527,7 +1531,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-arrow-left-right"), ' Compare'],
                             id='compare-button4',
-                            style={'white-space': 'nowrap', 'margin-left': '3%','width': '17%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-left': '3%','width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             href='/compare-chart-4',
                             target="_blank",
                             style={'text-decoration': 'none'}
@@ -1550,7 +1554,7 @@ main_layout = html.Div(children=[
                         style={'width': '70%'}
                     )
                 ], style={'display': 'flex', 'margin-bottom': '30px', 'align-items': 'center', }),
-                
+
 
                 # Toggle for headline-only or full-text word clouds
                 dcc.RadioItems(
@@ -1571,7 +1575,7 @@ main_layout = html.Div(children=[
 
 
 
-            ], 
+            ],
                style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'border': '2px solid #d3d3d3', 'border-radius': '8px', 'padding': '5px', 'margin-right': '5px', 'margin-left': '5px', 'margin-bottom': '10px'}
 
             )
@@ -1701,13 +1705,13 @@ def update_chart1(selected_start_date, selected_end_date, selected_publishers, s
             data = []
             for publisher in top_publishers:
                 total_biased_articles = filtered_df[filtered_df['publisher'] == publisher]['bias_rating'].count()
-    
+
                 for rating, (color, name) in color_map.items():
                     articles = filtered_df[(filtered_df['publisher'] == publisher) &
                                             (filtered_df['bias_rating'] == rating)]['bias_rating'].count()
-    
+
                     percentage_of_total = (articles / total_biased_articles) * 100 if total_biased_articles > 0 else 0
-    
+
                     tooltip_text = (
                         # f"<b>Publisher: </b>{publisher}<br>"
                         f"<b>Overall Bias Score:</b> {name}<br>"
@@ -1715,10 +1719,10 @@ def update_chart1(selected_start_date, selected_end_date, selected_publishers, s
                         f"<b>Proportion:</b> {percentage_of_total:.1f}%<br>"
                         # f"This accounts for <b>{percentage_of_total:.2f}%</b> of the total available articles in the current selection.<br>"
                     )
-    
+
                     showlegend = name not in legend_added
                     legend_added.add(name)
-    
+
                     data.append(go.Bar(
                         x=[articles],
                         y=[publisher],
@@ -1730,10 +1734,10 @@ def update_chart1(selected_start_date, selected_end_date, selected_publishers, s
                         hoverinfo='text',
                         textposition='none'
                     ))
-    
+
             # Update the layout
             layout = go.Layout(
-                title=f"""<b>Who are today's top offending publishers?</b>""",
+                title=f"""<b>Who are the top offending publishers during the selected period?</b>""",
                 xaxis=dict(title='Number of Articles'),
                 yaxis=dict(title='Publisher'),
                 hovermode='closest',
@@ -1820,7 +1824,7 @@ def update_chart1(selected_start_date, selected_end_date, selected_publishers, s
 
             # Update the layout
             layout = go.Layout(
-                title=f"""<b>Who are today's top offending publishers?</b>""",
+                title=f"""<b>Who are the top offending publishers during the selected period?</b>""",
                 xaxis=dict(title='Number of Articles'),
                 yaxis=dict(title='Publisher'),
                 hovermode='closest',
@@ -1921,7 +1925,7 @@ def update_chart2(selected_start_date, selected_end_date, selected_publishers, s
 
         # Update the layout
         layout = go.Layout(
-            title="<b>What are today's biased/very biased article topics?</b>",
+            title="<b>What are the topics of the biased/very biased article during the selected period?</b>",
             xaxis=dict(title='Number of Articles'),
             yaxis=dict(title='Topics', autorange='reversed', tickmode='array', tickvals=list(range(len(topic_counts))), ticktext=topic_counts.index.tolist()),
             hovermode='closest',
@@ -1988,7 +1992,7 @@ def update_chart3(selected_start_date, selected_end_date, selected_publishers, s
             }]
         }
 
-    else: 
+    else:
         # Aggregate count per bias rating
         categories = ['generalisation', 'prominence', 'negative_behaviour', 'misrepresentation', 'headline_or_imagery']
         labels = ['Generalisation', 'Omit Due Prominence', 'Negative Behaviour', 'Misrepresentation', 'Headline']
@@ -2001,7 +2005,7 @@ def update_chart3(selected_start_date, selected_end_date, selected_publishers, s
         filtered_df['bias_rating'] = pd.Categorical(filtered_df['bias_rating'], labels, ordered=True)
         bias_counts = filtered_df.groupby('bias_rating', observed=True)['count'].sum()
         total_articles = filtered_df[filtered_df['count']>=1]['article_url'].nunique()
-        
+
         # Predefine colors for the top 5 topics
         colors = ['#4185A0', '#AA4D71', '#B85C3B', '#C5BE71', '#7658A0']
         color_map = dict(zip(labels, colors))
@@ -2029,7 +2033,7 @@ def update_chart3(selected_start_date, selected_end_date, selected_publishers, s
 
         # Update the layout
         layout = go.Layout(
-            title='<b>Which overall bias score is highest today?</b>',
+            title='<b>Which overall bias score is highest during the selected period?</b>',
             xaxis=dict(title='Number of Articles'),
             yaxis=dict(title='Overall Bias Score', tickmode='array', tickvals=list(range(len(bias_counts))), ticktext=bias_counts.index.tolist()),
             hovermode='closest',
@@ -2172,7 +2176,7 @@ def update_chart4_static(selected_start_date, selected_end_date, selected_publis
     ngram_names = vectorizer.get_feature_names_out()
     word_counts = dict(zip(ngram_names, ngram_freq))
 
-    return generate_word_cloud(word_counts, "What are the trending words/phrases in today's biased/very biased articles?")
+    return generate_word_cloud(word_counts, "<b>Which trending words/phrases appeared in the biased/very biased articles during the selected period?</b>")
 
 # @app.callback(
 #     Output('wordcloud-container', 'figure'),
@@ -2642,7 +2646,7 @@ def update_table1(selected_start_date, selected_end_date, selected_publishers, s
 
     else:
         return [], None, {'display': 'none'}, {'display': 'none'}, ''
-    
+
 
 
 # Callback for Table 2
@@ -2693,7 +2697,7 @@ def update_table2(selected_start_date, selected_end_date, selected_publishers, s
                 main_title = f'Showing all articles about <b>{topic}</b>'
                 keys = '<b>Legend: G =</b> Generalisation, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misrepresentation, <b>H =</b> Headline'
                 title_html = f'{main_title}<br>{keys}'
-                    
+
                 title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(title_html)
 
 
@@ -2813,7 +2817,7 @@ def update_table2(selected_start_date, selected_end_date, selected_publishers, s
 
     else:
         return [], None, {'display': 'none'}, {'display': 'none'}, ''
-    
+
 
 # Callback for Table 3
 @app.callback(
@@ -2886,7 +2890,7 @@ def update_table3(selected_start_date, selected_end_date, selected_publishers, s
                 main_title = f'Showing all articles that were rated <b>{bias}</b> by the model.'
                 keys = '<b>Legend: G =</b> Generalisation, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misrepresentation, <b>H =</b> Headline'
                 title_html = f'{main_title}<br>{keys}'
-                
+
                 title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(title_html)
 
                 # Apply formatting
@@ -3072,7 +3076,7 @@ def update_table4(n_clicks_search, n_clicks_clear, selected_start_date, selected
             main_title = f"Showing {filtered_df.shape[0]} articles having <b>'{search_word}'</b> in their <b>{text}</b>"
             keys = '<b>Legend: G =</b> Generalisation, <b>O =</b> Omit Due Prominence, <b>N =</b> Negative Behaviour, <b>M =</b> Misrepresentation, <b>H =</b> Headline'
             title_html = f'{main_title}<br>{keys}'
-            
+
             title = dash_dangerously_set_inner_html.DangerouslySetInnerHTML(title_html)
 
             # Formatting
