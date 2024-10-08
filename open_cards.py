@@ -60,12 +60,12 @@ end_date = df_corpus['date_published'].max()
 unique_publishers = sorted(df_corpus['publisher'].unique())
 unique_topics = df_corpus['topic_list'].explode().dropna().unique()
 
-
-
-
-
 # Initialize the Dash application
-stylesheets = [dbc.themes.FLATLY] # 'https://codepen.io/chriddyp/pen/bWLwgP.css'
+stylesheets = [
+    dbc.themes.BOOTSTRAP,
+    dbc.icons.BOOTSTRAP,
+    '/assets/custom.css'
+]
 app = dash.Dash(__name__, external_stylesheets=stylesheets)
 
 def create_layout():
