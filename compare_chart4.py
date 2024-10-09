@@ -241,6 +241,9 @@ def create_layout():
             ], style={'display': 'flex', 'margin-top': '30px', 'margin-bottom': '30px', 'align-items': 'center'}),
 
             # Graph for displaying the word cloud
+            html.Div(id='chart4a-title-container', children=[
+                html.H3("Which trending words/phrases appeared in the biased/very biased articles during the selected period?", style={'textAlign': 'center'})
+            ]),
             html.Img(id='wordcloud-container-4a', style={'width': '100%'}),
             # dcc.Graph(id='wordcloud-container-4a'),
 
@@ -407,6 +410,9 @@ def create_layout():
             ], style={'display': 'flex', 'margin-top': '30px', 'margin-bottom': '30px', 'align-items': 'center'}),
 
             # Graph for displaying the word cloud
+            html.Div(id='chart4b-title-container', children=[
+                html.H3("Which trending words/phrases appeared in the biased/very biased articles during the selected period?", style={'textAlign': 'center'})
+            ]),
             html.Img(id='wordcloud-container-4b', style={'width': '100%'}),
             # dcc.Graph(id='wordcloud-container-4b'),
 
@@ -433,7 +439,7 @@ from threading import Lock
 plot_lock = Lock()
 
 # Helper function to generate a word cloud from word counts
-def generate_word_cloud(word_counts, title):
+def generate_word_cloud(word_counts):
     sorted_words = sorted(word_counts.items(), key=lambda x: x[1], reverse=True)
     top_10_words = {word: count for word, count in sorted_words[:10]}
 
@@ -477,7 +483,7 @@ def generate_word_cloud(word_counts, title):
     plt.figure(figsize=(10, 8), facecolor='white')
     plt.imshow(wc, interpolation='bilinear')
     plt.axis('off')
-    plt.title(title, fontsize=16, fontweight='bold', color='#2E2C2B', pad=20)
+    # plt.title(title, fontsize=16, fontweight='bold', color='#2E2C2B', pad=20)
     plt.tight_layout(pad=1, rect=[0, 0, 1, 1])
     plt.savefig(img, format='png')
     plt.close()
@@ -503,7 +509,8 @@ def generate_no_data_image():
 def register_callbacks(app):
     # Callback for Chart 4A
     @app.callback(
-        Output('wordcloud-container-4a', 'src'),
+        [Output('chart4a-title-container', 'style'),  # To control title visibility
+         Output('wordcloud-container-4a', 'src')],
         [Input('chart4a-datepickerrange', 'start_date'),
          Input('chart4a-datepickerrange', 'end_date'),
          Input('chart4a-publisher-dropdown', 'value'),
@@ -513,13 +520,15 @@ def register_callbacks(app):
          Input('chart4a-text-toggle', 'value'),
          Input('chart4a-ngram-dropdown', 'value')]
     )
-    def update_chart4a_static(selected_start_date, selected_end_date, selected_publishers, selected_topics, selected_bias_categories, selected_bias_ratings, text_by, ngram_value):
-        # Step 1: Filter the data based on the selected inputs
+    def update_wordcloud4a_static(selected_start_date, selected_end_date, selected_publishers, selected_topics, selected_bias_categories, selected_bias_ratings, text_by, ngram_value):
         filtered_df = df_corpus.copy()
+
+        # Apply filters for dates, publishers, ratings, and categories
         if selected_start_date and selected_end_date:
             start_date = pd.to_datetime(selected_start_date)
             end_date = pd.to_datetime(selected_end_date)
             filtered_df = filtered_df[(filtered_df['date_published'] >= start_date) & (filtered_df['date_published'] <= end_date)]
+
         if selected_publishers:
             filtered_df = filtered_df[filtered_df['publisher'].isin(selected_publishers)]
         if selected_topics:
@@ -529,11 +538,11 @@ def register_callbacks(app):
         if selected_bias_categories:
             filtered_df = filtered_df[filtered_df[selected_bias_categories].sum(axis=1) > 0]
 
-        # If no data is found
+        # If no data is found, hide the title and show the no-data image
         if filtered_df.shape[0] == 0:
-            return generate_no_data_image()
+            return {'display': 'none'}, generate_no_data_image()
 
-        # Step 2: Generate n-grams
+        # Generate the word cloud if data is found
         text = ' '.join(filtered_df[text_by].dropna().values)
         ngram_range = (1, 3)
         if ngram_value:
@@ -548,12 +557,14 @@ def register_callbacks(app):
         ngram_names = vectorizer.get_feature_names_out()
         word_counts = dict(zip(ngram_names, ngram_freq))
 
-        return generate_word_cloud(word_counts, "<b>Which trending words/phrases appeared in the biased/very biased articles during the selected period?</b>")
+        # Show the title and return the word cloud image
+        return {'display': 'block'}, generate_word_cloud(word_counts)
     
 
     # Callback for Chart 4B
     @app.callback(
-        Output('wordcloud-container-4b', 'src'),
+        [Output('chart4b-title-container', 'style'),  # To control title visibility
+         Output('wordcloud-container-4b', 'src')],
         [Input('chart4b-datepickerrange', 'start_date'),
          Input('chart4b-datepickerrange', 'end_date'),
          Input('chart4b-publisher-dropdown', 'value'),
@@ -563,13 +574,15 @@ def register_callbacks(app):
          Input('chart4b-text-toggle', 'value'),
          Input('chart4b-ngram-dropdown', 'value')]
     )
-    def update_chart4b_static(selected_start_date, selected_end_date, selected_publishers, selected_topics, selected_bias_categories, selected_bias_ratings, text_by, ngram_value):
-        # Step 1: Filter the data based on the selected inputs
+    def update_wordcloud4b_static(selected_start_date, selected_end_date, selected_publishers, selected_topics, selected_bias_categories, selected_bias_ratings, text_by, ngram_value):
         filtered_df = df_corpus.copy()
+
+        # Apply filters for dates, publishers, ratings, and categories
         if selected_start_date and selected_end_date:
             start_date = pd.to_datetime(selected_start_date)
             end_date = pd.to_datetime(selected_end_date)
             filtered_df = filtered_df[(filtered_df['date_published'] >= start_date) & (filtered_df['date_published'] <= end_date)]
+
         if selected_publishers:
             filtered_df = filtered_df[filtered_df['publisher'].isin(selected_publishers)]
         if selected_topics:
@@ -579,11 +592,11 @@ def register_callbacks(app):
         if selected_bias_categories:
             filtered_df = filtered_df[filtered_df[selected_bias_categories].sum(axis=1) > 0]
 
-        # If no data is found
+        # If no data is found, hide the title and show the no-data image
         if filtered_df.shape[0] == 0:
-            return generate_no_data_image()
+            return {'display': 'none'}, generate_no_data_image()
 
-        # Step 2: Generate n-grams
+        # Generate the word cloud if data is found
         text = ' '.join(filtered_df[text_by].dropna().values)
         ngram_range = (1, 3)
         if ngram_value:
@@ -598,7 +611,8 @@ def register_callbacks(app):
         ngram_names = vectorizer.get_feature_names_out()
         word_counts = dict(zip(ngram_names, ngram_freq))
 
-        return generate_word_cloud(word_counts, "<b>Which trending words/phrases appeared in the biased/very biased articles during the selected period?</b>")
+        # Show the title and return the word cloud image
+        return {'display': 'block'}, generate_word_cloud(word_counts)
 
 
 
