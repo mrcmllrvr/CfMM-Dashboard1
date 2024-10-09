@@ -1,0 +1,36 @@
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Source Sans Pro', sans-serif;
+    color: #505050;
+    font-weight: bold;
+}
+
+body, p {
+    font-family: 'Source Sans Pro', sans-serif;
+    color: #505050;
+}
+
+.dash-app {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+button {
+    width: 100%;
+    max-width: 200px;
+}
+
+@media screen and (max-width: 768px) {
+    button {
+        font-size: 14px;
+        padding: 8px 16px;
+        max-width: 100%;
+    }
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
