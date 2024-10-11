@@ -1,3 +1,4 @@
+# compare_chart3.py
 # This file contains only the comparison logic for Charts 3A and 3B.
 
 import dash_dangerously_set_inner_html
@@ -70,21 +71,20 @@ unique_topics = df_corpus['topic_list'].explode().dropna().unique()
 stylesheets = [
     dbc.themes.BOOTSTRAP,
     dbc.icons.BOOTSTRAP,
-    '/assets/custom.css'
+    '/assets/custom_compare_chart.css'
 ]
 app = dash.Dash(__name__, external_stylesheets=stylesheets)
 
 # Define the comparison layout for Chart 3A and Chart 3B
 def create_layout():
     layout = html.Div(style={'justify-content': 'center', 'backgroundColor': '#ffffff'}, className='row', children=[
-        html.H3(children="Which overall bias score is highest during the selected period?", style={'textAlign': 'center', 'font-weight':'bold'}),
+        html.H3(children="Which overall bias score is highest during the selected period?", style={'textAlign': 'center', 'font-weight':'bold', 'margin-bottom': '30px'}),
 
         # Chart 3A vs Chart 3B
         html.Div([
 
             # All elements for Chart 3A
-            html.H3("Scenario A", style={'textAlign': 'center', 'font-weight':'normal'}),
-            html.H3(''),
+            html.H4("Scenario A", style={'textAlign': 'center', 'margin-bottom':'30px', 'margin-top':'30px'}),
 
             html.Div([
                 html.Label(
@@ -104,9 +104,9 @@ def create_layout():
                     end_date=end_date,
                     start_date_placeholder_text='Start date',
                     end_date_placeholder_text='End date',
-                    style = {'font-size':'10px'}
+                    style = {'font-size':'13px'}
                 )
-            ], style={'font-size':'10px', 'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
+            ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
             html.Div([
                 html.Label(
@@ -124,7 +124,7 @@ def create_layout():
                 clearable=True,
                 style = {'width': '60%'}
                 )
-            ], style={'font-size':'10px', 'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
+            ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
             html.Div([
                 html.Label(
@@ -148,7 +148,7 @@ def create_layout():
                     clearable=True,
                     style = {'width': '60%'}
                 )
-            ], style={'font-size':'10px', 'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
+            ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
             html.Div([
                 html.Label(
@@ -166,7 +166,7 @@ def create_layout():
                 clearable=True,
                 style = {'width': '60%'}
                 )
-            ], style={'font-size':'10px', 'display':'flex', 'margin-bottom':'50px', 'align-items': 'center'}),
+            ], style={'display':'flex', 'margin-bottom':'50px', 'align-items': 'center'}),
 
             # Graph for displaying the top topics
             dcc.Graph(id='top-offending-articles-bar-chart-3a', style = {'margin-bottom': '50px'}),
@@ -175,8 +175,8 @@ def create_layout():
             html.Div(id='table3a-title', style={'fontSize': 20, 'fontColor': '#2E2C2B', 'margin-bottom': '20px'}),
             html.Div(id='table3a'),
             html.Div([
-                dbc.Button('Clear Table', id='clear-button3a', style = {'display': 'none'}),
-                dbc.Button('Export to CSV', id='export-button3a', style = {'display': 'none'}
+                dbc.Button('Clear Table', id='clear-button3a', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}),
+                dbc.Button('Export to CSV', id='export-button3a', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}
                             )
             ], style={'display':'flex', 'margin-top': '10px', 'align-items': 'center'}),
         ],
@@ -185,8 +185,7 @@ def create_layout():
 
         # All elements for Chart 3B
         html.Div([
-            html.H3("Scenario B", style={'textAlign': 'center', 'font-weight':'normal'}),
-            html.H3(''),
+            html.H4("Scenario B", style={'textAlign': 'center', 'margin-bottom':'30px', 'margin-top':'30px'}),
 
             html.Div([
                 html.Label(
@@ -275,8 +274,8 @@ def create_layout():
             html.Div(id='table3b-title', style={'fontSize': 20, 'fontColor': '#2E2C2B', 'margin-bottom': '20px'}),
             html.Div(id='table3b'),
             html.Div([
-                dbc.Button('Clear Table', id='clear-button3b', style = {'display': 'none'}),
-                dbc.Button('Export to CSV', id='export-button3b', style = {'display': 'none'})
+                dbc.Button('Clear Table', id='clear-button3b', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}),
+                dbc.Button('Export to CSV', id='export-button3b', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'})
             ], style={'display':'flex', 'margin-top': '10px', 'align-items': 'center'}),
         ],
         style={'width': '48%', 'display': 'inline-block', 'backgroundColor': 'white', 'border': '2px solid #d3d3d3', 'border-radius': '8px', 'padding': '10px', 'margin': '5px'}),
@@ -685,9 +684,9 @@ def register_callbacks(app):
                     )
 
                 if id == 'export-button3a':
-                    return [title], table, {'fontSize': 14, 'display': 'block'}, {'fontSize': 14, 'display': 'block', 'margin-left': '10px'}, csv_string
+                    return [title], table, {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
-                return [title], table, {'fontSize': 14, 'display': 'block'}, {'fontSize': 14, 'display': 'block', 'margin-left': '10px'}, csv_string
+                return [title], table, {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
             elif id in ['chart3a-datepickerrange', 'chart3a-publisher-dropdown', 'chart3a-bias-rating-dropdown', 'chart3a-topic-dropdown', 'clear-button3a']:
                 return [], None, {'display': 'none'}, {'display': 'none'}, ''
@@ -878,9 +877,9 @@ def register_callbacks(app):
                     )
 
                 if id == 'export-button3b':
-                    return [title], table, {'fontSize': 14, 'display': 'block'}, {'fontSize': 14, 'display': 'block', 'margin-left': '10px'}, csv_string
+                    return [title], table, {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
-                return [title], table, {'fontSize': 14, 'display': 'block'}, {'fontSize': 14, 'display': 'block', 'margin-left': '10px'}, csv_string
+                return [title], table, {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
             elif id in ['chart3b-datepickerrange', 'chart3b-publisher-dropdown', 'chart3b-bias-rating-dropdown', 'chart3b-topic-dropdown', 'clear-button3b']:
                 return [], None, {'display': 'none'}, {'display': 'none'}, ''

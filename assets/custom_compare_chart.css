@@ -7,14 +7,14 @@ h1 {
     font-family: "Roboto-Bold", sans-serif;
     color: #2E2C2B;
     font-weight: bold;
-    font-size: 40px;
+    font-size: 36px;
 }
 
 h2 {
     font-family: "Roboto-Bold", sans-serif;
     color: #2E2C2B;
     font-weight: bold;
-    font-size: 36px;
+    font-size: 32px;
 }
 
 @font-face {
@@ -26,7 +26,7 @@ h3 {
     font-family: "Roboto-Italic", sans-serif;
     color: #2E2C2B;
     font-weight: italic;
-    font-size: 32px;
+    font-size: 28px;
 }
 
 @font-face {
@@ -37,7 +37,7 @@ h3 {
 .text, p {
     font-family: "Roboto-Regular", sans-serif;
     color: #2E2C2B;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 body {
@@ -50,7 +50,7 @@ body {
 .dash-app {
     font-family: "Roboto-Regular", sans-serif;
     color: #2E2C2B;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 button {
