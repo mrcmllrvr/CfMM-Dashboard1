@@ -1231,7 +1231,7 @@ main_layout = html.Div(children=[
                         html.Label(
                             [
                                 html.I(className="bi-collection-fill", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
-                                html.Span(' Select Word Grouping:', style={'vertical-align': 'middle'})
+                                html.Span(' Word Grouping:', style={'vertical-align': 'middle'})
                             ],
                             style={'font-weight': 'bold', 'width': '20%'}
                         ),
@@ -1585,7 +1585,7 @@ main_layout = html.Div(children=[
                 ## TODO: Place Homepage Chart 4 elements here
                 # Dropdown for n-gram selection
                 html.Div([
-                    html.Label(['Select Word Grouping:'], style={'font-weight': 'bold', 'width': '20%'}),
+                    html.Label([' Word Grouping:'], style={'font-weight': 'bold', 'width': '20%'}),
                     dcc.Dropdown(
                         id='homepage-chart4-ngram-dropdown',
                         options=[

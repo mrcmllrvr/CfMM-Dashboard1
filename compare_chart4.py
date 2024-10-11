@@ -202,7 +202,7 @@ def create_layout():
                 html.Label(
                     [
                         html.I(className="bi-collection-fill", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
-                        html.Span(' Select Word Grouping:', style={'vertical-align': 'middle'})
+                        html.Span(' Word Grouping:', style={'vertical-align': 'middle'})
                     ],
                     style={'font-weight': 'bold', 'width': '40%'}
                 ),
@@ -371,7 +371,7 @@ def create_layout():
                 html.Label(
                     [
                         html.I(className="bi-collection-fill", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
-                        html.Span(' Select Word Grouping:', style={'vertical-align': 'middle'})
+                        html.Span(' Word Grouping:', style={'vertical-align': 'middle'})
                     ],
                     style={'font-weight': 'bold', 'width': '40%'}
                 ),
