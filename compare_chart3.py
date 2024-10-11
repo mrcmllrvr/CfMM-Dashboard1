@@ -92,7 +92,7 @@ def create_layout():
                         html.I(className="bi-calendar-week", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                         html.Span(' Date Published:', style={'vertical-align': 'middle'})
                     ],
-                    style={'font-weight': 'bold', 'width': '30%'}
+                    style={'font-weight': 'bold', 'width': '40%'}
                 ),
                 dcc.DatePickerRange(
                     id='chart3a-datepickerrange',
@@ -114,7 +114,7 @@ def create_layout():
                         html.I(className="bi-person-fill", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                         html.Span(' Publishers:', style={'vertical-align': 'middle'})
                     ],
-                    style={'font-weight': 'bold', 'width': '30%'}
+                    style={'font-weight': 'bold', 'width': '40%'}
                 ),
                 dcc.Dropdown(
                 id='chart3a-publisher-dropdown',
@@ -122,7 +122,7 @@ def create_layout():
                 placeholder='Select Publisher',
                 multi=True,
                 clearable=True,
-                style = {'width': '60%'}
+                style = {'width': '70%'}
                 )
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
@@ -132,7 +132,7 @@ def create_layout():
                         html.I(className="bi-speedometer2", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                         html.Span(' Overall Bias Score:', style={'vertical-align': 'middle'})
                     ],
-                    style={'font-weight': 'bold', 'width': '30%'}
+                    style={'font-weight': 'bold', 'width': '40%'}
                 ),
                 dcc.Dropdown(
                     id='chart3a-bias-rating-dropdown',
@@ -146,7 +146,7 @@ def create_layout():
                     placeholder='Select Overall Bias Score',
                     multi=True,
                     clearable=True,
-                    style = {'width': '60%'}
+                    style = {'width': '70%'}
                 )
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
@@ -156,7 +156,7 @@ def create_layout():
                         html.I(className="bi-chat-dots", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                         html.Span(' Topics:', style={'vertical-align': 'middle'})
                     ],
-                    style={'font-weight': 'bold', 'width': '30%'}
+                    style={'font-weight': 'bold', 'width': '40%'}
                 ),
                 dcc.Dropdown(
                 id='chart3a-topic-dropdown',
@@ -164,7 +164,7 @@ def create_layout():
                 placeholder='Select Topic',
                 multi=True,
                 clearable=True,
-                style = {'width': '60%'}
+                style = {'width': '70%'}
                 )
             ], style={'display':'flex', 'margin-bottom':'50px', 'align-items': 'center'}),
 
@@ -193,7 +193,7 @@ def create_layout():
                         html.I(className="bi-calendar-week", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                         html.Span(' Date Published:', style={'vertical-align': 'middle'})
                     ],
-                    style={'font-weight': 'bold', 'width': '30%'}
+                    style={'font-weight': 'bold', 'width': '40%'}
                 ),
                 dcc.DatePickerRange(
                     id='chart3b-datepickerrange',
@@ -215,7 +215,7 @@ def create_layout():
                         html.I(className="bi-person-fill", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                         html.Span(' Publishers:', style={'vertical-align': 'middle'})
                     ],
-                    style={'font-weight': 'bold', 'width': '30%'}
+                    style={'font-weight': 'bold', 'width': '40%'}
                 ),
                 dcc.Dropdown(
                 id='chart3b-publisher-dropdown',
@@ -223,7 +223,7 @@ def create_layout():
                 placeholder='Select Publisher',
                 multi=True,
                 clearable=True,
-                style = {'width': '60%'})
+                style = {'width': '70%'})
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
             html.Div([
@@ -232,7 +232,7 @@ def create_layout():
                         html.I(className="bi-speedometer2", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                         html.Span(' Overall Bias Score:', style={'vertical-align': 'middle'})
                     ],
-                    style={'font-weight': 'bold', 'width': '30%'}
+                    style={'font-weight': 'bold', 'width': '40%'}
                 ),
                 dcc.Dropdown(
                     id='chart3b-bias-rating-dropdown',
@@ -246,7 +246,7 @@ def create_layout():
                     placeholder='Select Overall Bias Score',
                     multi=True,
                     clearable=True,
-                    style = {'width': '60%'}
+                    style = {'width': '70%'}
                 )
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
@@ -256,7 +256,7 @@ def create_layout():
                         html.I(className="bi-chat-dots", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                         html.Span(' Topics:', style={'vertical-align': 'middle'})
                     ],
-                    style={'font-weight': 'bold', 'width': '30%'}
+                    style={'font-weight': 'bold', 'width': '40%'}
                 ),
                 dcc.Dropdown(
                 id='chart3b-topic-dropdown',
@@ -264,7 +264,7 @@ def create_layout():
                 placeholder='Select Topic',
                 multi=True,
                 clearable=True,
-                style = {'width': '60%'})
+                style = {'width': '70%'})
             ], style={'display':'flex', 'margin-bottom':'50px', 'align-items': 'center'}),
 
             # Graph for displaying the top topics
