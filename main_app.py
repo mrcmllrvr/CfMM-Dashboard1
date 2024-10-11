@@ -775,7 +775,7 @@ def update_homepage_chart4_static(text_by, ngram_value):
 main_layout = html.Div(children=[
     html.H3(children=date_today),
     
-    html.H1(children="Today's Insights and Metrics", style={'margin-bottom': '50px'}),
+    html.H1(children="Today's Insights and Metrics", style={'margin-bottom': '50px', 'font-family': 'OpenSauce-Bold'}),
 
     # Modals
     # Modal for Chart 1
