@@ -1,25 +1,23 @@
 @font-face {
     font-family: "OpenSauce-Bold";
-    src: local("/assets/fonts/open-sauce.sans-extrabold.ttf") format("truetype");
+    src: local("/assets/fonts/open-sauce-sans-black.ttf") format("truetype");
 }
 
 h1 {
     font-family: "OpenSauce-Bold", sans-serif;
     color: #2E2C2B;
-    font-weight: bold;
     font-size: 40px;
 }
 
 h2 {
     font-family: "OpenSauce-Bold", sans-serif;
     color: #2E2C2B;
-    font-weight: bold;
     font-size: 36px;
 }
 
 @font-face {
     font-family: "OpenSauce-Italic";
-    src: local("/assets/fonts/open-sauce.sans-italic.ttf") format("truetype");
+    src: local("/assets/fonts/open-sauce-sans-italic.ttf") format("truetype");
 }
 
 h3 {
@@ -30,7 +28,7 @@ h3 {
 
 @font-face {
     font-family: "OpenSauce-Regular";
-    src: local("/assets/fonts/open-sauce.sans-regular.ttf") format("truetype");
+    src: local("/assets/fonts/open-sauce-sans-regular.ttf") format("truetype");
 }
 
 .text, p {
