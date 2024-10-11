@@ -773,8 +773,8 @@ def update_homepage_chart4_static(text_by, ngram_value):
 
 # Define the layout for the main page
 main_layout = html.Div(children=[
-    html.H4(date_today, style={'padding': '0.5%', 'height': '25px', 'font-weight': 'normal'}),
-    html.H2(children="Today's Insights and Metrics", style={'padding': '0.5%', 'height': '100px', 'font-weight': 'bold'}),
+    html.H3(date_today),
+    html.H1("Today's Insights and Metrics", style={'margin-bottom': '50px'}),
 
     # Modals
     # Modal for Chart 1
