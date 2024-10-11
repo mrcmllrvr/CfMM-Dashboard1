@@ -77,13 +77,14 @@ app = dash.Dash(__name__, external_stylesheets=stylesheets)
 # Define the comparison layout for Chart 2A and Chart 2B
 def create_layout():
     layout = html.Div(style={'justify-content': 'center', 'backgroundColor': '#ffffff'}, className='row', children=[
-        html.H1(children="Popular Topics", style={'textAlign': 'center', 'font-weight':'bold'}),
+        html.H3(children="What are the topics of the biased/very biased article during the selected period?", style={'textAlign': 'center', 'font-weight':'bold'}),
 
         # Chart 2A vs Chart 2B
         html.Div([
 
             # All elements for Chart 2A
-            html.H3("Scenario A", style={'textAlign': 'center'}),
+            html.H3("Scenario A", style={'textAlign': 'center', 'font-weight': 'normal'}),
+            html.H3(''),
 
             html.Div([
                 html.Label(
@@ -103,9 +104,9 @@ def create_layout():
                     end_date=end_date,
                     start_date_placeholder_text='Start date',
                     end_date_placeholder_text='End date',
-                    style = {'font-size':'13px'}
+                    style = {'font-size':'10px'}
                 )
-            ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
+            ], style={'font-size':'10px', 'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
             html.Div([
                 html.Label(
@@ -123,7 +124,7 @@ def create_layout():
                 clearable=True,
                 style = {'width': '60%'}
                 )
-            ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
+            ], style={'font-size':'10px', 'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
             html.Div([
                 html.Label(
@@ -147,7 +148,7 @@ def create_layout():
                 clearable=True,
                 style = {'width': '60%'}
                 )
-            ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
+            ], style={'font-size':'10px', 'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
             html.Div([
                 html.Label(
@@ -171,7 +172,7 @@ def create_layout():
                 clearable=True,
                 style = {'width': '60%'}
                 )
-            ], style={'display':'flex', 'margin-bottom':'50px', 'align-items': 'center'}),
+            ], style={'font-size':'10px', 'display':'flex', 'margin-bottom':'50px', 'align-items': 'center'}),
 
             # Graph for displaying the top topics
             dcc.Graph(id='top-topics-bar-chart-2a', style = {'margin-bottom': '50px'}),
@@ -191,7 +192,8 @@ def create_layout():
 
         # All elements for Chart 2B
         html.Div([
-            html.H3("Scenario B", style={'textAlign': 'center'}),
+            html.H3("Scenario B", style={'textAlign': 'center', 'font-weight': 'normal'}),
+            html.H3(''),
 
             html.Div([
                 html.Label(
@@ -378,7 +380,7 @@ def register_callbacks(app):
 
             # Update the layout
             layout = go.Layout(
-                title="<b>What are the topics of the biased/very biased article during the selected period?</b>",
+                title="",
                 xaxis=dict(title='Number of Articles'),
                 yaxis=dict(title='Topics', autorange='reversed', tickmode='array', tickvals=list(range(len(topic_counts))), ticktext=topic_counts.index.tolist()),
                 hovermode='closest',
@@ -479,7 +481,7 @@ def register_callbacks(app):
 
             # Update the layout
             layout = go.Layout(
-                title="<b>What are the topics of the biased/very biased article during the selected period?</b>",
+                title="",
                 xaxis=dict(title='Number of Articles'),
                 yaxis=dict(title='Topics', autorange='reversed', tickmode='array', tickvals=list(range(len(topic_counts))), ticktext=topic_counts.index.tolist()),
                 hovermode='closest',

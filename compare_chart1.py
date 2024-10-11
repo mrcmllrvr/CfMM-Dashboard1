@@ -77,13 +77,14 @@ app = dash.Dash(__name__, external_stylesheets=stylesheets)
 # Define the comparison layout for Chart 1A and Chart 1B
 def create_layout():
     layout = html.Div(style={'justify-content': 'center', 'backgroundColor': '#ffffff'}, className='row', children=[
-        html.H1(children="Top Offending Publishers", style={'textAlign': 'center', 'font-weight': 'bold'}),
+        html.H3(children=f"""Who are the top offending publishers during the selected period?""", style={'textAlign': 'center', 'font-weight': 'bold'}),
 
         # Chart 1A vs Chart 1B
         html.Div([
 
             # All elements for Chart 2A
-            html.H3("Scenario A", style={'textAlign': 'center'}),
+            html.H3("Scenario A", style={'textAlign': 'center', 'font-weight': 'normal'}),
+            html.H3(''),
 
             html.Div([
                 html.Label(
@@ -103,7 +104,7 @@ def create_layout():
                     end_date=end_date,
                     start_date_placeholder_text='Start date',
                     end_date_placeholder_text='End date',
-                    style = {'font-size':'13px'}
+                    style = {'font-size':'10px'}
                 )
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
@@ -123,7 +124,7 @@ def create_layout():
                     clearable=True,
                     style = {'width': '60%'}
                 )
-            ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
+            ], style={'font-size':'10px', 'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
             html.Div([
                 html.Label(
@@ -146,7 +147,7 @@ def create_layout():
                     clearable=True,
                     style = {'width': '60%'}
                 )
-            ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
+            ], style={'font-size':'10px', 'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
             html.Div([
                 html.Label(
@@ -170,7 +171,7 @@ def create_layout():
                     clearable=True,
                     style = {'width': '60%'}
                 )
-            ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
+            ], style={'font-size':'10px', 'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
             html.Div([
                 html.Label(
@@ -188,7 +189,7 @@ def create_layout():
                     clearable=True,
                     style = {'width': '60%'}
                 )
-            ], style={'display':'flex', 'margin-bottom':'30px', 'align-items': 'center'}),
+            ], style={'font-size':'10px', 'display':'flex', 'margin-bottom':'30px', 'align-items': 'center'}),
 
             # Toggle for color by bias ratings or bias categories
             dcc.RadioItems(
@@ -200,7 +201,7 @@ def create_layout():
                 value='bias_ratings',  # default value on load
                 labelStyle={'display': 'inline-block'},
                 inputStyle={"margin-left": "10px"},
-                style = {'margin-bottom': '50px'}
+                style = {'font-size':'10px', 'margin-bottom': '50px'}
             ),
 
             # Graph for displaying the top offending publishers
@@ -218,7 +219,8 @@ def create_layout():
 
         # All elements for Chart 1B
         html.Div([
-            html.H3("Scenario B", style={'textAlign': 'center'}),
+            html.H3("Scenario B", style={'textAlign': 'center', 'font-weight': 'normal'}),
+            html.H3(''),
             
             html.Div([
                 html.Label(
@@ -446,7 +448,7 @@ def register_callbacks(app):
                             textposition='none'
                         ))
                 layout = go.Layout(
-                    title=f"""<b>Who are today's top offending publishers?</b>""",
+                    title='',
                     xaxis=dict(title='Number of Articles'),
                     yaxis=dict(title='Publisher'),
                     hovermode='closest',
@@ -519,7 +521,7 @@ def register_callbacks(app):
                         textposition='none'
                     ))
                 layout = go.Layout(
-                    title=f"""<b>Who are the top offending publishers during the selected period?</b>""",
+                    title='',
                     xaxis=dict(title='Number of Articles'),
                     yaxis=dict(title='Publisher'),
                     hovermode='closest',
@@ -646,7 +648,7 @@ def register_callbacks(app):
                                 textposition='none'
                             ))
                     layout = go.Layout(
-                        title=f"""<b>Who are the top offending publishers during the selected period?</b>""",
+                        title='',
                         xaxis=dict(title='Number of Articles'),
                         yaxis=dict(title='Publisher'),
                         hovermode='closest',

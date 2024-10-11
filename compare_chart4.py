@@ -83,13 +83,14 @@ app = dash.Dash(__name__, external_stylesheets=stylesheets)
 # Define the comparison layout for Chart 1A and Chart 1B
 def create_layout():
     layout = html.Div(style={'justify-content': 'center', 'backgroundColor': '#ffffff'}, className='row', children=[
-        html.H1(children="Trending Words or Phrases", style={'textAlign': 'center', 'font-weight':'bold'}),
+        html.H3(children="Which trending words/phrases appeared in the biased/very biased articles during the selected period?", style={'textAlign': 'center', 'font-weight':'bold'}),
 
         # Chart 4A vs Chart 4B
         html.Div([
 
             # All elements for Chart 4A
-            html.H3("Scenario A", style={'textAlign': 'center'}),
+            html.H3("Scenario A", style={'textAlign': 'center', 'font-weight':'normal'}),
+            html.H3(''),
 
             html.Div([
                 html.Label(
@@ -109,9 +110,9 @@ def create_layout():
                     end_date=end_date,
                     start_date_placeholder_text='Start date',
                     end_date_placeholder_text='End date',
-                    style={'font-size': '13px'}
+                    style={'font-size': '10px'}
                 )
-            ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
+            ], style={'font-size':'10px', 'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
 
             html.Div([
                 html.Label(
@@ -129,7 +130,7 @@ def create_layout():
                     clearable=True,
                     style={'width': '60%'}
                 )
-            ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
+            ], style={'font-size':'10px', 'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
 
             html.Div([
                 html.Label(
@@ -153,7 +154,7 @@ def create_layout():
                     clearable=True,
                     style={'width': '60%'}
                 )
-            ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
+            ], style={'font-size':'10px', 'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
 
             html.Div([
                 html.Label(
@@ -177,7 +178,7 @@ def create_layout():
                     clearable=True,
                     style={'width': '60%'}
                 )
-            ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
+            ], style={'font-size':'10px', 'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
 
             html.Div([
                 html.Label(
@@ -195,7 +196,7 @@ def create_layout():
                     clearable=True,
                     style={'width': '60%'}
                 )
-            ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
+            ], style={'font-size':'10px', 'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
 
             html.Div([
                 html.Label(
@@ -217,7 +218,7 @@ def create_layout():
                     clearable=False,
                     style={'width': '60%'}
                 )
-            ], style={'display': 'flex', 'margin-bottom': '30px', 'align-items': 'center'}),
+            ], style={'font-size':'10px', 'display': 'flex', 'margin-bottom': '30px', 'align-items': 'center'}),
 
             # Toggle for headline-only or full-text word clouds
             dcc.RadioItems(
@@ -229,7 +230,7 @@ def create_layout():
                 value='title',  # default value on load
                 labelStyle={'display': 'inline-block'},
                 inputStyle={"margin-left": "10px"},
-                style={'margin-bottom': '50px'}
+                style={'font-size':'10px', 'margin-bottom': '50px'}
             ),
 
 
@@ -238,11 +239,11 @@ def create_layout():
                 html.Label(['Word Search:'], style={'font-weight': 'bold', 'width': '20%', 'display': 'block'}),
                 dcc.Input(id='word-search-4a', type='text', style={'width': '100%', 'display': 'block'}),
                 dbc.Button([html.I(className="bi-search"), ' Search'], id='search-button4a', style={'white-space': 'nowrap', 'margin-left': '2%', 'width': '20%', 'display': 'inline-block', 'background-color': '#D90429', 'border-radius': '8px', 'border': 'none'})
-            ], style={'display': 'flex', 'margin-top': '30px', 'margin-bottom': '30px', 'align-items': 'center'}),
+            ], style={'font-size':'10px', 'display': 'flex', 'margin-top': '30px', 'margin-bottom': '30px', 'align-items': 'center'}),
 
             # Graph for displaying the word cloud
             html.Div(id='chart4a-title-container', children=[
-                html.H3("Which trending words/phrases appeared in the biased/very biased articles during the selected period?", style={'textAlign': 'center'})
+                html.H3("", style={'textAlign': 'center'})
             ]),
             html.Img(id='wordcloud-container-4a', style={'width': '100%'}),
             # dcc.Graph(id='wordcloud-container-4a'),
@@ -260,7 +261,8 @@ def create_layout():
 
         # All elements for Chart 4B
         html.Div([
-            html.H3("Scenario B", style={'textAlign': 'center'}),
+            html.H3("Scenario B", style={'textAlign': 'center', 'font-weight':'normal'}),
+            html.H3(''),
 
             html.Div([
                 html.Label(
@@ -411,7 +413,7 @@ def create_layout():
 
             # Graph for displaying the word cloud
             html.Div(id='chart4b-title-container', children=[
-                html.H3("Which trending words/phrases appeared in the biased/very biased articles during the selected period?", style={'textAlign': 'center'})
+                html.H3("", style={'textAlign': 'center'})
             ]),
             html.Img(id='wordcloud-container-4b', style={'width': '100%'}),
             # dcc.Graph(id='wordcloud-container-4b'),
