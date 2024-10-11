@@ -93,9 +93,22 @@ app = dash.Dash(__name__, external_stylesheets=stylesheets, suppress_callback_ex
 server = app.server
 
 # Define the main layout of the application
-app.layout = html.Div(style={'backgroundColor': '#ffffff', 'height': '150vh', 'padding': '40px'}, children=[
-    dcc.Location(id='url', refresh=False),
-    html.Div(id='page-content')
+# app.layout = html.Div(style={'backgroundColor': '#ffffff', 'height': '150vh', 'padding': '40px'}, children=[
+#     dcc.Location(id='url', refresh=False),
+#     html.Div(id='page-content')
+# ])
+
+app.layout = html.Div([
+    # Header
+    html.Div([
+        html.Img(src='/assets/logos/cfmm.png', style={'width': '20%', 'height': 'auto'}),
+    ], style={'display': 'flex', 'margin-left': '30px', 'margin-right': '30px', 'margin-bottom': '0px', 'margin-top': '10px'}),
+
+    # Body
+    html.Div(style={'backgroundColor': '#ffffff', 'height': '150vh', 'padding': '40px'}, children=[
+        dcc.Location(id='url', refresh=False),
+        html.Div(id='page-content')
+    ])
 ])
 
 
@@ -770,6 +783,12 @@ main_layout = html.Div(children=[
                 dbc.ModalHeader(),
                 dbc.ModalBody(children=[
                     html.Div([
+                        html.Img(src='/assets/logos/cfmm.png', style={'width': '20%', 'height': 'auto'}),
+                    ], style={'display': 'flex', 'margin-left': '0px', 'margin-right': '0px', 'margin-bottom': '50px', 'margin-top': '10px'}),
+
+                    html.H3(children=f"""Who are the top offending publishers during the selected period?""", style={'textAlign': 'center', 'font-weight': 'bold', 'margin-bottom': '50px'}),
+                    
+                    html.Div([
                         html.Label(
                             [
                                 html.I(className="bi-calendar-week", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
@@ -880,11 +899,11 @@ main_layout = html.Div(children=[
                         value='bias_ratings',  # default value on load
                         labelStyle={'display': 'inline-block'},
                         inputStyle={"margin-left": "10px"},
-                        style = {'margin-bottom': '50px'}
+                        style = {'margin-bottom': '10px'}
                     ),
 
                     # Graph for displaying the top offending publishers
-                    dcc.Graph(id='top-offending-publishers-bar-chart', style = {'margin-bottom': '50px'}),
+                    dcc.Graph(id='top-offending-publishers-bar-chart', style = {'margin-bottom': '30px'}),
 
                     # Table for displaying the top offending publishers
                     html.Div(id='table1-title', style={'fontSize': 20, 'fontColor': '#2E2C2B', 'margin-bottom': '20px'}),
@@ -893,7 +912,7 @@ main_layout = html.Div(children=[
                         dbc.Button('Clear Table', id='clear-button1', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}),
                         dbc.Button('Export to CSV', id='export-button1', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'})
                     ], style={'display':'flex', 'margin-top': '10px', 'align-items': 'center'}),
-                ])
+                ], style={'margin-left': '30px', 'margin-right': '30px', 'margin-top': '30px', 'margin-bottom': '30px'})
             ],
             id="modal_1",
             centered=True,
@@ -908,6 +927,12 @@ main_layout = html.Div(children=[
             [
                 dbc.ModalHeader(),
                 dbc.ModalBody(children=[
+                    html.Div([
+                        html.Img(src='/assets/logos/cfmm.png', style={'width': '20%', 'height': 'auto'}),
+                    ], style={'display': 'flex', 'margin-left': '0px', 'margin-right': '0px', 'margin-bottom': '50px', 'margin-top': '10px'}),
+
+                    html.H3(children="What are the topics of the biased/very biased article during the selected period?", style={'textAlign': 'center', 'font-weight':'bold', 'margin-bottom': '50px'}),
+                    
                     html.Div([
                         html.Label(
                             [
@@ -991,10 +1016,10 @@ main_layout = html.Div(children=[
                         multi=True,
                         clearable=True,
                         style = {'width': '70%'})
-                    ], style={'display':'flex', 'margin-bottom':'50px', 'align-items': 'center'}),
+                    ], style={'display':'flex', 'margin-bottom':'30px', 'align-items': 'center'}),
 
                     # Graph for displaying the top topics
-                    dcc.Graph(id='top-topics-bar-chart', style = {'margin-bottom': '50px'}),
+                    dcc.Graph(id='top-topics-bar-chart', style = {'margin-bottom': '10px'}),
 
                     # Table for displaying the top topics
                     html.Div(id='table2-title', style={'fontSize': 20, 'fontColor': '#2E2C2B', 'margin-bottom': '20px'}),
@@ -1003,7 +1028,7 @@ main_layout = html.Div(children=[
                         dbc.Button('Clear Table', id='clear-button2', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}),
                         dbc.Button('Export to CSV', id='export-button2', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'})
                     ], style={'display':'flex', 'margin-top': '10px', 'align-items': 'center'}),
-                ])
+                ], style={'margin-left': '30px', 'margin-right': '30px', 'margin-top': '30px', 'margin-bottom': '30px'})
             ],
             id="modal_2",
             centered=True,
@@ -1019,10 +1044,16 @@ main_layout = html.Div(children=[
                 dbc.ModalHeader(),
                 dbc.ModalBody(children=[
                     html.Div([
+                        html.Img(src='/assets/logos/cfmm.png', style={'width': '20%', 'height': 'auto'}),
+                    ], style={'display': 'flex', 'margin-left': '0px', 'margin-right': '0px', 'margin-bottom': '50px', 'margin-top': '10px'}),
+
+                    html.H3(children="Which overall bias score is highest during the selected period?", style={'textAlign': 'center', 'font-weight':'bold', 'margin-bottom': '50px'}),
+                    
+                    html.Div([
                         html.Label(
                             [
-                                html.I(className="bi-chat-dots", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
-                                html.Span(' Topics:', style={'vertical-align': 'middle'})
+                                html.I(className="bi-calendar-week", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
+                                html.Span(' Date Published:', style={'vertical-align': 'middle'})
                             ],
                             style={'font-weight': 'bold', 'width': '20%'}
                         ),
@@ -1080,10 +1111,10 @@ main_layout = html.Div(children=[
                         clearable=True,
                         style = {'width': '70%'}
                         )
-                    ], style={'display':'flex', 'margin-bottom':'50px', 'align-items': 'center'}),
+                    ], style={'display':'flex', 'margin-bottom':'30px', 'align-items': 'center'}),
 
                     # Graph for displaying the top topics
-                    dcc.Graph(id='top-offending-articles-bar-chart', style = {'margin-bottom': '50px'}),
+                    dcc.Graph(id='top-offending-articles-bar-chart', style = {'margin-bottom': '10px'}),
 
                     # Table for displaying the top topics
                     html.Div(id='table3-title', style={'fontSize': 20, 'fontColor': '#2E2C2B', 'margin-bottom': '20px'}),
@@ -1093,7 +1124,7 @@ main_layout = html.Div(children=[
                         dbc.Button('Export to CSV', id='export-button3', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}
                                 )
                     ], style={'display':'flex', 'margin-top': '10px', 'align-items': 'center'}),
-                ])
+                ], style={'margin-left': '30px', 'margin-right': '30px', 'margin-top': '30px', 'margin-bottom': '30px'})
             ],
             id="modal_3",
             centered=True,
@@ -1109,7 +1140,19 @@ main_layout = html.Div(children=[
                 dbc.ModalHeader(),
                 dbc.ModalBody(children=[
                     html.Div([
-                        html.Label(['Date Published:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        html.Img(src='/assets/logos/cfmm.png', style={'width': '20%', 'height': 'auto'}),
+                    ], style={'display': 'flex', 'margin-left': '0px', 'margin-right': '0px', 'margin-bottom': '50px', 'margin-top': '10px'}),
+
+                    html.H3(children="Which trending words/phrases appeared in the biased/very biased articles during the selected period?", style={'textAlign': 'center', 'font-weight':'bold', 'margin-bottom': '50px'}),
+                    
+                    html.Div([
+                        html.Label(
+                            [
+                                html.I(className="bi-calendar-week", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
+                                html.Span(' Date Published:', style={'vertical-align': 'middle'})
+                            ],
+                            style={'font-weight': 'bold', 'width': '20%'}
+                        ),
                         dcc.DatePickerRange(
                             id='chart4-datepickerrange',
                             display_format='DD MMM YYYY',
@@ -1120,9 +1163,9 @@ main_layout = html.Div(children=[
                             end_date=end_date,
                             start_date_placeholder_text='Start date',
                             end_date_placeholder_text='End date',
-                            style={'font-size': '15px'}
+                            style = {'font-size':'15px'}
                         )
-                    ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
+                    ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
                     html.Div([
                         html.Label(['Publishers:'], style={'font-weight': 'bold', 'width': '20%'}),
@@ -1236,8 +1279,8 @@ main_layout = html.Div(children=[
                     html.Div([
                         dbc.Button('Clear Table', id='clear-button4', style={'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}),
                         dbc.Button('Export to CSV', id='export-button4', style={'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'})
-                    ], style={'display': 'flex', 'margin-top': '10px', 'align-items': 'center'}),
-                ])
+                    ]),
+                ], style={'margin-left': '30px', 'margin-right': '30px', 'margin-top': '30px', 'margin-bottom': '30px'})
             ],
             id="modal_4",
             centered=True,
@@ -1441,11 +1484,11 @@ main_layout = html.Div(children=[
                         value='bias_ratings',  # default value on load
                         labelStyle={'display': 'inline-block'},
                         inputStyle={"margin-left": "10px"},
-                        style = {'margin-bottom': '50px'}
+                        style = {'margin-bottom': '10px'}
                     ),
 
                     # Graph for displaying the top offending publishers
-                    dcc.Graph(id='homepage-top-offending-publishers-bar-chart', style = {'margin-bottom': '50px'}),
+                    dcc.Graph(id='homepage-top-offending-publishers-bar-chart', style = {'margin-bottom': '30px'}),
 
                 ],style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'border': '2px solid #d3d3d3', 'border-radius': '8px', 'padding': '5px', 'margin-right': '5px', 'margin-left': '5px', 'margin-bottom': '10px'}
 
@@ -1477,7 +1520,7 @@ main_layout = html.Div(children=[
 
                     ## TODO: Place Homepage Chart 2 elements Here
                     # Graph for displaying the top topics
-                    dcc.Graph(id='homepage-top-topics-bar-chart', figure=update_homepage_chart2(), style={'margin-bottom': '50px'}),
+                    dcc.Graph(id='homepage-top-topics-bar-chart', figure=update_homepage_chart2(), style={'margin-bottom': '30px'}),
 
                 ],style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'border': '2px solid #d3d3d3', 'border-radius': '8px', 'padding': '5px', 'margin-right': '5px', 'margin-left': '5px', 'margin-bottom': '10px'}
                 ),
@@ -1511,7 +1554,7 @@ main_layout = html.Div(children=[
 
                 ## TODO: Place Homepage Chart 3 elements here
                 # Graph for displaying the top topics
-                dcc.Graph(id='homepage-top-offending-articles-bar-chart', figure=update_homepage_chart3(), style = {'margin-bottom': '50px'}),
+                dcc.Graph(id='homepage-top-offending-articles-bar-chart', figure=update_homepage_chart3(), style = {'margin-bottom': '30px'}),
 
             ],style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'border': '2px solid #d3d3d3', 'border-radius': '8px', 'padding': '5px', 'margin-right': '5px', 'margin-left': '5px', 'margin-bottom': '10px'}
 
@@ -1568,7 +1611,7 @@ main_layout = html.Div(children=[
                     value='title',  # default value on load
                     labelStyle={'display': 'inline-block'},
                     inputStyle={"margin-left": "10px"},
-                    style={'margin-bottom': '50px'}
+                    style={'margin-bottom': '10px'}
                 ),
 
                 # Graph for displaying the word cloud
@@ -1739,7 +1782,7 @@ def update_chart1(selected_start_date, selected_end_date, selected_publishers, s
 
             # Update the layout
             layout = go.Layout(
-                title=f"""<b>Who are the top offending publishers during the selected period?</b>""",
+                title=f"""""",
                 xaxis=dict(title='Number of Articles'),
                 yaxis=dict(title='Publisher'),
                 hovermode='closest',
@@ -1826,7 +1869,7 @@ def update_chart1(selected_start_date, selected_end_date, selected_publishers, s
 
             # Update the layout
             layout = go.Layout(
-                title=f"""<b>Who are the top offending publishers during the selected period?</b>""",
+                title=f"""""",
                 xaxis=dict(title='Number of Articles'),
                 yaxis=dict(title='Publisher'),
                 hovermode='closest',
@@ -1927,7 +1970,7 @@ def update_chart2(selected_start_date, selected_end_date, selected_publishers, s
 
         # Update the layout
         layout = go.Layout(
-            title="<b>What are the topics of the biased/very biased article during the selected period?</b>",
+            title="",
             xaxis=dict(title='Number of Articles'),
             yaxis=dict(title='Topics', autorange='reversed', tickmode='array', tickvals=list(range(len(topic_counts))), ticktext=topic_counts.index.tolist()),
             hovermode='closest',
@@ -2035,7 +2078,7 @@ def update_chart3(selected_start_date, selected_end_date, selected_publishers, s
 
         # Update the layout
         layout = go.Layout(
-            title='<b>Which overall bias score is highest during the selected period?</b>',
+            title='',
             xaxis=dict(title='Number of Articles'),
             yaxis=dict(title='Overall Bias Score', tickmode='array', tickvals=list(range(len(bias_counts))), ticktext=bias_counts.index.tolist()),
             hovermode='closest',
@@ -2178,7 +2221,7 @@ def update_chart4_static(selected_start_date, selected_end_date, selected_publis
     ngram_names = vectorizer.get_feature_names_out()
     word_counts = dict(zip(ngram_names, ngram_freq))
 
-    return generate_word_cloud(word_counts, "<b>Which trending words/phrases appeared in the biased/very biased articles during the selected period?</b>")
+    return generate_word_cloud(word_counts, "")
 
 # @app.callback(
 #     Output('wordcloud-container', 'figure'),
