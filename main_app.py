@@ -787,7 +787,7 @@ main_layout = html.Div(children=[
                     ], style={'display': 'flex', 'margin-left': '0px', 'margin-right': '0px', 'margin-bottom': '50px', 'margin-top': '10px'}),
 
                     html.H3(children=f"""Who are the top offending publishers during the selected period?""", style={'textAlign': 'center', 'font-weight': 'bold', 'margin-bottom': '50px'}),
-                    
+
                     html.Div([
                         html.Label(
                             [
@@ -932,7 +932,7 @@ main_layout = html.Div(children=[
                     ], style={'display': 'flex', 'margin-left': '0px', 'margin-right': '0px', 'margin-bottom': '50px', 'margin-top': '10px'}),
 
                     html.H3(children="What are the topics of the biased/very biased article during the selected period?", style={'textAlign': 'center', 'font-weight':'bold', 'margin-bottom': '50px'}),
-                    
+
                     html.Div([
                         html.Label(
                             [
@@ -1048,7 +1048,7 @@ main_layout = html.Div(children=[
                     ], style={'display': 'flex', 'margin-left': '0px', 'margin-right': '0px', 'margin-bottom': '50px', 'margin-top': '10px'}),
 
                     html.H3(children="Which overall bias score is highest during the selected period?", style={'textAlign': 'center', 'font-weight':'bold', 'margin-bottom': '50px'}),
-                    
+
                     html.Div([
                         html.Label(
                             [
@@ -1144,7 +1144,7 @@ main_layout = html.Div(children=[
                     ], style={'display': 'flex', 'margin-left': '0px', 'margin-right': '0px', 'margin-bottom': '50px', 'margin-top': '10px'}),
 
                     html.H3(children="Which trending words/phrases appeared in the biased/very biased articles during the selected period?", style={'textAlign': 'center', 'font-weight':'bold', 'margin-bottom': '50px'}),
-                    
+
                     html.Div([
                         html.Label(
                             [
@@ -1467,7 +1467,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-arrow-left-right"), ' Compare'],
                             id='compare-button1',
-                            style={'white-space': 'nowrap', 'margin-left': '3%','width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-left': '2%','width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             href='/compare-chart-1',
                             target="_blank",
                             style={'text-decoration': 'none'}
@@ -1511,7 +1511,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-arrow-left-right"), ' Compare'],
                             id='compare-button2',
-                            style={'white-space': 'nowrap', 'margin-left': '3%','width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-left': '2%','width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             href='/compare-chart-2',
                             target="_blank",
                             style={'text-decoration': 'none'}
@@ -1546,7 +1546,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-arrow-left-right"), ' Compare'],
                             id='compare-button3',
-                            style={'white-space': 'nowrap', 'margin-left': '3%','width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-left': '2%','width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             href='/compare-chart-3',
                             target="_blank",
                             style={'text-decoration': 'none'}
@@ -1576,7 +1576,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-arrow-left-right"), ' Compare'],
                             id='compare-button4',
-                            style={'white-space': 'nowrap', 'margin-left': '3%','width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-left': '2%','width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             href='/compare-chart-4',
                             target="_blank",
                             style={'text-decoration': 'none'}
@@ -2682,9 +2682,9 @@ def update_table1(selected_start_date, selected_end_date, selected_publishers, s
                     )
 
             if id == 'export-button1':
-                return [title], table, {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
+                return [title], table, {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, {'display': 'block', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
-            return [title], table, {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
+            return [title], table, {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, {'display': 'block', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
         elif id in ['chart1-datepickerrange', 'chart1-topic-dropdown', 'chart1-publisher-dropdown', 'chart1-bias-rating-dropdown', 'chart1-bias-category-dropdown', 'chart1-color-toggle', 'clear-button1']:
             return [], None, {'display': 'none'}, {'display': 'none'}, ''
@@ -2853,9 +2853,9 @@ def update_table2(selected_start_date, selected_end_date, selected_publishers, s
                 )
 
             if id == 'export-button2':
-                return [title], table, {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
+                return [title], table, {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, {'display': 'block', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
-            return [title], table,  {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
+            return [title], table,  {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
         elif id in ['chart2-datepickerrange', 'chart2-publisher-dropdown', 'chart2-bias-rating-dropdown', 'chart2-bias-category-dropdown', 'chart2-color-toggle', 'clear-button2']:
             return [], None, {'display': 'none'}, {'display': 'none'}, ''
@@ -3046,9 +3046,9 @@ def update_table3(selected_start_date, selected_end_date, selected_publishers, s
                 )
 
             if id == 'export-button3':
-                return [title], table,  {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
+                return [title], table,  {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
-            return [title], table,  {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
+            return [title], table,  {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
         elif id in ['chart3-datepickerrange', 'chart3-publisher-dropdown', 'chart3-bias-rating-dropdown', 'chart3-topic-dropdown', 'clear-button3']:
             return [], None, {'display': 'none'}, {'display': 'none'}, ''
@@ -3227,9 +3227,9 @@ def update_table4(n_clicks_search, n_clicks_clear, selected_start_date, selected
             )
 
             if id == 'export-button4':
-                return [title], table,  {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
+                return [title], table,  {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
-            return [title], table,  {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
+            return [title], table,  {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
         elif id in ['chart4-datepickerrange', 'chart4-publisher-dropdown', 'chart4-bias-rating-dropdown', 'chart4-bias-category-dropdown', 'chart4-topic-dropdown', 'chart4-ngram-dropdown', 'chart4-text-toggle', 'clear-button4']:
             return [], None, {'display': 'none'}, {'display': 'none'}, ''
