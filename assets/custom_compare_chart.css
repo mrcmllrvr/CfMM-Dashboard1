@@ -1,40 +1,40 @@
 @font-face {
-    font-family: "Roboto-Bold";
-    src: local("/assets/fonts/Roboto-Bold.ttf") format("truetype");
+    font-family: "OpenSauce-Bold";
+    src: local("/assets/fonts/open-sauce.sans-extrabold.ttf") format("truetype");
 }
 
 h1 {
-    font-family: "Roboto-Bold", sans-serif;
+    font-family: "OpenSauce-Bold", sans-serif;
     color: #2E2C2B;
     font-weight: bold;
     font-size: 36px;
 }
 
 h2 {
-    font-family: "Roboto-Bold", sans-serif;
+    font-family: "OpenSauce-Bold", sans-serif;
     color: #2E2C2B;
     font-weight: bold;
     font-size: 32px;
 }
 
 @font-face {
-    font-family: "Roboto-Italic";
-    src: local("/assets/fonts/Roboto-Italic.ttf") format("truetype");
+    font-family: "OpenSauce-Italic";
+    src: local("/assets/fonts/open-sauce.sans-italic.ttf") format("truetype");
 }
 
 h3 {
-    font-family: "Roboto-Italic", sans-serif;
+    font-family: "OpenSauce-Italic", sans-serif;
     color: #2E2C2B;
     font-size: 28px;
 }
 
 @font-face {
-    font-family: "Roboto-Regular";
-    src: local("/assets/fonts/Roboto-Regular.ttf") format("truetype");
+    font-family: "OpenSauce-Regular";
+    src: local("/assets/fonts/open-sauce.sans-regular.ttf") format("truetype");
 }
 
 .text, p {
-    font-family: "Roboto-Regular", sans-serif;
+    font-family: "OpenSauce-Regular", sans-serif;
     color: #2E2C2B;
     font-size: 16px;
 }
@@ -47,13 +47,13 @@ body {
 }
 
 .dash-app {
-    font-family: "Roboto-Regular", sans-serif;
+    font-family: "OpenSauce-Regular", sans-serif;
     color: #2E2C2B;
     font-size: 16px;
 }
 
 button {
-    font-family: "Roboto-Regular", sans-serif;
+    font-family: "OpenSauce-Regular", sans-serif;
     width: 100%;
     max-width: 200px;
 }
