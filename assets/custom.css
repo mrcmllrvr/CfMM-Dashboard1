@@ -3,16 +3,22 @@
     src: local("/assets/fonts/open-sauce-sans-black.ttf") format("truetype");
 }
 
-h1 {
+H1 {
     font-family: "OpenSauce-Bold", sans-serif;
     color: #2E2C2B;
     font-size: 40px;
 }
 
-h2 {
+H2 {
     font-family: "OpenSauce-Bold", sans-serif;
     color: #2E2C2B;
     font-size: 36px;
+}
+
+H3 {
+    font-family: "OpenSauce-Bold", sans-serif;
+    color: #2E2C2B;
+    font-size: 32px;
 }
 
 @font-face {
@@ -20,7 +26,7 @@ h2 {
     src: local("/assets/fonts/open-sauce-sans-italic.ttf") format("truetype");
 }
 
-h3 {
+H4 {
     font-family: "OpenSauce-Italic", sans-serif;
     color: #2E2C2B;
     font-size: 32px;

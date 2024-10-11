@@ -773,8 +773,9 @@ def update_homepage_chart4_static(text_by, ngram_value):
 
 # Define the layout for the main page
 main_layout = html.Div(children=[
-    html.H3(date_today),
-    html.H1("Today's Insights and Metrics", style={'margin-bottom': '50px'}),
+    html.H3(children=date_today),
+    
+    html.H1(children="Today's Insights and Metrics", style={'margin-bottom': '50px'}),
 
     # Modals
     # Modal for Chart 1
@@ -1585,7 +1586,7 @@ main_layout = html.Div(children=[
                 ## TODO: Place Homepage Chart 4 elements here
                 # Dropdown for n-gram selection
                 html.Div([
-                    html.Label([' Word Grouping:'], style={'font-weight': 'bold', 'width': '20%'}),
+                    html.Label([' Word Grouping:'], style={'font-weight': 'bold', 'width': '30%'}),
                     dcc.Dropdown(
                         id='homepage-chart4-ngram-dropdown',
                         options=[
@@ -1596,7 +1597,7 @@ main_layout = html.Div(children=[
                         value=[1,2,3],  # default value on load
                         multi=True,
                         clearable=False,
-                        style={'width': '70%'}
+                        style={'width': '60%'}
                     )
                 ], style={'display': 'flex', 'margin-bottom': '30px', 'align-items': 'center', }),
 
