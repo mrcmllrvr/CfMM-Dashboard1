@@ -1259,8 +1259,12 @@ main_layout = html.Div(children=[
                         value='title',  # default value on load
                         labelStyle={'display': 'inline-block'},
                         inputStyle={"margin-left": "10px"},
-                        style={'margin-bottom': '50px'}
+                        style={'margin-bottom': '10px'}
                     ),
+
+                    # Graph for displaying the word cloud
+                    html.Img(id='wordcloud-container', style={'width': '100%'}),
+                    # dcc.Graph(id='wordcloud-container'),
 
                     # Word search input and button
                     html.Div([
@@ -1268,10 +1272,6 @@ main_layout = html.Div(children=[
                         dcc.Input(id='word-search', type='text', style={'width': '49%', 'display': 'block'}),
                         dbc.Button('Search', id='search-button4', style={'margin-left': '30px', 'width': '10%', 'display': 'block'})
                     ], style={'display': 'flex', 'margin-top': '30px', 'margin-bottom': '30px', 'align-items': 'center'}),
-
-                    # Graph for displaying the word cloud
-                    html.Img(id='wordcloud-container', style={'width': '100%'}),
-                    # dcc.Graph(id='wordcloud-container'),
 
                     # Table for displaying the result for word search
                     html.Div(id='table4-title', style={'fontSize': 20, 'color': '#2E2C2B', 'margin-bottom': '20px'}),
