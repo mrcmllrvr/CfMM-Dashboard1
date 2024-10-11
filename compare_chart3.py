@@ -104,7 +104,7 @@ def create_layout():
                     end_date=end_date,
                     start_date_placeholder_text='Start date',
                     end_date_placeholder_text='End date',
-                    style = {'font-size':'13px'}
+                    style = {'font-size':'13px', 'width': '70%'}
                 )
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
@@ -166,17 +166,17 @@ def create_layout():
                 clearable=True,
                 style = {'width': '70%'}
                 )
-            ], style={'display':'flex', 'margin-bottom':'50px', 'align-items': 'center'}),
+            ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
             # Graph for displaying the top topics
-            dcc.Graph(id='top-offending-articles-bar-chart-3a', style = {'margin-bottom': '50px'}),
+            dcc.Graph(id='top-offending-articles-bar-chart-3a', style = {'margin-bottom': '30px'}),
 
             # Table for displaying the top topics
-            html.Div(id='table3a-title', style={'fontSize': 20, 'fontColor': '#2E2C2B', 'margin-bottom': '20px'}),
+            html.Div(id='table3a-title', style={'fontColor': '#2E2C2B', 'margin-bottom': '20px'}),
             html.Div(id='table3a'),
             html.Div([
-                dbc.Button('Clear Table', id='clear-button3a', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}),
-                dbc.Button('Export to CSV', id='export-button3a', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}
+                dbc.Button('Clear Table', id='clear-button3a', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '40%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}),
+                dbc.Button('Export to CSV', id='export-button3a', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '40%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}
                             )
             ], style={'display':'flex', 'margin-top': '10px', 'align-items': 'center'}),
         ],
@@ -205,7 +205,7 @@ def create_layout():
                     end_date=end_date,
                     start_date_placeholder_text='Start date',
                     end_date_placeholder_text='End date',
-                    style = {'font-size':'13px'}
+                    style = {'font-size':'13px', 'width': '70%'}
                 )
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
@@ -265,17 +265,17 @@ def create_layout():
                 multi=True,
                 clearable=True,
                 style = {'width': '70%'})
-            ], style={'display':'flex', 'margin-bottom':'50px', 'align-items': 'center'}),
+            ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
             # Graph for displaying the top topics
-            dcc.Graph(id='top-offending-articles-bar-chart-3b', style = {'margin-bottom': '50px'}),
+            dcc.Graph(id='top-offending-articles-bar-chart-3b', style = {'margin-bottom': '30px'}),
 
             # Table for displaying the top topics
-            html.Div(id='table3b-title', style={'fontSize': 20, 'fontColor': '#2E2C2B', 'margin-bottom': '20px'}),
+            html.Div(id='table3b-title', style={'fontColor': '#2E2C2B', 'margin-bottom': '20px'}),
             html.Div(id='table3b'),
             html.Div([
-                dbc.Button('Clear Table', id='clear-button3b', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}),
-                dbc.Button('Export to CSV', id='export-button3b', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'})
+                dbc.Button('Clear Table', id='clear-button3b', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '40%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}),
+                dbc.Button('Export to CSV', id='export-button3b', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '40%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'})
             ], style={'display':'flex', 'margin-top': '10px', 'align-items': 'center'}),
         ],
         style={'width': '48%', 'display': 'inline-block', 'backgroundColor': 'white', 'border': '2px solid #d3d3d3', 'border-radius': '8px', 'padding': '10px', 'margin': '5px'}),

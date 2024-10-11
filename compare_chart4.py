@@ -110,7 +110,7 @@ def create_layout():
                     end_date=end_date,
                     start_date_placeholder_text='Start date',
                     end_date_placeholder_text='End date',
-                    style={'font-size': '13px'}
+                    style={'font-size': '13px', 'width': '70%'}
                 )
             ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
 
@@ -233,6 +233,12 @@ def create_layout():
                 style={'margin-bottom': '50px'}
             ),
 
+            # Graph for displaying the word cloud
+            html.Div(id='chart4a-title-container', children=[
+                html.H3("", style={'textAlign': 'center'})
+            ]),
+            html.Img(id='wordcloud-container-4a', style={'width': '100%'}),
+            # dcc.Graph(id='wordcloud-container-4a'),
 
             # Word search input and button
             html.Div([
@@ -241,19 +247,12 @@ def create_layout():
                 dbc.Button([html.I(className="bi-search"), ' Search'], id='search-button4a', style={'white-space': 'nowrap', 'margin-left': '2%', 'width': '20%', 'display': 'inline-block', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'})
             ], style={'display': 'flex', 'margin-top': '30px', 'margin-bottom': '30px', 'align-items': 'center'}),
 
-            # Graph for displaying the word cloud
-            html.Div(id='chart4a-title-container', children=[
-                html.H3("", style={'textAlign': 'center'})
-            ]),
-            html.Img(id='wordcloud-container-4a', style={'width': '100%'}),
-            # dcc.Graph(id='wordcloud-container-4a'),
-
             # Table for displaying the result for word search
-            html.Div(id='table4a-title', style={'fontSize': 20, 'color': '#2E2C2B', 'margin-bottom': '20px'}),
+            html.Div(id='table4a-title', style={'color': '#2E2C2B', 'margin-bottom': '20px'}),
             html.Div(id='table4a'),
             html.Div([
-                dbc.Button('Clear Table', id='clear-button4a', style={'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}),
-                dbc.Button('Export to CSV', id='export-button4a', style={'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'})
+                dbc.Button('Clear Table', id='clear-button4a', style={'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '40%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}),
+                dbc.Button('Export to CSV', id='export-button4a', style={'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '40%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'})
             ], style={'display': 'flex', 'margin-top': '10px', 'align-items': 'center'}),
         ],
         style={'width': '48%', 'display': 'inline-block', 'backgroundColor': 'white', 'border': '2px solid #d3d3d3', 'border-radius': '8px', 'padding': '10px', 'margin': '5px'}),
@@ -280,7 +279,7 @@ def create_layout():
                     end_date=end_date,
                     start_date_placeholder_text='Start date',
                     end_date_placeholder_text='End date',
-                    style={'font-size': '13px'}
+                    style={'font-size': '13px', 'width': '70%'}
                 )
             ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
 
@@ -403,13 +402,6 @@ def create_layout():
                 style={'margin-bottom': '50px'}
             ),
 
-            # Word search input and button
-            html.Div([
-                html.Label(['Word Search:'], style={'font-weight': 'bold', 'width': '40%', 'display': 'block'}),
-                dbc.Input(id='word-search-4b', type='text', style={'width': '70%', 'display': 'block'}),
-                dbc.Button([html.I(className="bi-search"), ' Search'], id='search-button4b', style={'white-space': 'nowrap', 'margin-left': '2%', 'width': '20%', 'display': 'inline-block', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'})
-            ], style={'display': 'flex', 'margin-top': '30px', 'margin-bottom': '30px', 'align-items': 'center'}),
-
             # Graph for displaying the word cloud
             html.Div(id='chart4b-title-container', children=[
                 html.H3("", style={'textAlign': 'center'})
@@ -417,12 +409,19 @@ def create_layout():
             html.Img(id='wordcloud-container-4b', style={'width': '100%'}),
             # dcc.Graph(id='wordcloud-container-4b'),
 
+            # Word search input and button
+            html.Div([
+                html.Label(['Word Search:'], style={'font-weight': 'bold', 'width': '40%', 'display': 'block'}),
+                dbc.Input(id='word-search-4b', type='text', style={'width': '70%', 'display': 'block'}),
+                dbc.Button([html.I(className="bi-search"), ' Search'], id='search-button4b', style={'white-space': 'nowrap', 'margin-left': '2%', 'width': '20%', 'display': 'inline-block', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'})
+            ], style={'display': 'flex', 'margin-top': '30px', 'margin-bottom': '30px', 'align-items': 'center'}),
+
             # Table for displaying the result for word search
-            html.Div(id='table4b-title', style={'fontSize': 20, 'color': '#2E2C2B', 'margin-bottom': '20px'}),
+            html.Div(id='table4b-title', style={'color': '#2E2C2B', 'margin-bottom': '20px'}),
             html.Div(id='table4b'),
             html.Div([
-                dbc.Button('Clear Table', id='clear-button4b', style={'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}),
-                dbc.Button('Export to CSV', id='export-button4b', style={'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'})
+                dbc.Button('Clear Table', id='clear-button4b', style={'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '40%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}),
+                dbc.Button('Export to CSV', id='export-button4b', style={'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '40%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'})
             ], style={'display': 'flex', 'margin-top': '10px', 'align-items': 'center'}),
         ],
         style={'width': '48%', 'display': 'inline-block', 'backgroundColor': 'white', 'border': '2px solid #d3d3d3', 'border-radius': '8px', 'padding': '10px', 'margin': '5px'}),
