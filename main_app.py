@@ -53,6 +53,8 @@ import open_cards
 # Import datasets if from local
 # df_dummy = pd.read_pickle(r"df_dummy.pkl")
 df_topic_and_loc = pd.read_pickle(r"df_topic_and_loc.pkl")
+# df_topic_and_loc['main_site'] = df_topic_and_loc['publisher'].copy()
+# df_topic_and_loc['publisher'] = df_topic_and_loc['main_site'].str.extract(r'(?:www\.)?(.*)\.co', expand=False).str.title()
 df_bias = pd.read_pickle(r"df_bias.pkl")
 
 # (2) Join
@@ -483,7 +485,7 @@ import matplotlib.pyplot as plt
 plot_lock = Lock()
 
 # Helper function to generate a word cloud from word counts (Chart 4)
-def generate_word_cloud(word_counts):
+def generate_word_cloud(word_counts, title):
     sorted_words = sorted(word_counts.items(), key=lambda x: x[1], reverse=True)
     top_10_words = {word: count for word, count in sorted_words[:10]}
 
@@ -527,7 +529,7 @@ def generate_word_cloud(word_counts):
     plt.figure(figsize=(10, 8), facecolor='white')
     plt.imshow(wc, interpolation='bilinear')
     plt.axis('off')
-    # plt.title(title, fontsize=16, fontweight='bold', color='#2E2C2B', pad=20)
+    plt.title(title, fontsize=16, fontweight='bold', color='#2E2C2B', pad=20)
     plt.tight_layout(pad=1, rect=[0, 0, 1, 1])
     plt.savefig(img, format='png')
     plt.close()
@@ -588,7 +590,7 @@ def update_homepage_chart4_static(text_by, ngram_value):
     ngram_names = vectorizer.get_feature_names_out()
     word_counts = dict(zip(ngram_names, ngram_freq))
 
-    return generate_word_cloud(word_counts)
+    return generate_word_cloud(word_counts, "<b>What are the trending words/phrases in today's biased/very biased articles?</b>")
 
 
 
@@ -888,8 +890,8 @@ main_layout = html.Div(children=[
                     html.Div(id='table1-title', style={'fontSize': 20, 'fontColor': '#2E2C2B', 'margin-bottom': '20px'}),
                     html.Div(id='table1'),
                     html.Div([
-                        dbc.Button('Clear Table', id='clear-button1', style = {'display': 'none'}),
-                        dbc.Button('Export to CSV', id='export-button1', style = {'display': 'none'})
+                        dbc.Button('Clear Table', id='clear-button1', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}),
+                        dbc.Button('Export to CSV', id='export-button1', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'})
                     ], style={'display':'flex', 'margin-top': '10px', 'align-items': 'center'}),
                 ])
             ],
@@ -998,8 +1000,8 @@ main_layout = html.Div(children=[
                     html.Div(id='table2-title', style={'fontSize': 20, 'fontColor': '#2E2C2B', 'margin-bottom': '20px'}),
                     html.Div(id='table2'),
                     html.Div([
-                        dbc.Button('Clear Table', id='clear-button2', style = {'display': 'none'}),
-                        dbc.Button('Export to CSV', id='export-button2', style = {'display': 'none'})
+                        dbc.Button('Clear Table', id='clear-button2', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}),
+                        dbc.Button('Export to CSV', id='export-button2', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'})
                     ], style={'display':'flex', 'margin-top': '10px', 'align-items': 'center'}),
                 ])
             ],
@@ -1087,8 +1089,8 @@ main_layout = html.Div(children=[
                     html.Div(id='table3-title', style={'fontSize': 20, 'fontColor': '#2E2C2B', 'margin-bottom': '20px'}),
                     html.Div(id='table3'),
                     html.Div([
-                        dbc.Button('Clear Table', id='clear-button3', style = {'display': 'none'}),
-                        dbc.Button('Export to CSV', id='export-button3', style = {'display': 'none'}
+                        dbc.Button('Clear Table', id='clear-button3', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}),
+                        dbc.Button('Export to CSV', id='export-button3', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}
                                 )
                     ], style={'display':'flex', 'margin-top': '10px', 'align-items': 'center'}),
                 ])
@@ -1225,9 +1227,6 @@ main_layout = html.Div(children=[
                     ], style={'display': 'flex', 'margin-top': '30px', 'margin-bottom': '30px', 'align-items': 'center'}),
 
                     # Graph for displaying the word cloud
-                    html.Div(id='chart4-title-container', children=[
-                        html.H3("Which trending words/phrases appeared in the biased/very biased articles during the selected period?", style={'textAlign': 'center'})
-                    ]),
                     html.Img(id='wordcloud-container', style={'width': '100%'}),
                     # dcc.Graph(id='wordcloud-container'),
 
@@ -1235,8 +1234,8 @@ main_layout = html.Div(children=[
                     html.Div(id='table4-title', style={'fontSize': 20, 'color': '#2E2C2B', 'margin-bottom': '20px'}),
                     html.Div(id='table4'),
                     html.Div([
-                        dbc.Button('Clear Table', id='clear-button4', style={'display': 'none'}),
-                        dbc.Button('Export to CSV', id='export-button4', style={'display': 'none'})
+                        dbc.Button('Clear Table', id='clear-button4', style={'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}),
+                        dbc.Button('Export to CSV', id='export-button4', style={'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'})
                     ], style={'display': 'flex', 'margin-top': '10px', 'align-items': 'center'}),
                 ])
             ],
@@ -2064,7 +2063,7 @@ import matplotlib.pyplot as plt
 plot_lock = Lock()
 
 # Helper function to generate a word cloud from word counts (Chart 4)
-def generate_word_cloud(word_counts):
+def generate_word_cloud(word_counts, title):
     sorted_words = sorted(word_counts.items(), key=lambda x: x[1], reverse=True)
     top_10_words = {word: count for word, count in sorted_words[:10]}
 
@@ -2108,7 +2107,7 @@ def generate_word_cloud(word_counts):
     plt.figure(figsize=(10, 8), facecolor='white')
     plt.imshow(wc, interpolation='bilinear')
     plt.axis('off')
-    # plt.title(title, fontsize=16, fontweight='bold', color='#2E2C2B', pad=20)
+    plt.title(title, fontsize=16, fontweight='bold', color='#2E2C2B', pad=20)
     plt.tight_layout(pad=1, rect=[0, 0, 1, 1])
     plt.savefig(img, format='png')
     plt.close()
@@ -2134,26 +2133,23 @@ def generate_no_data_image():
 
 # Callback for Chart 4
 @app.callback(
-    [Output('chart4-title-container', 'style'),  # To control title visibility
-     Output('wordcloud-container', 'src')],  # For the word cloud image
+    Output('wordcloud-container', 'src'),
     [Input('chart4-datepickerrange', 'start_date'),
-     Input('chart4-datepickerrange', 'end_date'),
-     Input('chart4-publisher-dropdown', 'value'),
-     Input('chart4-topic-dropdown', 'value'),
-     Input('chart4-bias-category-dropdown', 'value'),
-     Input('chart4-bias-rating-dropdown', 'value'),
-     Input('chart4-text-toggle', 'value'),
-     Input('chart4-ngram-dropdown', 'value')]
+        Input('chart4-datepickerrange', 'end_date'),
+        Input('chart4-publisher-dropdown', 'value'),
+        Input('chart4-topic-dropdown', 'value'),
+        Input('chart4-bias-category-dropdown', 'value'),
+        Input('chart4-bias-rating-dropdown', 'value'),
+        Input('chart4-text-toggle', 'value'),
+        Input('chart4-ngram-dropdown', 'value')]
 )
-def update_wordcloud_static(selected_start_date, selected_end_date, selected_publishers, selected_topics, selected_bias_categories, selected_bias_ratings, text_by, ngram_value):
+def update_chart4_static(selected_start_date, selected_end_date, selected_publishers, selected_topics, selected_bias_categories, selected_bias_ratings, text_by, ngram_value):
+    # Step 1: Filter the data based on the selected inputs
     filtered_df = df_corpus.copy()
-
-    # Apply filters for dates, publishers, ratings, and categories
     if selected_start_date and selected_end_date:
         start_date = pd.to_datetime(selected_start_date)
         end_date = pd.to_datetime(selected_end_date)
         filtered_df = filtered_df[(filtered_df['date_published'] >= start_date) & (filtered_df['date_published'] <= end_date)]
-
     if selected_publishers:
         filtered_df = filtered_df[filtered_df['publisher'].isin(selected_publishers)]
     if selected_topics:
@@ -2163,11 +2159,11 @@ def update_wordcloud_static(selected_start_date, selected_end_date, selected_pub
     if selected_bias_categories:
         filtered_df = filtered_df[filtered_df[selected_bias_categories].sum(axis=1) > 0]
 
-    # If no data is found, hide the title and show the no-data image
+    # If no data is found
     if filtered_df.shape[0] == 0:
-        return {'display': 'none'}, generate_no_data_image()
+        return generate_no_data_image()
 
-    # Generate the word cloud if data is found
+    # Step 2: Generate n-grams
     text = ' '.join(filtered_df[text_by].dropna().values)
     ngram_range = (1, 3)
     if ngram_value:
@@ -2182,8 +2178,7 @@ def update_wordcloud_static(selected_start_date, selected_end_date, selected_pub
     ngram_names = vectorizer.get_feature_names_out()
     word_counts = dict(zip(ngram_names, ngram_freq))
 
-    # Show the title and return the word cloud image
-    return {'display': 'block'}, generate_word_cloud(word_counts)
+    return generate_word_cloud(word_counts, "<b>Which trending words/phrases appeared in the biased/very biased articles during the selected period?</b>")
 
 # @app.callback(
 #     Output('wordcloud-container', 'figure'),
@@ -2644,9 +2639,9 @@ def update_table1(selected_start_date, selected_end_date, selected_publishers, s
                     )
 
             if id == 'export-button1':
-                return [title], table, {'fontSize':14, 'display': 'block'}, {'fontSize':14, 'display': 'block', 'margin-left': '10px'}, csv_string
+                return [title], table, {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
-            return [title], table, {'fontSize':14, 'display': 'block'}, {'fontSize':14, 'display': 'block', 'margin-left': '10px'}, csv_string
+            return [title], table, {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
         elif id in ['chart1-datepickerrange', 'chart1-topic-dropdown', 'chart1-publisher-dropdown', 'chart1-bias-rating-dropdown', 'chart1-bias-category-dropdown', 'chart1-color-toggle', 'clear-button1']:
             return [], None, {'display': 'none'}, {'display': 'none'}, ''
@@ -2815,9 +2810,9 @@ def update_table2(selected_start_date, selected_end_date, selected_publishers, s
                 )
 
             if id == 'export-button2':
-                return [title], table, {'fontSize': 14, 'display': 'block'}, {'fontSize': 14, 'display': 'block', 'margin-left': '10px'}, csv_string
+                return [title], table, {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
-            return [title], table, {'fontSize': 14, 'display': 'block'}, {'fontSize': 14, 'display': 'block', 'margin-left': '10px'}, csv_string
+            return [title], table,  {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
         elif id in ['chart2-datepickerrange', 'chart2-publisher-dropdown', 'chart2-bias-rating-dropdown', 'chart2-bias-category-dropdown', 'chart2-color-toggle', 'clear-button2']:
             return [], None, {'display': 'none'}, {'display': 'none'}, ''
@@ -3008,9 +3003,9 @@ def update_table3(selected_start_date, selected_end_date, selected_publishers, s
                 )
 
             if id == 'export-button3':
-                return [title], table, {'fontSize': 14, 'display': 'block'}, {'fontSize': 14, 'display': 'block', 'margin-left': '10px'}, csv_string
+                return [title], table,  {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
-            return [title], table, {'fontSize': 14, 'display': 'block'}, {'fontSize': 14, 'display': 'block', 'margin-left': '10px'}, csv_string
+            return [title], table,  {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
         elif id in ['chart3-datepickerrange', 'chart3-publisher-dropdown', 'chart3-bias-rating-dropdown', 'chart3-topic-dropdown', 'clear-button3']:
             return [], None, {'display': 'none'}, {'display': 'none'}, ''
@@ -3189,9 +3184,9 @@ def update_table4(n_clicks_search, n_clicks_clear, selected_start_date, selected
             )
 
             if id == 'export-button4':
-                return [title], table, {'fontSize': 14, 'display': 'block'}, {'fontSize': 14, 'display': 'block', 'margin-left': '10px'}, csv_string
+                return [title], table,  {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
-            return [title], table, {'fontSize': 14, 'display': 'block'}, {'fontSize': 14, 'display': 'block', 'margin-left': '10px'}, csv_string
+            return [title], table,  {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
         elif id in ['chart4-datepickerrange', 'chart4-publisher-dropdown', 'chart4-bias-rating-dropdown', 'chart4-bias-category-dropdown', 'chart4-topic-dropdown', 'chart4-ngram-dropdown', 'chart4-text-toggle', 'clear-button4']:
             return [], None, {'display': 'none'}, {'display': 'none'}, ''
