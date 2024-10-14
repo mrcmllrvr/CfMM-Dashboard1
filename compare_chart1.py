@@ -1,3 +1,4 @@
+# compare_chart1.py
 # This file contains only the comparison logic for Charts 1A and 1B.
 
 import dash_dangerously_set_inner_html
@@ -70,20 +71,20 @@ unique_topics = df_corpus['topic_list'].explode().dropna().unique()
 stylesheets = [
     dbc.themes.BOOTSTRAP,
     dbc.icons.BOOTSTRAP,
-    '/assets/custom.css'
+    '/assets/custom_compare_chart.css'
 ]
 app = dash.Dash(__name__, external_stylesheets=stylesheets)
 
 # Define the comparison layout for Chart 1A and Chart 1B
 def create_layout():
     layout = html.Div(style={'justify-content': 'center', 'backgroundColor': '#ffffff'}, className='row', children=[
-        html.H1(children="Top Offending Publishers", style={'textAlign': 'center', 'font-weight': 'bold'}),
+        html.H3(children=f"""Who are the top offending publishers during the selected period?""", style={'textAlign': 'center', 'font-weight': 'bold', 'margin-bottom': '30px'}),
 
         # Chart 1A vs Chart 1B
         html.Div([
 
             # All elements for Chart 2A
-            html.H3("Scenario A", style={'textAlign': 'center'}),
+            html.H4("Scenario A", style={'textAlign': 'center', 'margin-bottom':'30px', 'margin-top':'30px'}),
 
             html.Div([
                 html.Label(
@@ -91,7 +92,7 @@ def create_layout():
                         html.I(className="bi-calendar-week", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                         html.Span(' Date Published:', style={'vertical-align': 'middle'})
                     ],
-                    style={'font-weight': 'bold', 'width': '30%'}
+                    style={'font-weight': 'bold', 'width': '40%'}
                 ),
                 dcc.DatePickerRange(
                     id='chart1a-datepickerrange',
@@ -103,7 +104,7 @@ def create_layout():
                     end_date=end_date,
                     start_date_placeholder_text='Start date',
                     end_date_placeholder_text='End date',
-                    style = {'font-size':'13px'}
+                    style = {'font-size':'13px', 'width': '70%'}
                 )
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
@@ -113,7 +114,7 @@ def create_layout():
                         html.I(className="bi-person-fill", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                         html.Span(' Publishers:', style={'vertical-align': 'middle'})
                     ],
-                    style={'font-weight': 'bold', 'width': '30%'}
+                    style={'font-weight': 'bold', 'width': '40%'}
                 ),
                 dcc.Dropdown(
                     id='chart1a-publisher-dropdown',
@@ -121,7 +122,7 @@ def create_layout():
                     placeholder='Select Publisher',
                     multi=True,
                     clearable=True,
-                    style = {'width': '60%'}
+                    style = {'width': '70%'}
                 )
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
@@ -131,7 +132,7 @@ def create_layout():
                         html.I(className="bi-speedometer2", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                         html.Span(' Overall Bias Score:', style={'vertical-align': 'middle'})
                     ],
-                    style={'font-weight': 'bold', 'width': '30%'}
+                    style={'font-weight': 'bold', 'width': '40%'}
                 ),
                 dcc.Dropdown(
                     id='chart1a-bias-rating-dropdown',
@@ -144,7 +145,7 @@ def create_layout():
                     placeholder='Select Overall Bias Score',
                     multi=True,
                     clearable=True,
-                    style = {'width': '60%'}
+                    style = {'width': '70%'}
                 )
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
@@ -154,7 +155,7 @@ def create_layout():
                         html.I(className="bi-boxes", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                         html.Span(' Category of Bias:', style={'vertical-align': 'middle'})
                     ],
-                    style={'font-weight': 'bold', 'width': '30%'}
+                    style={'font-weight': 'bold', 'width': '40%'}
                 ),
                 dcc.Dropdown(
                     id='chart1a-bias-category-dropdown',
@@ -168,7 +169,7 @@ def create_layout():
                     placeholder='Select Category of Bias',
                     multi=True,
                     clearable=True,
-                    style = {'width': '60%'}
+                    style = {'width': '70%'}
                 )
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
@@ -178,7 +179,7 @@ def create_layout():
                         html.I(className="bi-chat-dots", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                         html.Span(' Topics:', style={'vertical-align': 'middle'})
                     ],
-                    style={'font-weight': 'bold', 'width': '30%'}
+                    style={'font-weight': 'bold', 'width': '40%'}
                 ),
                 dcc.Dropdown(
                     id='chart1a-topic-dropdown',
@@ -186,7 +187,7 @@ def create_layout():
                     placeholder='Select Topic',
                     multi=True,
                     clearable=True,
-                    style = {'width': '60%'}
+                    style = {'width': '70%'}
                 )
             ], style={'display':'flex', 'margin-bottom':'30px', 'align-items': 'center'}),
 
@@ -200,25 +201,25 @@ def create_layout():
                 value='bias_ratings',  # default value on load
                 labelStyle={'display': 'inline-block'},
                 inputStyle={"margin-left": "10px"},
-                style = {'margin-bottom': '50px'}
+                style = {'margin-bottom': '10px'}
             ),
 
             # Graph for displaying the top offending publishers
-            dcc.Graph(id='top-offending-publishers-bar-chart-1a', style = {'margin-bottom': '50px'}),
+            dcc.Graph(id='top-offending-publishers-bar-chart-1a', style = {'margin-bottom': '30px'}),
 
             # Table for displaying the top offending publishers
-            html.Div(id='table1a-title', style={'fontSize': 20, 'fontColor': '#2E2C2B', 'margin-bottom': '20px'}),
+            html.Div(id='table1a-title', style={'fontColor': '#2E2C2B', 'margin-bottom': '20px'}),
             html.Div(id='table1a'),
             html.Div([
-                dbc.Button('Clear Table', id='clear-button1a', style = {'display': 'none'}),
-                dbc.Button('Export to CSV', id='export-button1a', style = {'display': 'none'})
+                dbc.Button('Clear Table', id='clear-button1a', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '40%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}),
+                dbc.Button('Export to CSV', id='export-button1a', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '40%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'})
             ], style={'display':'flex', 'margin-top': '10px', 'align-items': 'center'}),
         ],
         style={'width': '48%', 'display': 'inline-block', 'backgroundColor': 'white', 'border': '2px solid #d3d3d3', 'border-radius': '8px', 'padding': '10px', 'margin': '5px'}),
 
         # All elements for Chart 1B
         html.Div([
-            html.H3("Scenario B", style={'textAlign': 'center'}),
+            html.H4("Scenario B", style={'textAlign': 'center', 'margin-bottom':'30px', 'margin-top':'30px'}),
             
             html.Div([
                 html.Label(
@@ -226,7 +227,7 @@ def create_layout():
                         html.I(className="bi-calendar-week", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                         html.Span(' Date Published:', style={'vertical-align': 'middle'})
                     ],
-                    style={'font-weight': 'bold', 'width': '30%'}
+                    style={'font-weight': 'bold', 'width': '40%'}
                 ),
                 dcc.DatePickerRange(
                     id='chart1b-datepickerrange',
@@ -238,7 +239,7 @@ def create_layout():
                     end_date=end_date,
                     start_date_placeholder_text='Start date',
                     end_date_placeholder_text='End date',
-                    style = {'font-size':'13px'}
+                    style = {'font-size':'13px', 'width': '70%'}
                 )
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
@@ -248,7 +249,7 @@ def create_layout():
                         html.I(className="bi-person-fill", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                         html.Span(' Publishers:', style={'vertical-align': 'middle'})
                     ],
-                    style={'font-weight': 'bold', 'width': '30%'}
+                    style={'font-weight': 'bold', 'width': '40%'}
                 ),
                 dcc.Dropdown(
                     id='chart1b-publisher-dropdown',
@@ -256,7 +257,7 @@ def create_layout():
                     placeholder='Select Publisher',
                     multi=True,
                     clearable=True,
-                    style = {'width': '60%'}
+                    style = {'width': '70%'}
                 )
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
@@ -266,7 +267,7 @@ def create_layout():
                         html.I(className="bi-speedometer2", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                         html.Span(' Overall Bias Score:', style={'vertical-align': 'middle'})
                     ],
-                    style={'font-weight': 'bold', 'width': '30%'}
+                    style={'font-weight': 'bold', 'width': '40%'}
                 ),
                 dcc.Dropdown(
                     id='chart1b-bias-rating-dropdown',
@@ -279,7 +280,7 @@ def create_layout():
                     placeholder='Select Overall Bias Score',
                     multi=True,
                     clearable=True,
-                    style = {'width': '60%'}
+                    style = {'width': '70%'}
                 )
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
@@ -289,7 +290,7 @@ def create_layout():
                         html.I(className="bi-boxes", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                         html.Span(' Category of Bias:', style={'vertical-align': 'middle'})
                     ],
-                    style={'font-weight': 'bold', 'width': '30%'}
+                    style={'font-weight': 'bold', 'width': '40%'}
                 ),
                 dcc.Dropdown(
                     id='chart1b-bias-category-dropdown',
@@ -303,7 +304,7 @@ def create_layout():
                     placeholder='Select Category of Bias',
                     multi=True,
                     clearable=True,
-                    style = {'width': '60%'}
+                    style = {'width': '70%'}
                 )
             ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
@@ -313,7 +314,7 @@ def create_layout():
                         html.I(className="bi-chat-dots", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                         html.Span(' Topics:', style={'vertical-align': 'middle'})
                     ],
-                    style={'font-weight': 'bold', 'width': '30%'}
+                    style={'font-weight': 'bold', 'width': '40%'}
                 ),
                 dcc.Dropdown(
                     id='chart1b-topic-dropdown',
@@ -321,7 +322,7 @@ def create_layout():
                     placeholder='Select Topic',
                     multi=True,
                     clearable=True,
-                    style = {'width': '60%'}
+                    style = {'width': '70%'}
                 )
             ], style={'display':'flex', 'margin-bottom':'30px', 'align-items': 'center'}),
 
@@ -335,18 +336,18 @@ def create_layout():
                 value='bias_ratings',  # default value on load
                 labelStyle={'display': 'inline-block'},
                 inputStyle={"margin-left": "10px"},
-                style = {'margin-bottom': '50px'}
+                style = {'margin-bottom': '10px'}
             ),
 
             # Graph for displaying the top offending publishers
-            dcc.Graph(id='top-offending-publishers-bar-chart-1b', style = {'margin-bottom': '50px'}),
+            dcc.Graph(id='top-offending-publishers-bar-chart-1b', style = {'margin-bottom': '30px'}),
 
             # Table for displaying the top offending publishers
-            html.Div(id='table1b-title', style={'fontSize': 20, 'fontColor': '#2E2C2B', 'margin-bottom': '20px'}),
+            html.Div(id='table1b-title', style={'fontColor': '#2E2C2B', 'margin-bottom': '20px'}),
             html.Div(id='table1b'),
             html.Div([
-                dbc.Button('Clear Table', id='clear-button1b', style = {'display': 'none'}),
-                dbc.Button('Export to CSV', id='export-button1b', style = {'display': 'none'})
+                dbc.Button('Clear Table', id='clear-button1b', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '40%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}),
+                dbc.Button('Export to CSV', id='export-button1b', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '40%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'})
             ], style={'display':'flex', 'margin-top': '10px', 'align-items': 'center'}),
         ],
         style={'width': '48%', 'display': 'inline-block', 'backgroundColor': 'white', 'border': '2px solid #d3d3d3', 'border-radius': '8px', 'padding': '10px', 'margin': '5px'}),
@@ -446,7 +447,7 @@ def register_callbacks(app):
                             textposition='none'
                         ))
                 layout = go.Layout(
-                    title=f"""<b>Who are today's top offending publishers?</b>""",
+                    title='',
                     xaxis=dict(title='Number of Articles'),
                     yaxis=dict(title='Publisher'),
                     hovermode='closest',
@@ -519,7 +520,7 @@ def register_callbacks(app):
                         textposition='none'
                     ))
                 layout = go.Layout(
-                    title=f"""<b>Who are the top offending publishers during the selected period?</b>""",
+                    title='',
                     xaxis=dict(title='Number of Articles'),
                     yaxis=dict(title='Publisher'),
                     hovermode='closest',
@@ -646,7 +647,7 @@ def register_callbacks(app):
                                 textposition='none'
                             ))
                     layout = go.Layout(
-                        title=f"""<b>Who are the top offending publishers during the selected period?</b>""",
+                        title='',
                         xaxis=dict(title='Number of Articles'),
                         yaxis=dict(title='Publisher'),
                         hovermode='closest',
@@ -1014,9 +1015,9 @@ def register_callbacks(app):
                         )
 
                 if id == 'export-button1a':
-                    return [title], table, {'fontSize':14, 'display': 'block'}, {'fontSize':14, 'display': 'block', 'margin-left': '10px'}, csv_string
+                    return [title], table, {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
-                return [title], table, {'fontSize':14, 'display': 'block'}, {'fontSize':14, 'display': 'block', 'margin-left': '10px'}, csv_string
+                return [title], table, {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
             elif id in ['chart1a-datepickerrange', 'chart1a-topic-dropdown', 'chart1a-publisher-dropdown', 'chart1a-bias-rating-dropdown', 'chart1a-bias-category-dropdown', 'chart1a-color-toggle', 'clear-button1a']:
                 return [], None, {'display': 'none'}, {'display': 'none'}, ''
@@ -1299,9 +1300,9 @@ def register_callbacks(app):
                         )
 
                 if id == 'export-button1b':
-                    return [title], table, {'fontSize':14, 'display': 'block'}, {'fontSize':14, 'display': 'block', 'margin-left': '10px'}, csv_string
+                    return [title], table, {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
-                return [title], table, {'fontSize':14, 'display': 'block'}, {'fontSize':14, 'display': 'block', 'margin-left': '10px'}, csv_string
+                return [title], table, {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
             elif id in ['chart1b-datepickerrange', 'chart1b-topic-dropdown', 'chart1b-publisher-dropdown', 'chart1b-bias-rating-dropdown', 'chart1b-bias-category-dropdown', 'chart1b-color-toggle', 'clear-button1b']:
                 return [], None, {'display': 'none'}, {'display': 'none'}, ''

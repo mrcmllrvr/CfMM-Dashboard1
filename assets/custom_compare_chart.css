@@ -6,19 +6,19 @@
 H1 {
     font-family: "OpenSauce-Bold", sans-serif;
     color: #2E2C2B;
-    font-size: 40px;
+    font-size: 36px;
 }
 
 H2 {
     font-family: "OpenSauce-Bold", sans-serif;
     color: #2E2C2B;
-    font-size: 36px;
+    font-size: 32px;
 }
 
 H3 {
     font-family: "OpenSauce-Bold", sans-serif;
     color: #2E2C2B;
-    font-size: 32px;
+    font-size: 28px;
 }
 
 @font-face {
@@ -29,7 +29,7 @@ H3 {
 H4 {
     font-family: "OpenSauce-Italic", sans-serif;
     color: #2E2C2B;
-    font-size: 32px;
+    font-size: 28px;
 }
 
 @font-face {
@@ -40,7 +40,7 @@ H4 {
 .text, p {
     font-family: "OpenSauce-Regular", sans-serif;
     color: #2E2C2B;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 body {
@@ -53,7 +53,7 @@ body {
 .dash-app {
     font-family: "OpenSauce-Regular", sans-serif;
     color: #2E2C2B;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 button {
