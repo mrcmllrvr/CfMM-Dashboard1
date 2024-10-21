@@ -1073,7 +1073,13 @@ main_layout = html.Div(children=[
                     ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
                     html.Div([
-                        html.Label(['Publishers:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        html.Label(
+                            [
+                                html.I(className="bi-person-fill", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
+                                html.Span(' Publishers:', style={'vertical-align': 'middle'})
+                            ],
+                            style={'font-weight': 'bold', 'width': '20%'}
+                        ),
                         dcc.Dropdown(
                         id='chart3-publisher-dropdown',
                         options=[{'label': publisher, 'value': publisher} for publisher in unique_publishers],
@@ -1085,7 +1091,13 @@ main_layout = html.Div(children=[
                     ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
                     html.Div([
-                        html.Label(['Overall Bias Score:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        html.Label(
+                            [
+                                html.I(className="bi-speedometer2", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
+                                html.Span(' Overall Bias Score:', style={'vertical-align': 'middle'})
+                            ],
+                            style={'font-weight': 'bold', 'width': '20%'}
+                        ),
                         dcc.Dropdown(
                             id='chart3-bias-rating-dropdown',
                             options=[
@@ -1103,7 +1115,13 @@ main_layout = html.Div(children=[
                     ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
                     html.Div([
-                        html.Label(['Topics:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        html.Label(
+                            [
+                                html.I(className="bi-chat-dots", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
+                                html.Span(' Topics:', style={'vertical-align': 'middle'})
+                            ],
+                            style={'font-weight': 'bold', 'width': '20%'}
+                        ),
                         dcc.Dropdown(
                         id='chart3-topic-dropdown',
                         options=[{'label': topic, 'value': topic} for topic in unique_topics],
@@ -1169,7 +1187,13 @@ main_layout = html.Div(children=[
                     ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
                     html.Div([
-                        html.Label(['Publishers:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        html.Label(
+                            [
+                                html.I(className="bi-person-fill", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
+                                html.Span(' Publishers:', style={'vertical-align': 'middle'})
+                            ],
+                            style={'font-weight': 'bold', 'width': '20%'}
+                        ),
                         dcc.Dropdown(
                             id='chart4-publisher-dropdown',
                             options=[{'label': publisher, 'value': publisher} for publisher in unique_publishers],
@@ -1181,7 +1205,13 @@ main_layout = html.Div(children=[
                     ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
 
                     html.Div([
-                        html.Label(['Overall Bias Score:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        html.Label(
+                            [
+                                html.I(className="bi-speedometer2", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
+                                html.Span(' Overall Bias Score:', style={'vertical-align': 'middle'})
+                            ],
+                            style={'font-weight': 'bold', 'width': '20%'}
+                        ),
                         dcc.Dropdown(
                             id='chart4-bias-rating-dropdown',
                             options=[
@@ -1199,7 +1229,13 @@ main_layout = html.Div(children=[
                     ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
 
                     html.Div([
-                        html.Label(['Category of Bias:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        html.Label(
+                            [
+                                html.I(className="bi-boxes", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
+                                html.Span(' Category of Bias:', style={'vertical-align': 'middle'})
+                            ],
+                            style={'font-weight': 'bold', 'width': '20%'}
+                        ),
                         dcc.Dropdown(
                             id='chart4-bias-category-dropdown',
                             options=[
@@ -1217,7 +1253,13 @@ main_layout = html.Div(children=[
                     ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
 
                     html.Div([
-                        html.Label(['Topics:'], style={'font-weight': 'bold', 'width': '20%'}),
+                        html.Label(
+                            [
+                                html.I(className="bi-chat-dots", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
+                                html.Span(' Topics:', style={'vertical-align': 'middle'})
+                            ],
+                            style={'font-weight': 'bold', 'width': '20%'}
+                        ),
                         dcc.Dropdown(
                             id='chart4-topic-dropdown',
                             options=[{'label': topic, 'value': topic} for topic in unique_topics],
