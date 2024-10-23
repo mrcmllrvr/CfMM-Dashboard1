@@ -1500,7 +1500,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-binoculars-fill"), ' Explore'],
                             id='explore-button1',
-                            style={'white-space': 'nowrap', 'margin-left': '63%', 'width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '2%', 'margin-left': '61%', 'width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             target="_blank",
                             style={'text-decoration': 'none'},
                             n_clicks=0
@@ -1510,7 +1510,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-arrow-left-right"), ' Compare'],
                             id='compare-button1',
-                            style={'white-space': 'nowrap', 'margin-left': '2%','width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '2%', 'margin-left': '2%','width': '19%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             href='/compare-chart-1',
                             target="_blank",
                             style={'text-decoration': 'none'}
@@ -1525,9 +1525,8 @@ main_layout = html.Div(children=[
                             {'label': '    Show bias categories', 'value': 'bias_categories'}
                         ],
                         value='bias_ratings',  # default value on load
-                        labelStyle={'display': 'inline-block'},
-                        inputStyle={"margin-left": "10px"},
-                        style = {'margin-bottom': '10px'}
+                        labelStyle={'display': 'inline-block', 'width': '31%'},
+                        style={'display': 'flex', 'margin-top': '1%', 'margin-left': '4%', 'margin-bottom': '2%'}
                     ),
 
                     # Graph for displaying the top offending publishers
@@ -1544,7 +1543,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-binoculars-fill"), ' Explore'],
                             id='explore-button2',
-                            style={'white-space': 'nowrap', 'margin-left': '63%', 'width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '2%', 'margin-left': '61%', 'width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             target="_blank",
                             style={'text-decoration': 'none'},
                             n_clicks=0
@@ -1554,7 +1553,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-arrow-left-right"), ' Compare'],
                             id='compare-button2',
-                            style={'white-space': 'nowrap', 'margin-left': '2%','width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '2%', 'margin-left': '2%','width': '19%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             href='/compare-chart-2',
                             target="_blank",
                             style={'text-decoration': 'none'}
@@ -1579,7 +1578,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-binoculars-fill"), ' Explore'],
                             id='explore-button3',
-                            style={'white-space': 'nowrap', 'margin-left': '63%', 'width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '61%', 'width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             target="_blank",
                             style={'text-decoration': 'none'},
                             n_clicks=0
@@ -1589,7 +1588,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-arrow-left-right"), ' Compare'],
                             id='compare-button3',
-                            style={'white-space': 'nowrap', 'margin-left': '2%','width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '1%','width': '19%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             href='/compare-chart-3',
                             target="_blank",
                             style={'text-decoration': 'none'}
@@ -1609,7 +1608,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-binoculars-fill"), ' Explore'],
                             id='explore-button4',
-                            style={'white-space': 'nowrap', 'margin-left': '63%', 'width': '17%', 'display': 'right', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '61%', 'width': '17%', 'display': 'right', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             target="_blank",
                             style={'text-decoration': 'none'},
                             n_clicks=0
@@ -1619,16 +1618,22 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-arrow-left-right"), ' Compare'],
                             id='compare-button4',
-                            style={'white-space': 'nowrap', 'margin-left': '2%','width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '1%','width': '19%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             href='/compare-chart-4',
                             target="_blank",
                             style={'text-decoration': 'none'}
                     ),
 
-                ## TODO: Place Homepage Chart 4 elements here
+                ## HOMEPAGE
                 # Dropdown for n-gram selection
                 html.Div([
-                    html.Label([' Word Grouping:'], style={'font-weight': 'bold', 'width': '30%'}),
+                    html.Label(
+                            [
+                                html.I(className="bi-collection-fill", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
+                                html.Span(' Word Grouping:', style={'vertical-align': 'middle'})
+                            ],
+                            style={'font-weight': 'bold', 'width': '30%', 'margin-top': '1%', 'margin-left': '2%'}
+                        ),
                     dcc.Dropdown(
                         id='homepage-chart4-ngram-dropdown',
                         options=[
@@ -1639,9 +1644,9 @@ main_layout = html.Div(children=[
                         value=[1,2,3],  # default value on load
                         multi=True,
                         clearable=False,
-                        style={'width': '60%'}
+                        style={'width': '70%'}
                     )
-                ], style={'display': 'flex', 'margin-bottom': '30px', 'align-items': 'center', }),
+                ], style={'display': 'flex', 'margin-top': '1%', 'margin-left': '2%', 'margin-bottom': '2%', 'align-items': 'center'}),
 
 
                 # Toggle for headline-only or full-text word clouds
@@ -1652,16 +1657,13 @@ main_layout = html.Div(children=[
                         {'label': '    Full-text', 'value': 'text'}
                     ],
                     value='title',  # default value on load
-                    labelStyle={'display': 'inline-block'},
-                    inputStyle={"margin-left": "10px"},
-                    style={'margin-bottom': '10px'}
+                    labelStyle={'display': 'inline-block', 'width': '22%', 'margin-left': '2%'},
+                    style={'display': 'flex', 'margin-top': '1%', 'margin-left': '2%', 'margin-bottom': '2%'}
                 ),
 
                 # Graph for displaying the word cloud
                 html.Img(id='homepage-wordcloud-container', style={'width': '100%'}),
                 # dcc.Graph(id='homepage-wordcloud-container'),
-
-
 
             ],
                style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'border': '2px solid #d3d3d3', 'border-radius': '8px', 'padding': '5px', 'margin-right': '5px', 'margin-left': '5px', 'margin-bottom': '10px'}
