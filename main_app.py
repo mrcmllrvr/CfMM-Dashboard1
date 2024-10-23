@@ -1630,7 +1630,7 @@ main_layout = html.Div(children=[
                     html.Label(
                             [
                                 html.I(className="bi-collection-fill", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
-                                html.Span(' Word Grouping:', style={'vertical-align': 'middle'})
+                                html.Span(' Word GroupingZ:', style={'vertical-align': 'middle'})
                             ],
                             style={'font-weight': 'bold', 'width': '30%', 'margin-top': '1%', 'margin-left': '2%'}
                         ),
