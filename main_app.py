@@ -102,10 +102,10 @@ app.layout = html.Div([
     # Header
     html.Div([
         html.Img(src='/assets/logos/cfmm.png', style={'width': '20%', 'height': 'auto'}),
-    ], style={'display': 'flex', 'margin-left': '5%', 'margin-right': '5%', 'margin-bottom': '5%', 'margin-top': '5%'}),
+    ], style={'display': 'flex', 'margin-left': '4%', 'margin-right': '4%', 'margin-bottom': '2%', 'margin-top': '4%'}),
 
     # Body
-    html.Div(style={'backgroundColor': '#ffffff', 'height': '150vh', 'margin-left': '5%', 'margin-right': '5%', 'margin-bottom': '5%'}, children=[
+    html.Div(style={'backgroundColor': '#ffffff', 'height': '150vh', 'margin-left': '4%', 'margin-right': '4%', 'margin-bottom': '4%'}, children=[
         dcc.Location(id='url', refresh=False),
         html.Div(id='page-content')
     ])
@@ -773,9 +773,9 @@ def update_homepage_chart4_static(text_by, ngram_value):
 
 # Define the layout for the main page
 main_layout = html.Div(children=[
-    html.H3(children=date_today),
+    html.H3(children=date_today, style={'margin-top': '5%'}),
 
-    html.H1(children="Today's Insights and Metrics", style={'margin-bottom': '50px', 'font-weight': 'bold'}),
+    html.H1(children="Today's Insights and Metrics", style={'margin-bottom': '5%', "font-weight": "bold"}),
 
     # Modals
     # Modal for Chart 1
@@ -784,10 +784,10 @@ main_layout = html.Div(children=[
                 dbc.ModalHeader(),
                 dbc.ModalBody(children=[
                     html.Div([
-                        html.Img(src='/assets/logos/cfmm.png', style={'width': '20%', 'height': 'auto'}),
-                    ], style={'display': 'flex', 'margin-left': '0px', 'margin-right': '0px', 'margin-bottom': '50px', 'margin-top': '10px'}),
+                        html.Img(src='/assets/logos/cfmm.png', style={'width': '17.5%', 'height': 'auto'}),
+                    ], style={'display': 'flex', 'margin-bottom': '4%', 'margin-top': '4%'}),
 
-                    html.H3(children=f"""Who are the top offending publishers during the selected period?""", style={'textAlign': 'center', 'font-weight': 'bold', 'margin-bottom': '50px'}),
+                    html.H3(children=f"""Who are the top offending publishers during the selected period?""", style={'textAlign': 'center', 'font-weight': 'bold', 'margin-bottom': '4%'}),
 
                     html.Div([
                         html.Label(
@@ -795,7 +795,7 @@ main_layout = html.Div(children=[
                                 html.I(className="bi-calendar-week", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                                 html.Span(' Date Published:', style={'vertical-align': 'middle'})
                             ],
-                            style={'font-weight': 'bold', 'width': '20%'}
+                            style={'font-weight': 'bold', 'width': '15%'}
                         ),
                         dcc.DatePickerRange(
                             id='chart1-datepickerrange',
@@ -807,9 +807,13 @@ main_layout = html.Div(children=[
                             end_date=end_date,
                             start_date_placeholder_text='Start date',
                             end_date_placeholder_text='End date',
-                            style = {'font-size':'15px', 'width': '70%'}
+                            style = {
+                              'font-size': '8px','display': 'inline-block', 'width': '36%',
+                              'border-radius' : '8px', 'border' : '0.5px solid #cccccc',
+                              'border-spacing' : '0', 'border-collapse' :'separate'
+                            }
                         )
-                    ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
+                    ], style={'display':'flex', 'margin-bottom':'1%', 'align-items': 'center'}),
 
                     html.Div([
                         html.Label(
@@ -817,7 +821,7 @@ main_layout = html.Div(children=[
                                 html.I(className="bi-person-fill", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                                 html.Span(' Publishers:', style={'vertical-align': 'middle'})
                             ],
-                            style={'font-weight': 'bold', 'width': '20%'}
+                            style={'font-weight': 'bold', 'width': '15%'}
                         ),
                         dcc.Dropdown(
                         id='chart1-publisher-dropdown',
@@ -825,8 +829,8 @@ main_layout = html.Div(children=[
                         placeholder='Select Publisher',
                         multi=True,
                         clearable=True,
-                        style = {'width': '70%'})
-                    ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
+                        style = {'width': '60%'})
+                    ], style={'display':'flex', 'margin-bottom':'1%', 'align-items': 'center'}),
 
                     html.Div([
                         html.Label(
@@ -834,7 +838,7 @@ main_layout = html.Div(children=[
                                 html.I(className="bi-speedometer2", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                                 html.Span(' Overall Bias Score:', style={'vertical-align': 'middle'})
                             ],
-                            style={'font-weight': 'bold', 'width': '20%'}
+                            style={'font-weight': 'bold', 'width': '15%'}
                         ),
                         dcc.Dropdown(
                         id='chart1-bias-rating-dropdown',
@@ -847,8 +851,8 @@ main_layout = html.Div(children=[
                         placeholder='Select Overall Bias Score',
                         multi=True,
                         clearable=True,
-                        style = {'width': '70%'})
-                    ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
+                        style = {'width': '60%'})
+                    ], style={'display':'flex', 'margin-bottom':'1%', 'align-items': 'center'}),
 
                     html.Div([
                         html.Label(
@@ -856,7 +860,7 @@ main_layout = html.Div(children=[
                                 html.I(className="bi-boxes", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                                 html.Span(' Category of Bias:', style={'vertical-align': 'middle'})
                             ],
-                            style={'font-weight': 'bold', 'width': '20%'}
+                            style={'font-weight': 'bold', 'width': '15%'}
                         ),
                         dcc.Dropdown(
                         id='chart1-bias-category-dropdown',
@@ -870,8 +874,8 @@ main_layout = html.Div(children=[
                         placeholder='Select Category of Bias',
                         multi=True,
                         clearable=True,
-                        style = {'width': '70%'})
-                    ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
+                        style = {'width': '60%'})
+                    ], style={'display':'flex', 'margin-bottom':'1%', 'align-items': 'center'}),
 
                     html.Div([
                         html.Label(
@@ -879,7 +883,7 @@ main_layout = html.Div(children=[
                                 html.I(className="bi-chat-dots", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                                 html.Span(' Topics:', style={'vertical-align': 'middle'})
                             ],
-                            style={'font-weight': 'bold', 'width': '20%'}
+                            style={'font-weight': 'bold', 'width': '15%'}
                         ),
                         dcc.Dropdown(
                         id='chart1-topic-dropdown',
@@ -887,8 +891,8 @@ main_layout = html.Div(children=[
                         placeholder='Select Topic',
                         multi=True,
                         clearable=True,
-                        style = {'width': '70%'})
-                    ], style={'display':'flex', 'margin-bottom':'30px', 'align-items': 'center'}),
+                        style = {'width': '60%'})
+                    ], style={'display':'flex', 'margin-bottom':'1%', 'align-items': 'center'}),
 
                     # Toggle for color by bias ratings or bias categories
                     dcc.RadioItems(
@@ -898,22 +902,21 @@ main_layout = html.Div(children=[
                             {'label': '    Show bias categories', 'value': 'bias_categories'}
                         ],
                         value='bias_ratings',  # default value on load
-                        labelStyle={'display': 'inline-block'},
-                        inputStyle={"margin-left": "10px"},
-                        style = {'margin-bottom': '10px'}
+                        labelStyle={'display': 'inline-block', 'width': '12.5%'},
+                        style={'display': 'flex', 'margin-top': '4%', 'margin-bottom': '1.5%'}
                     ),
 
                     # Graph for displaying the top offending publishers
-                    dcc.Graph(id='top-offending-publishers-bar-chart', style = {'margin-bottom': '30px'}),
+                    dcc.Graph(id='top-offending-publishers-bar-chart', style = {'display': 'flex', 'margin-bottom': '4%'}),
 
                     # Table for displaying the top offending publishers
-                    html.Div(id='table1-title', style={'fontSize': 20, 'fontColor': '#2E2C2B', 'margin-bottom': '20px'}),
+                    html.Div(id='table1-title', style={'fontSize': 20, 'fontColor': '#2E2C2B', 'margin-bottom': '1%'}),
                     html.Div(id='table1'),
                     html.Div([
-                        dbc.Button('Clear Table', id='clear-button1', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}),
+                        dbc.Button('Clear Table', id='clear-button1', style = {'display': 'none', 'white-space': 'nowrap', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}),
                         dbc.Button('Export to CSV', id='export-button1', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'})
-                    ], style={'display':'flex', 'margin-top': '10px', 'align-items': 'center'}),
-                ], style={'margin-left': '30px', 'margin-right': '30px', 'margin-top': '30px', 'margin-bottom': '30px'})
+                    ], style={'display':'flex', 'margin-top': '1%', 'margin-bottom': '4%', 'align-items': 'center'}),
+                ])
             ],
             id="modal_1",
             centered=True,
@@ -929,10 +932,10 @@ main_layout = html.Div(children=[
                 dbc.ModalHeader(),
                 dbc.ModalBody(children=[
                     html.Div([
-                        html.Img(src='/assets/logos/cfmm.png', style={'width': '20%', 'height': 'auto'}),
-                    ], style={'display': 'flex', 'margin-left': '0px', 'margin-right': '0px', 'margin-bottom': '50px', 'margin-top': '10px'}),
+                        html.Img(src='/assets/logos/cfmm.png', style={'width': '17.5%', 'height': 'auto'}),
+                    ], style={'display': 'flex', 'margin-bottom': '4%', 'margin-top': '4%'}),
 
-                    html.H3(children="What are the topics of the biased/very biased article during the selected period?", style={'textAlign': 'center', 'font-weight':'bold', 'margin-bottom': '50px'}),
+                    html.H3(children="What are the topics of the biased/very biased article during the selected period?", style={'textAlign': 'center', 'font-weight':'bold', 'margin-bottom': '4%'}),
 
                     html.Div([
                         html.Label(
@@ -940,7 +943,7 @@ main_layout = html.Div(children=[
                                 html.I(className="bi-calendar-week", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                                 html.Span(' Date Published:', style={'vertical-align': 'middle'})
                             ],
-                            style={'font-weight': 'bold', 'width': '20%'}
+                            style={'font-weight': 'bold', 'width': '15%'}
                         ),
                         dcc.DatePickerRange(
                             id='chart2-datepickerrange',
@@ -952,7 +955,7 @@ main_layout = html.Div(children=[
                             end_date=end_date,
                             start_date_placeholder_text='Start date',
                             end_date_placeholder_text='End date',
-                            style = {'font-size':'15px', 'width': '70%'}
+                            style = {'font-size':'15px', 'width': '60%'}
                         )
                     ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
@@ -962,7 +965,7 @@ main_layout = html.Div(children=[
                                 html.I(className="bi-person-fill", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                                 html.Span(' Publishers:', style={'vertical-align': 'middle'})
                             ],
-                            style={'font-weight': 'bold', 'width': '20%'}
+                            style={'font-weight': 'bold', 'width': '15%'}
                         ),
                         dcc.Dropdown(
                         id='chart2-publisher-dropdown',
@@ -970,7 +973,7 @@ main_layout = html.Div(children=[
                         placeholder='Select Publisher',
                         multi=True,
                         clearable=True,
-                        style = {'width': '70%'})
+                        style = {'width': '60%'})
                     ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
                     html.Div([
@@ -979,7 +982,7 @@ main_layout = html.Div(children=[
                                 html.I(className="bi-speedometer2", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                                 html.Span(' Overall Bias Score:', style={'vertical-align': 'middle'})
                             ],
-                            style={'font-weight': 'bold', 'width': '20%'}
+                            style={'font-weight': 'bold', 'width': '15%'}
                         ),
                         dcc.Dropdown(
                         id='chart2-bias-rating-dropdown',
@@ -993,7 +996,7 @@ main_layout = html.Div(children=[
                         placeholder='Select Overall Bias Score',
                         multi=True,
                         clearable=True,
-                        style = {'width': '70%'})
+                        style = {'width': '60%'})
                     ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
                     html.Div([
@@ -1002,7 +1005,7 @@ main_layout = html.Div(children=[
                                 html.I(className="bi-boxes", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                                 html.Span(' Category of Bias:', style={'vertical-align': 'middle'})
                             ],
-                            style={'font-weight': 'bold', 'width': '20%'}
+                            style={'font-weight': 'bold', 'width': '15%'}
                         ),
                         dcc.Dropdown(
                         id='chart2-bias-category-dropdown',
@@ -1016,11 +1019,11 @@ main_layout = html.Div(children=[
                         placeholder='Select Category of Bias',
                         multi=True,
                         clearable=True,
-                        style = {'width': '70%'})
+                        style = {'width': '60%'})
                     ], style={'display':'flex', 'margin-bottom':'30px', 'align-items': 'center'}),
 
                     # Graph for displaying the top topics
-                    dcc.Graph(id='top-topics-bar-chart', style = {'margin-bottom': '10px'}),
+                    dcc.Graph(id='top-topics-bar-chart', style = {'margin-bottom': '1%'}),
 
                     # Table for displaying the top topics
                     html.Div(id='table2-title', style={'fontSize': 20, 'fontColor': '#2E2C2B', 'margin-bottom': '20px'}),
@@ -1045,10 +1048,10 @@ main_layout = html.Div(children=[
                 dbc.ModalHeader(),
                 dbc.ModalBody(children=[
                     html.Div([
-                        html.Img(src='/assets/logos/cfmm.png', style={'width': '20%', 'height': 'auto'}),
-                    ], style={'display': 'flex', 'margin-left': '0px', 'margin-right': '0px', 'margin-bottom': '50px', 'margin-top': '10px'}),
+                        html.Img(src='/assets/logos/cfmm.png', style={'width': '17.5%', 'height': 'auto'}),
+                    ], style={'display': 'flex', 'margin-bottom': '4%', 'margin-top': '4%'}),
 
-                    html.H3(children="Which overall bias score is highest during the selected period?", style={'textAlign': 'center', 'font-weight':'bold', 'margin-bottom': '50px'}),
+                    html.H3(children="Which overall bias score is highest during the selected period?", style={'textAlign': 'center', 'font-weight':'bold', 'margin-bottom': '4%'}),
 
                     html.Div([
                         html.Label(
@@ -1056,7 +1059,7 @@ main_layout = html.Div(children=[
                                 html.I(className="bi-calendar-week", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                                 html.Span(' Date Published:', style={'vertical-align': 'middle'})
                             ],
-                            style={'font-weight': 'bold', 'width': '20%'}
+                            style={'font-weight': 'bold', 'width': '15%'}
                         ),
                         dcc.DatePickerRange(
                             id='chart3-datepickerrange',
@@ -1068,7 +1071,7 @@ main_layout = html.Div(children=[
                             end_date=end_date,
                             start_date_placeholder_text='Start date',
                             end_date_placeholder_text='End date',
-                            style = {'font-size':'15px', 'width': '70%'}
+                            style = {'font-size':'15px', 'width': '60%'}
                         )
                     ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
@@ -1078,7 +1081,7 @@ main_layout = html.Div(children=[
                                 html.I(className="bi-person-fill", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                                 html.Span(' Publishers:', style={'vertical-align': 'middle'})
                             ],
-                            style={'font-weight': 'bold', 'width': '20%'}
+                            style={'font-weight': 'bold', 'width': '15%'}
                         ),
                         dcc.Dropdown(
                         id='chart3-publisher-dropdown',
@@ -1086,7 +1089,7 @@ main_layout = html.Div(children=[
                         placeholder='Select Publisher',
                         multi=True,
                         clearable=True,
-                        style = {'width': '70%'}
+                        style = {'width': '60%'}
                         )
                     ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
@@ -1096,7 +1099,7 @@ main_layout = html.Div(children=[
                                 html.I(className="bi-speedometer2", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                                 html.Span(' Overall Bias Score:', style={'vertical-align': 'middle'})
                             ],
-                            style={'font-weight': 'bold', 'width': '20%'}
+                            style={'font-weight': 'bold', 'width': '15%'}
                         ),
                         dcc.Dropdown(
                             id='chart3-bias-rating-dropdown',
@@ -1110,7 +1113,7 @@ main_layout = html.Div(children=[
                             placeholder='Select Overall Bias Score',
                             multi=True,
                             clearable=True,
-                            style = {'width': '70%'}
+                            style = {'width': '60%'}
                         )
                     ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
@@ -1120,7 +1123,7 @@ main_layout = html.Div(children=[
                                 html.I(className="bi-chat-dots", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                                 html.Span(' Topics:', style={'vertical-align': 'middle'})
                             ],
-                            style={'font-weight': 'bold', 'width': '20%'}
+                            style={'font-weight': 'bold', 'width': '15%'}
                         ),
                         dcc.Dropdown(
                         id='chart3-topic-dropdown',
@@ -1128,12 +1131,12 @@ main_layout = html.Div(children=[
                         placeholder='Select Topic',
                         multi=True,
                         clearable=True,
-                        style = {'width': '70%'}
+                        style = {'width': '60%'}
                         )
                     ], style={'display':'flex', 'margin-bottom':'30px', 'align-items': 'center'}),
 
                     # Graph for displaying the top topics
-                    dcc.Graph(id='top-offending-articles-bar-chart', style = {'margin-bottom': '10px'}),
+                    dcc.Graph(id='top-offending-articles-bar-chart', style = {'margin-bottom': '1%'}),
 
                     # Table for displaying the top topics
                     html.Div(id='table3-title', style={'fontSize': 20, 'fontColor': '#2E2C2B', 'margin-bottom': '20px'}),
@@ -1159,10 +1162,10 @@ main_layout = html.Div(children=[
                 dbc.ModalHeader(),
                 dbc.ModalBody(children=[
                     html.Div([
-                        html.Img(src='/assets/logos/cfmm.png', style={'width': '20%', 'height': 'auto'}),
-                    ], style={'display': 'flex', 'margin-left': '0px', 'margin-right': '0px', 'margin-bottom': '50px', 'margin-top': '10px'}),
+                        html.Img(src='/assets/logos/cfmm.png', style={'width': '17.5%', 'height': 'auto'}),
+                    ], style={'display': 'flex', 'margin-bottom': '4%', 'margin-top': '4%'}),
 
-                    html.H3(children="Which trending words/phrases appeared in the biased/very biased articles during the selected period?", style={'textAlign': 'center', 'font-weight':'bold', 'margin-bottom': '50px'}),
+                    html.H3(children="Which trending words/phrases appeared in the biased/very biased articles during the selected period?", style={'textAlign': 'center', 'font-weight':'bold', 'margin-bottom': '4%'}),
 
                     html.Div([
                         html.Label(
@@ -1170,7 +1173,7 @@ main_layout = html.Div(children=[
                                 html.I(className="bi-calendar-week", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                                 html.Span(' Date Published:', style={'vertical-align': 'middle'})
                             ],
-                            style={'font-weight': 'bold', 'width': '20%'}
+                            style={'font-weight': 'bold', 'width': '15%'}
                         ),
                         dcc.DatePickerRange(
                             id='chart4-datepickerrange',
@@ -1182,7 +1185,7 @@ main_layout = html.Div(children=[
                             end_date=end_date,
                             start_date_placeholder_text='Start date',
                             end_date_placeholder_text='End date',
-                            style = {'font-size':'15px', 'width': '70%'}
+                            style = {'font-size':'15px'}
                         )
                     ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
@@ -1192,7 +1195,7 @@ main_layout = html.Div(children=[
                                 html.I(className="bi-person-fill", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                                 html.Span(' Publishers:', style={'vertical-align': 'middle'})
                             ],
-                            style={'font-weight': 'bold', 'width': '20%'}
+                            style={'font-weight': 'bold', 'width': '15%'}
                         ),
                         dcc.Dropdown(
                             id='chart4-publisher-dropdown',
@@ -1200,9 +1203,9 @@ main_layout = html.Div(children=[
                             placeholder='Select Publisher',
                             multi=True,
                             clearable=True,
-                            style={'width': '70%'}
+                            style={'width': '60%'}
                         )
-                    ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
+                    ], style={'display': 'flex', 'margin-bottom': '1%', 'align-items': 'center'}),
 
                     html.Div([
                         html.Label(
@@ -1210,7 +1213,7 @@ main_layout = html.Div(children=[
                                 html.I(className="bi-speedometer2", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                                 html.Span(' Overall Bias Score:', style={'vertical-align': 'middle'})
                             ],
-                            style={'font-weight': 'bold', 'width': '20%'}
+                            style={'font-weight': 'bold', 'width': '15%'}
                         ),
                         dcc.Dropdown(
                             id='chart4-bias-rating-dropdown',
@@ -1224,9 +1227,9 @@ main_layout = html.Div(children=[
                             placeholder='Select Overall Bias Score',
                             multi=True,
                             clearable=True,
-                            style={'width': '70%'}
+                            style={'width': '60%'}
                         )
-                    ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
+                    ], style={'display': 'flex', 'margin-bottom': '1%', 'align-items': 'center'}),
 
                     html.Div([
                         html.Label(
@@ -1234,7 +1237,7 @@ main_layout = html.Div(children=[
                                 html.I(className="bi-boxes", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                                 html.Span(' Category of Bias:', style={'vertical-align': 'middle'})
                             ],
-                            style={'font-weight': 'bold', 'width': '20%'}
+                            style={'font-weight': 'bold', 'width': '15%'}
                         ),
                         dcc.Dropdown(
                             id='chart4-bias-category-dropdown',
@@ -1248,9 +1251,9 @@ main_layout = html.Div(children=[
                             placeholder='Select Category of Bias',
                             multi=True,
                             clearable=True,
-                            style={'width': '70%'}
+                            style={'width': '60%'}
                         )
-                    ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
+                    ], style={'display': 'flex', 'margin-bottom': '1%', 'align-items': 'center'}),
 
                     html.Div([
                         html.Label(
@@ -1258,7 +1261,7 @@ main_layout = html.Div(children=[
                                 html.I(className="bi-chat-dots", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                                 html.Span(' Topics:', style={'vertical-align': 'middle'})
                             ],
-                            style={'font-weight': 'bold', 'width': '20%'}
+                            style={'font-weight': 'bold', 'width': '15%'}
                         ),
                         dcc.Dropdown(
                             id='chart4-topic-dropdown',
@@ -1266,9 +1269,9 @@ main_layout = html.Div(children=[
                             placeholder='Select Topic',
                             multi=True,
                             clearable=True,
-                            style={'width': '70%'}
+                            style={'width': '60%'}
                         )
-                    ], style={'display': 'flex', 'margin-bottom': '10px', 'align-items': 'center'}),
+                    ], style={'display': 'flex', 'margin-bottom': '1%', 'align-items': 'center'}),
 
                     html.Div([
                         html.Label(
@@ -1276,7 +1279,7 @@ main_layout = html.Div(children=[
                                 html.I(className="bi-collection-fill", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                                 html.Span(' Word Grouping:', style={'vertical-align': 'middle'})
                             ],
-                            style={'font-weight': 'bold', 'width': '20%'}
+                            style={'font-weight': 'bold', 'width': '15%'}
                         ),
                         dcc.Dropdown(
                             id='chart4-ngram-dropdown',
@@ -1288,7 +1291,7 @@ main_layout = html.Div(children=[
                             value=[1,2,3],  # default value on load
                             multi=True,
                             clearable=False,
-                            style={'width': '70%'}
+                            style={'width': '60%'}
                         )
                     ], style={'display': 'flex', 'margin-bottom': '30px', 'align-items': 'center'}),
 
@@ -1302,7 +1305,7 @@ main_layout = html.Div(children=[
                         value='title',  # default value on load
                         labelStyle={'display': 'inline-block'},
                         inputStyle={"margin-left": "10px"},
-                        style={'margin-bottom': '10px'}
+                        style={'margin-bottom': '2%'}
                     ),
 
                     # Graph for displaying the word cloud
@@ -1500,7 +1503,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-binoculars-fill"), ' Explore'],
                             id='explore-button1',
-                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '61%', 'width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '58%', 'width': '18%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             target="_blank",
                             style={'text-decoration': 'none'},
                             n_clicks=0
@@ -1510,7 +1513,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-arrow-left-right"), ' Compare'],
                             id='compare-button1',
-                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '2%','width': '19%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '2%','width': '21%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             href='/compare-chart-1',
                             target="_blank",
                             style={'text-decoration': 'none'}
@@ -1525,7 +1528,7 @@ main_layout = html.Div(children=[
                             {'label': '    Show bias categories', 'value': 'bias_categories'}
                         ],
                         value='bias_ratings',  # default value on load
-                        labelStyle={'display': 'inline-block', 'width': '31%'},
+                        labelStyle={'display': 'inline-block', 'width': '34%'},
                         style={'display': 'flex', 'margin-top': '1%', 'margin-left': '4%', 'margin-bottom': '1%'}
                     ),
 
@@ -1543,7 +1546,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-binoculars-fill"), ' Explore'],
                             id='explore-button2',
-                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '61%', 'width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '58%', 'width': '18%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             target="_blank",
                             style={'text-decoration': 'none'},
                             n_clicks=0
@@ -1553,7 +1556,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-arrow-left-right"), ' Compare'],
                             id='compare-button2',
-                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '2%','width': '19%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '2%','width': '21%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             href='/compare-chart-2',
                             target="_blank",
                             style={'text-decoration': 'none'}
@@ -1578,7 +1581,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-binoculars-fill"), ' Explore'],
                             id='explore-button3',
-                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '61%', 'width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '58%', 'width': '18%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             target="_blank",
                             style={'text-decoration': 'none'},
                             n_clicks=0
@@ -1588,7 +1591,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-arrow-left-right"), ' Compare'],
                             id='compare-button3',
-                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '2%','width': '19%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '2%','width': '21%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             href='/compare-chart-3',
                             target="_blank",
                             style={'text-decoration': 'none'}
@@ -1596,7 +1599,7 @@ main_layout = html.Div(children=[
 
                 ## TODO: Place Homepage Chart 3 elements here
                 # Graph for displaying the top topics
-                dcc.Graph(id='homepage-top-offending-articles-bar-chart', figure=update_homepage_chart3(), style = {'margin-bottom': '30px'}),
+                dcc.Graph(id='homepage-top-offending-articles-bar-chart', figure=update_homepage_chart3(), style = {'margin-bottom': '1%'}),
 
             ],style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'border': '2px solid #d3d3d3', 'border-radius': '8px', 'padding': '5px', 'margin-right': '5px', 'margin-left': '5px', 'margin-bottom': '10px'}
 
@@ -1608,7 +1611,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-binoculars-fill"), ' Explore'],
                             id='explore-button4',
-                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '61%', 'width': '17%', 'display': 'right', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '58%', 'width': '18%', 'display': 'right', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             target="_blank",
                             style={'text-decoration': 'none'},
                             n_clicks=0
@@ -1618,13 +1621,13 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-arrow-left-right"), ' Compare'],
                             id='compare-button4',
-                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '2%','width': '19%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '2%','width': '21%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             href='/compare-chart-4',
                             target="_blank",
                             style={'text-decoration': 'none'}
                     ),
 
-                ## HOMEPAGE
+                ## TODO
                 # Dropdown for n-gram selection
                 html.Div([
                     html.Label(
@@ -1632,7 +1635,7 @@ main_layout = html.Div(children=[
                                 html.I(className="bi-collection-fill", style={'vertical-align': 'middle', 'font-size': '1.5em'}),
                                 html.Span(' Word Grouping:', style={'vertical-align': 'middle'})
                             ],
-                            style={'font-weight': 'bold', 'width': '30%', 'margin-top': '1%', 'margin-left': '2%'}
+                            style={'font-weight': 'bold', 'width': '35%', 'margin-top': '1%', 'margin-left': '2%'}
                         ),
                     dcc.Dropdown(
                         id='homepage-chart4-ngram-dropdown',
@@ -1644,7 +1647,7 @@ main_layout = html.Div(children=[
                         value=[1,2,3],  # default value on load
                         multi=True,
                         clearable=False,
-                        style={'width': '65%', 'padding-top':'1.5%', 'padding-left': '1%', 'padding-bottom': '1%', 'padding-right': '1%'}
+                        style={'width': '70%', 'padding-top':'1.5%', 'padding-left': '1%', 'padding-bottom': '1%', 'padding-right': '1%'}
                     )
                 ], style={'display': 'flex', 'margin-top': '1%', 'margin-left': '2%', 'margin-bottom': '1%', 'align-items': 'center'}),
 
@@ -1657,7 +1660,7 @@ main_layout = html.Div(children=[
                         {'label': '    Full-text', 'value': 'text'}
                     ],
                     value='title',  # default value on load
-                    labelStyle={'display': 'inline-block', 'width': '22%', 'margin-left': '2%'},
+                    labelStyle={'display': 'inline-block', 'width': '25%', 'margin-left': '2%'},
                     style={'display': 'flex', 'margin-top': '1%', 'margin-left': '2%', 'margin-bottom': '1%'}
                 ),
 
@@ -2727,9 +2730,9 @@ def update_table1(selected_start_date, selected_end_date, selected_publishers, s
                     )
 
             if id == 'export-button1':
-                return [title], table, {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, {'display': 'block', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
+                return [title], table, {'display': 'block', 'white-space': 'nowrap', 'width': '8%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '9%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
-            return [title], table, {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, {'display': 'block', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
+            return [title], table, {'display': 'block', 'white-space': 'nowrap', 'width': '8%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '9%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
         elif id in ['chart1-datepickerrange', 'chart1-topic-dropdown', 'chart1-publisher-dropdown', 'chart1-bias-rating-dropdown', 'chart1-bias-category-dropdown', 'chart1-color-toggle', 'clear-button1']:
             return [], None, {'display': 'none'}, {'display': 'none'}, ''
@@ -2898,9 +2901,9 @@ def update_table2(selected_start_date, selected_end_date, selected_publishers, s
                 )
 
             if id == 'export-button2':
-                return [title], table, {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, {'display': 'block', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
+                return [title], table, {'display': 'block', 'white-space': 'nowrap', 'width': '8%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '9%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
-            return [title], table,  {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
+            return [title], table,  {'display': 'block', 'white-space': 'nowrap', 'width': '8%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '9%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
         elif id in ['chart2-datepickerrange', 'chart2-publisher-dropdown', 'chart2-bias-rating-dropdown', 'chart2-bias-category-dropdown', 'chart2-color-toggle', 'clear-button2']:
             return [], None, {'display': 'none'}, {'display': 'none'}, ''
@@ -3091,9 +3094,9 @@ def update_table3(selected_start_date, selected_end_date, selected_publishers, s
                 )
 
             if id == 'export-button3':
-                return [title], table,  {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
+                return [title], table,  {'display': 'block', 'white-space': 'nowrap', 'width': '9%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '9%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
-            return [title], table,  {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
+            return [title], table,  {'display': 'block', 'white-space': 'nowrap', 'width': '9%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '9%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
         elif id in ['chart3-datepickerrange', 'chart3-publisher-dropdown', 'chart3-bias-rating-dropdown', 'chart3-topic-dropdown', 'clear-button3']:
             return [], None, {'display': 'none'}, {'display': 'none'}, ''
@@ -3272,9 +3275,9 @@ def update_table4(n_clicks_search, n_clicks_clear, selected_start_date, selected
             )
 
             if id == 'export-button4':
-                return [title], table,  {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
+                return [title], table,  {'display': 'block', 'white-space': 'nowrap', 'width': '8%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '9%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
-            return [title], table,  {'display': 'block', 'white-space': 'nowrap', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '10%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
+            return [title], table,  {'display': 'block', 'white-space': 'nowrap', 'width': '8%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'},  {'display': 'block', 'white-space': 'nowrap', 'margin-left': '1%', 'width': '9%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}, csv_string
 
         elif id in ['chart4-datepickerrange', 'chart4-publisher-dropdown', 'chart4-bias-rating-dropdown', 'chart4-bias-category-dropdown', 'chart4-topic-dropdown', 'chart4-ngram-dropdown', 'chart4-text-toggle', 'clear-button4']:
             return [], None, {'display': 'none'}, {'display': 'none'}, ''
