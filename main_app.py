@@ -1513,7 +1513,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-arrow-left-right"), ' Compare'],
                             id='compare-button1',
-                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '2%','width': '21%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '2%', 'width': '21%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             href='/compare-chart-1',
                             target="_blank",
                             style={'text-decoration': 'none'}
@@ -1533,7 +1533,7 @@ main_layout = html.Div(children=[
                     ),
 
                     # Graph for displaying the top offending publishers
-                    dcc.Graph(id='homepage-top-offending-publishers-bar-chart', style = {'margin-bottom': '1%'}),
+                    dcc.Graph(id='homepage-top-offending-publishers-bar-chart', style={'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '2%', 'margin-right': '2%'}),
 
                 ],style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'border': '2px solid #d3d3d3', 'border-radius': '8px', 'padding': '5px', 'margin-right': '5px', 'margin-left': '5px', 'margin-bottom': '10px'}
 
@@ -1565,7 +1565,7 @@ main_layout = html.Div(children=[
 
                     ## TODO: Place Homepage Chart 2 elements Here
                     # Graph for displaying the top topics
-                    dcc.Graph(id='homepage-top-topics-bar-chart', figure=update_homepage_chart2(), style={'margin-bottom': '1%'}),
+                    dcc.Graph(id='homepage-top-topics-bar-chart', figure=update_homepage_chart2(), style={'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '2%', 'margin-right': '2%'}),
 
                 ],style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'border': '2px solid #d3d3d3', 'border-radius': '8px', 'padding': '5px', 'margin-right': '5px', 'margin-left': '5px', 'margin-bottom': '10px'}
                 ),
@@ -1599,7 +1599,7 @@ main_layout = html.Div(children=[
 
                 ## TODO: Place Homepage Chart 3 elements here
                 # Graph for displaying the top topics
-                dcc.Graph(id='homepage-top-offending-articles-bar-chart', figure=update_homepage_chart3(), style = {'margin-bottom': '1%'}),
+                dcc.Graph(id='homepage-top-offending-articles-bar-chart', figure=update_homepage_chart3(), style={'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '2%', 'margin-right': '2%'}),
 
             ],style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'border': '2px solid #d3d3d3', 'border-radius': '8px', 'padding': '5px', 'margin-right': '5px', 'margin-left': '5px', 'margin-bottom': '10px'}
 
@@ -1665,7 +1665,7 @@ main_layout = html.Div(children=[
                 ),
 
                 # Graph for displaying the word cloud
-                html.Img(id='homepage-wordcloud-container', style={'width': '100%', 'margin-bottom': '1%'}),
+                html.Img(id='homepage-wordcloud-container', style={'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '2%', 'margin-right': '2%'}),
                 # dcc.Graph(id='homepage-wordcloud-container'),
 
             ],
