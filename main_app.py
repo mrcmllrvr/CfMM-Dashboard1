@@ -907,14 +907,14 @@ main_layout = html.Div(children=[
                     ),
 
                     # Graph for displaying the top offending publishers
-                    dcc.Graph(id='top-offending-publishers-bar-chart', style = {'display': 'flex', 'margin-bottom': '4%'}),
+                    dcc.Graph(id='top-offending-publishers-bar-chart', style={'display': 'flex', 'margin-bottom': '4%'}),
 
                     # Table for displaying the top offending publishers
                     html.Div(id='table1-title', style={'fontSize': 20, 'fontColor': '#2E2C2B', 'margin-bottom': '1%'}),
                     html.Div(id='table1'),
                     html.Div([
-                        dbc.Button('Clear Table', id='clear-button1', style = {'display': 'none', 'white-space': 'nowrap', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}),
-                        dbc.Button('Export to CSV', id='export-button1', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'})
+                        dbc.Button('Clear Table', id='clear-button1', style={'display': 'none'}),
+                        dbc.Button('Export to CSV', id='export-button1', style={'display': 'none'})
                     ], style={'display':'flex', 'margin-top': '1%', 'margin-bottom': '4%', 'align-items': 'center'}),
                 ])
             ],
@@ -923,7 +923,7 @@ main_layout = html.Div(children=[
             scrollable=True,
             backdrop="static",
             fullscreen=True,
-            is_open=False,
+            is_open=False
     ),
 
     # Modal for Chart 2
@@ -955,9 +955,13 @@ main_layout = html.Div(children=[
                             end_date=end_date,
                             start_date_placeholder_text='Start date',
                             end_date_placeholder_text='End date',
-                            style = {'font-size':'15px', 'width': '60%'}
+                            style = {
+                              'font-size': '8px','display': 'inline-block', 'width': '36%',
+                              'border-radius' : '8px', 'border' : '0.5px solid #cccccc',
+                              'border-spacing' : '0', 'border-collapse' :'separate'
+                            }
                         )
-                    ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
+                    ], style={'display':'flex', 'margin-bottom':'1%', 'align-items': 'center'}),
 
                     html.Div([
                         html.Label(
@@ -974,7 +978,7 @@ main_layout = html.Div(children=[
                         multi=True,
                         clearable=True,
                         style = {'width': '60%'})
-                    ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
+                    ], style={'display':'flex', 'margin-bottom':'1%', 'align-items': 'center'}),
 
                     html.Div([
                         html.Label(
@@ -997,7 +1001,7 @@ main_layout = html.Div(children=[
                         multi=True,
                         clearable=True,
                         style = {'width': '60%'})
-                    ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
+                    ], style={'display':'flex', 'margin-bottom':'1%', 'align-items': 'center'}),
 
                     html.Div([
                         html.Label(
@@ -1020,26 +1024,26 @@ main_layout = html.Div(children=[
                         multi=True,
                         clearable=True,
                         style = {'width': '60%'})
-                    ], style={'display':'flex', 'margin-bottom':'30px', 'align-items': 'center'}),
+                    ], style={'display':'flex', 'margin-bottom':'1.5%', 'align-items': 'center'}),
 
                     # Graph for displaying the top topics
-                    dcc.Graph(id='top-topics-bar-chart', style = {'margin-bottom': '1%'}),
+                    dcc.Graph(id='top-topics-bar-chart', style={'display': 'flex', 'margin-bottom': '4%'}),
 
                     # Table for displaying the top topics
-                    html.Div(id='table2-title', style={'fontSize': 20, 'fontColor': '#2E2C2B', 'margin-bottom': '20px'}),
+                    html.Div(id='table2-title', style={'fontSize': 20, 'fontColor': '#2E2C2B', 'margin-bottom': '1%'}),
                     html.Div(id='table2'),
                     html.Div([
-                        dbc.Button('Clear Table', id='clear-button2', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}),
-                        dbc.Button('Export to CSV', id='export-button2', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'})
-                    ], style={'display':'flex', 'margin-top': '10px', 'align-items': 'center'}),
-                ], style={'margin-left': '30px', 'margin-right': '30px', 'margin-top': '30px', 'margin-bottom': '30px'})
+                        dbc.Button('Clear Table', id='clear-button2', style={'display': 'none'}),
+                        dbc.Button('Export to CSV', id='export-button2', style={'display': 'none'})
+                    ], style={'display':'flex', 'margin-top': '1%', 'margin-bottom': '4%', 'align-items': 'center'}),
+                ])
             ],
             id="modal_2",
             centered=True,
             scrollable=True,
             backdrop="static",
             fullscreen=True,
-            is_open=False,
+            is_open=False
     ),
 
     # Modal for Chart 3
@@ -1071,9 +1075,13 @@ main_layout = html.Div(children=[
                             end_date=end_date,
                             start_date_placeholder_text='Start date',
                             end_date_placeholder_text='End date',
-                            style = {'font-size':'15px', 'width': '60%'}
+                            style = {
+                              'font-size': '8px','display': 'inline-block', 'width': '36%',
+                              'border-radius' : '8px', 'border' : '0.5px solid #cccccc',
+                              'border-spacing' : '0', 'border-collapse' :'separate'
+                            }
                         )
-                    ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
+                    ], style={'display':'flex', 'margin-bottom':'1%', 'align-items': 'center'}),
 
                     html.Div([
                         html.Label(
@@ -1091,7 +1099,7 @@ main_layout = html.Div(children=[
                         clearable=True,
                         style = {'width': '60%'}
                         )
-                    ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
+                    ], style={'display':'flex', 'margin-bottom':'1%', 'align-items': 'center'}),
 
                     html.Div([
                         html.Label(
@@ -1115,7 +1123,7 @@ main_layout = html.Div(children=[
                             clearable=True,
                             style = {'width': '60%'}
                         )
-                    ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
+                    ], style={'display':'flex', 'margin-bottom':'1%', 'align-items': 'center'}),
 
                     html.Div([
                         html.Label(
@@ -1133,27 +1141,26 @@ main_layout = html.Div(children=[
                         clearable=True,
                         style = {'width': '60%'}
                         )
-                    ], style={'display':'flex', 'margin-bottom':'30px', 'align-items': 'center'}),
+                    ], style={'display':'flex', 'margin-bottom':'1.5%', 'align-items': 'center'}),
 
                     # Graph for displaying the top topics
-                    dcc.Graph(id='top-offending-articles-bar-chart', style = {'margin-bottom': '1%'}),
+                    dcc.Graph(id='top-offending-articles-bar-chart', style={'display': 'flex', 'margin-bottom': '4%'}),
 
                     # Table for displaying the top topics
-                    html.Div(id='table3-title', style={'fontSize': 20, 'fontColor': '#2E2C2B', 'margin-bottom': '20px'}),
+                    html.Div(id='table3-title', style={'fontSize': 20, 'fontColor': '#2E2C2B', 'margin-bottom': '1%'}),
                     html.Div(id='table3'),
                     html.Div([
-                        dbc.Button('Clear Table', id='clear-button3', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}),
-                        dbc.Button('Export to CSV', id='export-button3', style = {'display': 'none', 'white-space': 'nowrap', 'margin-left': '2%', 'width': '30%', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'}
-                                )
-                    ], style={'display':'flex', 'margin-top': '10px', 'align-items': 'center'}),
-                ], style={'margin-left': '30px', 'margin-right': '30px', 'margin-top': '30px', 'margin-bottom': '30px'})
+                        dbc.Button('Clear Table', id='clear-button3', style = {'display': 'none'}),
+                        dbc.Button('Export to CSV', id='export-button3', style = {'display': 'none'})
+                    ], style={'display':'flex', 'margin-top': '1%', 'margin-bottom': '4%', 'align-items': 'center'}),
+                ])
             ],
             id="modal_3",
             centered=True,
             scrollable=True,
             backdrop="static",
             fullscreen=True,
-            is_open=False,
+            is_open=False
     ),
 
     # Modal for Chart 4
@@ -1185,9 +1192,13 @@ main_layout = html.Div(children=[
                             end_date=end_date,
                             start_date_placeholder_text='Start date',
                             end_date_placeholder_text='End date',
-                            style = {'font-size':'15px'}
+                            style = {
+                              'font-size': '8px','display': 'inline-block', 'width': '36%',
+                              'border-radius' : '8px', 'border' : '0.5px solid #cccccc',
+                              'border-spacing' : '0', 'border-collapse' :'separate'
+                            }
                         )
-                    ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
+                    ], style={'display':'flex', 'margin-bottom':'1%', 'align-items': 'center'}),
 
                     html.Div([
                         html.Label(
@@ -1293,7 +1304,7 @@ main_layout = html.Div(children=[
                             clearable=False,
                             style={'width': '60%'}
                         )
-                    ], style={'display': 'flex', 'margin-bottom': '30px', 'align-items': 'center'}),
+                    ], style={'display': 'flex', 'margin-bottom': '1.5%', 'align-items': 'center'}),
 
                     # Toggle for headline-only or full-text word clouds
                     dcc.RadioItems(
@@ -1303,9 +1314,8 @@ main_layout = html.Div(children=[
                             {'label': '    Full-text', 'value': 'text'}
                         ],
                         value='title',  # default value on load
-                        labelStyle={'display': 'inline-block'},
-                        inputStyle={"margin-left": "10px"},
-                        style={'margin-bottom': '2%'}
+                        labelStyle={'display': 'inline-block', 'width': '10.5%'},
+                        style={'display': 'flex', 'margin-top': '4%', 'margin-bottom': '1.5%'}
                     ),
 
                     # Graph for displaying the word cloud
@@ -1314,9 +1324,9 @@ main_layout = html.Div(children=[
 
                     # Word search input and button
                     html.Div([
-                        html.Label(['Word Search:'], style={'font-weight': 'bold', 'width': '20%', 'display': 'block'}),
-                        dcc.Input(id='word-search', type='text', style={'width': '49%', 'display': 'block'}),
-                        dbc.Button('Search', id='search-button4', style={'margin-left': '30px', 'width': '10%', 'display': 'block'})
+                        html.Label(['Word Search:'], style={'font-weight': 'bold', 'width': '15%', 'display': 'block'}),
+                        dcc.Input(id='word-search', type='text', style={'width': '60%', 'display': 'block'}),
+                        dbc.Button('Search', id='search-button4', style={'margin-left': '2%', 'width': '10%', 'display': 'block'})
                     ], style={'display': 'flex', 'margin-top': '30px', 'margin-bottom': '30px', 'align-items': 'center'}),
 
                     # Table for displaying the result for word search
@@ -1333,7 +1343,7 @@ main_layout = html.Div(children=[
             scrollable=True,
             backdrop="static",
             fullscreen=True,
-            is_open=False,
+            is_open=False
     ),
 
     # Cards
@@ -1533,7 +1543,7 @@ main_layout = html.Div(children=[
                     ),
 
                     # Graph for displaying the top offending publishers
-                    dcc.Graph(id='homepage-top-offending-publishers-bar-chart', style={'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '2%', 'margin-right': '2%'}),
+                    dcc.Graph(id='homepage-top-offending-publishers-bar-chart', style={'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '2%', 'margin-right': '2.5%'}),
 
                 ],style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'border': '2px solid #d3d3d3', 'border-radius': '8px', 'padding': '5px', 'margin-right': '5px', 'margin-left': '5px', 'margin-bottom': '10px'}
 
@@ -1565,7 +1575,7 @@ main_layout = html.Div(children=[
 
                     ## TODO: Place Homepage Chart 2 elements Here
                     # Graph for displaying the top topics
-                    dcc.Graph(id='homepage-top-topics-bar-chart', figure=update_homepage_chart2(), style={'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '2%', 'margin-right': '2%'}),
+                    dcc.Graph(id='homepage-top-topics-bar-chart', figure=update_homepage_chart2(), style={'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '2%', 'margin-right': '2.5%'}),
 
                 ],style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'border': '2px solid #d3d3d3', 'border-radius': '8px', 'padding': '5px', 'margin-right': '5px', 'margin-left': '5px', 'margin-bottom': '10px'}
                 ),
@@ -1599,7 +1609,7 @@ main_layout = html.Div(children=[
 
                 ## TODO: Place Homepage Chart 3 elements here
                 # Graph for displaying the top topics
-                dcc.Graph(id='homepage-top-offending-articles-bar-chart', figure=update_homepage_chart3(), style={'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '2%', 'margin-right': '2%'}),
+                dcc.Graph(id='homepage-top-offending-articles-bar-chart', figure=update_homepage_chart3(), style={'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '2%', 'margin-right': '2.5%'}),
 
             ],style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'border': '2px solid #d3d3d3', 'border-radius': '8px', 'padding': '5px', 'margin-right': '5px', 'margin-left': '5px', 'margin-bottom': '10px'}
 
@@ -1665,7 +1675,7 @@ main_layout = html.Div(children=[
                 ),
 
                 # Graph for displaying the word cloud
-                html.Img(id='homepage-wordcloud-container', style={'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '2%', 'margin-right': '2%'}),
+                html.Img(id='homepage-wordcloud-container', style={'width': '95%', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '2%', 'margin-right': '2.5%'}),
                 # dcc.Graph(id='homepage-wordcloud-container'),
 
             ],
