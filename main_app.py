@@ -1644,7 +1644,7 @@ main_layout = html.Div(children=[
                         value=[1,2,3],  # default value on load
                         multi=True,
                         clearable=False,
-                        style={'width': '62%'}
+                        style={'width': '65%', 'padding-top':'1.5%', 'padding-left': '1%', 'padding-bottom': '1%', 'padding-right': '1%'}
                     )
                 ], style={'display': 'flex', 'margin-top': '1%', 'margin-left': '2%', 'margin-bottom': '1%', 'align-items': 'center'}),
 
