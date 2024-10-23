@@ -102,10 +102,10 @@ app.layout = html.Div([
     # Header
     html.Div([
         html.Img(src='/assets/logos/cfmm.png', style={'width': '20%', 'height': 'auto'}),
-    ], style={'display': 'flex', 'margin-left': '30px', 'margin-right': '30px', 'margin-bottom': '0px', 'margin-top': '10px'}),
+    ], style={'display': 'flex', 'margin-left': '5%', 'margin-right': '5%', 'margin-bottom': '5%', 'margin-top': '5%'}),
 
     # Body
-    html.Div(style={'backgroundColor': '#ffffff', 'height': '150vh', 'padding': '40px'}, children=[
+    html.Div(style={'backgroundColor': '#ffffff', 'height': '150vh', 'margin-left': '5%', 'margin-right': '5%', 'margin-bottom': '5%'}, children=[
         dcc.Location(id='url', refresh=False),
         html.Div(id='page-content')
     ])
@@ -807,7 +807,7 @@ main_layout = html.Div(children=[
                             end_date=end_date,
                             start_date_placeholder_text='Start date',
                             end_date_placeholder_text='End date',
-                            style = {'font-size':'15px'}
+                            style = {'font-size':'15px', 'width': '70%'}
                         )
                     ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
@@ -952,7 +952,7 @@ main_layout = html.Div(children=[
                             end_date=end_date,
                             start_date_placeholder_text='Start date',
                             end_date_placeholder_text='End date',
-                            style = {'font-size':'15px'}
+                            style = {'font-size':'15px', 'width': '70%'}
                         )
                     ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
@@ -1068,7 +1068,7 @@ main_layout = html.Div(children=[
                             end_date=end_date,
                             start_date_placeholder_text='Start date',
                             end_date_placeholder_text='End date',
-                            style = {'font-size':'15px'}
+                            style = {'font-size':'15px', 'width': '70%'}
                         )
                     ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
@@ -1182,7 +1182,7 @@ main_layout = html.Div(children=[
                             end_date=end_date,
                             start_date_placeholder_text='Start date',
                             end_date_placeholder_text='End date',
-                            style = {'font-size':'15px'}
+                            style = {'font-size':'15px', 'width': '70%'}
                         )
                     ], style={'display':'flex', 'margin-bottom':'10px', 'align-items': 'center'}),
 
@@ -1588,7 +1588,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-arrow-left-right"), ' Compare'],
                             id='compare-button3',
-                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '1%','width': '19%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '2%','width': '19%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             href='/compare-chart-3',
                             target="_blank",
                             style={'text-decoration': 'none'}
@@ -1618,7 +1618,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-arrow-left-right"), ' Compare'],
                             id='compare-button4',
-                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '1%','width': '19%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '2%','width': '19%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             href='/compare-chart-4',
                             target="_blank",
                             style={'text-decoration': 'none'}
