@@ -1332,16 +1332,18 @@ main_layout = html.Div(children=[
                                     'border-spacing' : '0', 'border-collapse' :'separate'
                                   }),
                         dbc.Button([html.I(className="bi-search"), ' Search'], id='search-button4', style={'white-space': 'nowrap', 'margin-left': '1%', 'width': '8%', 'display': 'inline-block', 'background-color': '#C22625', 'border-radius': '8px', 'border': 'none'})
-                    ], style={'display': 'flex', 'margin-top': '3%', 'margin-bottom': '1.5%', 'align-items': 'center'}),
+                    ], style={'display': 'flex', 'margin-top': '3%', 'margin-bottom': '3%', 'align-items': 'center'}),
 
                     # Table for displaying the result for word search
-                    html.Div(id='table4-title', style={'fontSize': 20, 'color': '#2E2C2B', 'margin-bottom': '20px'}),
+                    html.Div(id='table4-title', style={'fontSize': 20, 'color': '#2E2C2B', 'margin-bottom': '1%'}),
                     html.Div(id='table4'),
                     html.Div([
-                        dbc.Button('Clear Table', id='clear-button4', style={'display': 'none'}),
-                        dbc.Button('Export to CSV', id='export-button4', style={'display': 'none'})
-                    ]),
+                        dbc.Button('Clear Table', id='clear-button4', style = {'display': 'none'}),
+                        dbc.Button('Export to CSV', id='export-button4', style = {'display': 'none'})
+                    ], style={'display':'flex', 'margin-top': '1%', 'margin-bottom': '4%', 'align-items': 'center'}),
                 ], style={'margin-left': '30px', 'margin-right': '30px', 'margin-top': '30px', 'margin-bottom': '30px'})
+
+                # style={'margin-left': '30px', 'margin-right': '30px', 'margin-top': '30px', 'margin-bottom': '30px'}
             ],
             id="modal_4",
             centered=True,
