@@ -1500,7 +1500,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-binoculars-fill"), ' Explore'],
                             id='explore-button1',
-                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '2%', 'margin-left': '61%', 'width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '61%', 'width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             target="_blank",
                             style={'text-decoration': 'none'},
                             n_clicks=0
@@ -1510,7 +1510,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-arrow-left-right"), ' Compare'],
                             id='compare-button1',
-                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '2%', 'margin-left': '2%','width': '19%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '2%','width': '19%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             href='/compare-chart-1',
                             target="_blank",
                             style={'text-decoration': 'none'}
@@ -1526,11 +1526,11 @@ main_layout = html.Div(children=[
                         ],
                         value='bias_ratings',  # default value on load
                         labelStyle={'display': 'inline-block', 'width': '31%'},
-                        style={'display': 'flex', 'margin-top': '1%', 'margin-left': '4%', 'margin-bottom': '2%'}
+                        style={'display': 'flex', 'margin-top': '1%', 'margin-left': '4%', 'margin-bottom': '1%'}
                     ),
 
                     # Graph for displaying the top offending publishers
-                    dcc.Graph(id='homepage-top-offending-publishers-bar-chart', style = {'margin-bottom': '30px'}),
+                    dcc.Graph(id='homepage-top-offending-publishers-bar-chart', style = {'margin-bottom': '1%'}),
 
                 ],style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'border': '2px solid #d3d3d3', 'border-radius': '8px', 'padding': '5px', 'margin-right': '5px', 'margin-left': '5px', 'margin-bottom': '10px'}
 
@@ -1543,7 +1543,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-binoculars-fill"), ' Explore'],
                             id='explore-button2',
-                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '2%', 'margin-left': '61%', 'width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '61%', 'width': '17%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             target="_blank",
                             style={'text-decoration': 'none'},
                             n_clicks=0
@@ -1553,7 +1553,7 @@ main_layout = html.Div(children=[
                         dbc.Button(
                             [html.I(className="bi-arrow-left-right"), ' Compare'],
                             id='compare-button2',
-                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '2%', 'margin-left': '2%','width': '19%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
+                            style={'white-space': 'nowrap', 'margin-top': '1%', 'margin-bottom': '1%', 'margin-left': '2%','width': '19%', 'display': 'inline-block', 'background-color': '#c22625', 'border-radius': '8px', 'border': 'none'}),
                             href='/compare-chart-2',
                             target="_blank",
                             style={'text-decoration': 'none'}
@@ -1562,7 +1562,7 @@ main_layout = html.Div(children=[
 
                     ## TODO: Place Homepage Chart 2 elements Here
                     # Graph for displaying the top topics
-                    dcc.Graph(id='homepage-top-topics-bar-chart', figure=update_homepage_chart2(), style={'margin-bottom': '30px'}),
+                    dcc.Graph(id='homepage-top-topics-bar-chart', figure=update_homepage_chart2(), style={'margin-bottom': '1%'}),
 
                 ],style={'backgroundColor': 'white', 'width': '45%', 'display': 'inline-block', 'border': '2px solid #d3d3d3', 'border-radius': '8px', 'padding': '5px', 'margin-right': '5px', 'margin-left': '5px', 'margin-bottom': '10px'}
                 ),
@@ -1644,9 +1644,9 @@ main_layout = html.Div(children=[
                         value=[1,2,3],  # default value on load
                         multi=True,
                         clearable=False,
-                        style={'width': '70%'}
+                        style={'width': '62%'}
                     )
-                ], style={'display': 'flex', 'margin-top': '1%', 'margin-left': '2%', 'margin-bottom': '2%', 'align-items': 'center'}),
+                ], style={'display': 'flex', 'margin-top': '1%', 'margin-left': '2%', 'margin-bottom': '1%', 'align-items': 'center'}),
 
 
                 # Toggle for headline-only or full-text word clouds
@@ -1658,11 +1658,11 @@ main_layout = html.Div(children=[
                     ],
                     value='title',  # default value on load
                     labelStyle={'display': 'inline-block', 'width': '22%', 'margin-left': '2%'},
-                    style={'display': 'flex', 'margin-top': '1%', 'margin-left': '2%', 'margin-bottom': '2%'}
+                    style={'display': 'flex', 'margin-top': '1%', 'margin-left': '2%', 'margin-bottom': '1%'}
                 ),
 
                 # Graph for displaying the word cloud
-                html.Img(id='homepage-wordcloud-container', style={'width': '100%'}),
+                html.Img(id='homepage-wordcloud-container', style={'width': '100%', 'margin-bottom': '1%'}),
                 # dcc.Graph(id='homepage-wordcloud-container'),
 
             ],
