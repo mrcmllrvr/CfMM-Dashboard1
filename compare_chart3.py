@@ -44,24 +44,50 @@ import urllib.parse
 
 # Import datasets if from local
 # df_dummy = pd.read_pickle(r"df_dummy.pkl")
-df_topic_and_loc = pd.read_pickle(r"df_topic_and_loc.pkl")
-df_bias = pd.read_pickle(r"df_bias.pkl")
+# df_topic_and_loc = pd.read_pickle(r"df_topic_and_loc.pkl")
+# df_bias = pd.read_pickle(r"df_bias.pkl")
 
-# (2) Join
-df_corpus = df_topic_and_loc.merge(df_bias, on='article_url')
+# # (2) Join
+# df = df_topic_and_loc.merge(df_bias, on='url')
+
+from google.cloud import bigquery
+import pandas as pd
+
+# Initialize BigQuery client
+client = bigquery.Client()
+
+# Define full table IDs (format: project.dataset.table)
+articles_table = "snappy-cosine-449202-k9.cfmm1.articles"
+topics_table = "snappy-cosine-449202-k9.cfmm1.topic_list"
+article_analyses_table = "snappy-cosine-449202-k9.cfmm1.article_analyses"
+
+
+# SQL query to join both tables using article_id
+query = """
+    SELECT *
+    FROM `snappy-cosine-449202-k9.cfmm1.articles` a
+    LEFT JOIN `snappy-cosine-449202-k9.cfmm1.topic_list` t ON a.article_id = t.article_id
+    LEFT JOIN `snappy-cosine-449202-k9.cfmm1.article_analyses` aa ON a.article_id = aa.article_id
+"""
+
+# Run the query and convert results to a Pandas DataFrame
+df_corpus = client.query(query).to_dataframe()
+df_corpus['publish_date'] = pd.to_datetime(df_corpus['publish_date'], errors='coerce')
+df_corpus['bias_rating'] = pd.to_numeric(df_corpus['bias_rating'], errors='coerce')
+df_corpus['url'] = pd.to_numeric(df_corpus['url'], errors='coerce')
 
 # (3) Get relevant parameters
 
 # # If year to date:
-start_date = df_corpus['date_published'].min()
-end_date = df_corpus['date_published'].max()
+start_date = df_corpus['publish_date'].min()
+end_date = df_corpus['publish_date'].max()
 
 # # If today only:
-# start_date = df_corpus['date_published'].max()
-# end_date = df_corpus['date_published'].max()
+# start_date = df['publish_date'].max()
+# end_date = df['publish_date'].max()
 
 unique_publishers = sorted(df_corpus['publisher'].unique())
-unique_topics = df_corpus['topic_list'].explode().dropna().unique()
+unique_topics = df_corpus['topic_name'].explode().dropna().unique()
 
 
 
@@ -137,10 +163,10 @@ def create_layout():
                 dcc.Dropdown(
                     id='chart3a-bias-rating-dropdown',
                     options=[
+                        {'label': 'Not Biased', 'value': 0},
                         {'label': 'Inconclusive', 'value':-1},
                         {'label': 'Biased', 'value': 1},
                         {'label': 'Very Biased', 'value': 2},
-                        {'label': 'Not Biased', 'value': 0},
                     ],
                     value=[1, 2],
                     placeholder='Select Overall Bias Score',
@@ -237,10 +263,10 @@ def create_layout():
                 dcc.Dropdown(
                     id='chart3b-bias-rating-dropdown',
                     options=[
+                        {'label': 'Not Biased', 'value': 0},
                         {'label': 'Inconclusive', 'value':-1},
                         {'label': 'Biased', 'value': 1},
                         {'label': 'Very Biased', 'value': 2},
-                        {'label': 'Not Biased', 'value': 0},
                     ],
                     value=[1, 2],
                     placeholder='Select Overall Bias Score',
@@ -305,13 +331,14 @@ def register_callbacks(app):
         if (selected_start_date is not None) & (selected_end_date is not None):
             start_date = pd.to_datetime(str(selected_start_date))
             end_date = pd.to_datetime(str(selected_end_date))
-            filtered_df = filtered_df[(filtered_df['date_published']>=start_date) & (filtered_df['date_published']<=end_date)]
+            filtered_df = filtered_df[(filtered_df['publish_date']>=start_date) & (filtered_df['publish_date']<=end_date)]
         if selected_publishers:
             filtered_df = filtered_df[filtered_df['publisher'].isin(selected_publishers)]
         if selected_bias_ratings:
             filtered_df = filtered_df[filtered_df['bias_rating'].isin(selected_bias_ratings)]
         if selected_topics:
-            filtered_df = filtered_df[filtered_df['topic'].str.contains('|'.join(selected_topics))]
+            filtered_df['topic_name'] = filtered_df['topic_name'].fillna("")
+            filtered_df = filtered_df[filtered_df['topic_name'].str.contains('|'.join(selected_topics))]
 
         # If chart is empty, show text instead
         if filtered_df.shape[0]==0:
@@ -334,17 +361,18 @@ def register_callbacks(app):
 
         else: 
             # Aggregate count per bias rating
-            categories = ['generalisation', 'prominence', 'negative_behaviour', 'misrepresentation', 'headline_or_imagery']
+            categories = ['generalization_tag', 'omit_due_prominence_tag', 'negative_aspects_tag', 'misrepresentation_tag', 'headline_bias_tag']
             labels = ['Generalisation', 'Omit Due Prominence', 'Negative Behaviour', 'Misrepresentation', 'Headline']
             label_map = dict(zip(categories, labels))
 
-            filtered_df = filtered_df[['article_url']+categories].melt(id_vars='article_url')
-            filtered_df = filtered_df.sort_values(['article_url', 'variable'])
-            filtered_df.columns = ['article_url', 'bias_rating', 'count']
-            filtered_df['bias_rating'] = filtered_df['bias_rating'].map(label_map)
-            filtered_df['bias_rating'] = pd.Categorical(filtered_df['bias_rating'], labels, ordered=True)
-            bias_counts = filtered_df.groupby('bias_rating', observed=True)['count'].sum()
-            total_articles = filtered_df[filtered_df['count']>=1]['article_url'].nunique()
+            filtered_df = filtered_df[['url']+categories].melt(id_vars='url')
+            filtered_df = filtered_df.sort_values(['url', 'variable'])
+            filtered_df.columns = ['url', 'bias_category', 'count']
+            filtered_df['bias_category_label'] = filtered_df['bias_category'].map(label_map)
+            filtered_df['bias_category_label'] = pd.Categorical(filtered_df['bias_category_label'], labels, ordered=True)
+            filtered_df['count'] = pd.to_numeric(filtered_df['count'], errors='coerce') # Coerce non-numeric values to NaN
+            bias_counts = filtered_df.groupby('bias_category_label', observed=True)['count'].sum()
+            total_articles = filtered_df[filtered_df['count']>=1]['url'].nunique()
             
             # Predefine colors for the top 5 topics
             colors = ['#4185A0', '#AA4D71', '#B85C3B', '#C5BE71', '#7658A0']
@@ -353,10 +381,11 @@ def register_callbacks(app):
             # Create bars for the bar chart
             data = []
             for (bias, count) in bias_counts.items():
+                percentage_of_total = (count / total_articles * 100) if total_articles > 0 else 0
                 tooltip_text = (
                     # f"<b>Overall Bias Score: </b>{bias}<br>"
                     f"<b>Count:</b> {count}<br>"
-                    f"<b>Proportion:</b> {count/total_articles:.1%} (Among {total_articles} articles that committed<br>at least 1 category of bias, {count/total_articles:.1%} are {bias}.)"
+                    f"<b>Proportion:</b> {percentage_of_total:.1%} (Among {total_articles} articles that committed<br>at least 1 category of bias, {percentage_of_total:.1%} are {bias}.)"
                     # f"<b>Percentage of Total: </b>{count/total_articles:.2%}"
                 )
 
@@ -413,13 +442,14 @@ def register_callbacks(app):
         if (selected_start_date is not None) & (selected_end_date is not None):
             start_date = pd.to_datetime(str(selected_start_date))
             end_date = pd.to_datetime(str(selected_end_date))
-            filtered_df = filtered_df[(filtered_df['date_published']>=start_date) & (filtered_df['date_published']<=end_date)]
+            filtered_df = filtered_df[(filtered_df['publish_date']>=start_date) & (filtered_df['publish_date']<=end_date)]
         if selected_publishers:
             filtered_df = filtered_df[filtered_df['publisher'].isin(selected_publishers)]
         if selected_bias_ratings:
             filtered_df = filtered_df[filtered_df['bias_rating'].isin(selected_bias_ratings)]
         if selected_topics:
-            filtered_df = filtered_df[filtered_df['topic'].str.contains('|'.join(selected_topics))]
+            filtered_df['topic_name'] = filtered_df['topic_name'].fillna("")
+            filtered_df = filtered_df[filtered_df['topic_name'].str.contains('|'.join(selected_topics))]
 
         # If chart is empty, show text instead
         if filtered_df.shape[0]==0:
@@ -442,17 +472,18 @@ def register_callbacks(app):
 
         else: 
             # Aggregate count per bias rating
-            categories = ['generalisation', 'prominence', 'negative_behaviour', 'misrepresentation', 'headline_or_imagery']
+            categories = ['generalization_tag', 'omit_due_prominence_tag', 'negative_aspects_tag', 'misrepresentation_tag', 'headline_bias_tag']
             labels = ['Generalisation', 'Omit Due Prominence', 'Negative Behaviour', 'Misrepresentation', 'Headline']
             label_map = dict(zip(categories, labels))
 
-            filtered_df = filtered_df[['article_url']+categories].melt(id_vars='article_url')
-            filtered_df = filtered_df.sort_values(['article_url', 'variable'])
-            filtered_df.columns = ['article_url', 'bias_rating', 'count']
-            filtered_df['bias_rating'] = filtered_df['bias_rating'].map(label_map)
-            filtered_df['bias_rating'] = pd.Categorical(filtered_df['bias_rating'], labels, ordered=True)
-            bias_counts = filtered_df.groupby('bias_rating', observed=True)['count'].sum()
-            total_articles = filtered_df[filtered_df['count']>=1]['article_url'].nunique()
+            filtered_df = filtered_df[['url']+categories].melt(id_vars='url')
+            filtered_df = filtered_df.sort_values(['url', 'variable'])
+            filtered_df.columns = ['url', 'bias_category', 'count']
+            filtered_df['bias_category_label'] = filtered_df['bias_category'].map(label_map)
+            filtered_df['bias_category_label'] = pd.Categorical(filtered_df['bias_category_label'], labels, ordered=True)
+            filtered_df['count'] = pd.to_numeric(filtered_df['count'], errors='coerce') # Coerce non-numeric values to NaN
+            bias_counts = filtered_df.groupby('bias_category_label', observed=True)['count'].sum()
+            total_articles = filtered_df[filtered_df['count']>=1]['url'].nunique()
             
             # Predefine colors for the top 5 topics
             colors = ['#4185A0', '#AA4D71', '#B85C3B', '#C5BE71', '#7658A0']
@@ -461,10 +492,11 @@ def register_callbacks(app):
             # Create bars for the bar chart
             data = []
             for (bias, count) in bias_counts.items():
+                percentage_of_total = (count / total_articles * 100) if total_articles > 0 else 0
                 tooltip_text = (
                     # f"<b>Overall Bias Score: </b>{bias}<br>"
                     f"<b>Count:</b> {count}<br>"
-                    f"<b>Proportion:</b> {count/total_articles:.1%} (Among {total_articles} articles that committed<br>at least 1 category of bias, {count/total_articles:.1%} are {bias}.)"
+                    f"<b>Proportion:</b> {percentage_of_total:.1%} (Among {total_articles} articles that committed<br>at least 1 category of bias, {percentage_of_total:.1%} are {bias}.)"
                     # f"<b>Percentage of Total: </b>{count/total_articles:.2%}"
                 )
 
@@ -536,13 +568,14 @@ def register_callbacks(app):
                 if (selected_start_date is not None) & (selected_end_date is not None):
                     start_date = pd.to_datetime(str(selected_start_date))
                     end_date = pd.to_datetime(str(selected_end_date))
-                    filtered_df = filtered_df[(filtered_df['date_published'] >= start_date) & (filtered_df['date_published'] <= end_date)]
+                    filtered_df = filtered_df[(filtered_df['publish_date'] >= start_date) & (filtered_df['publish_date'] <= end_date)]
                 if selected_publishers:
                     filtered_df = filtered_df[filtered_df['publisher'].isin(selected_publishers)]
                 if selected_bias_ratings:
                     filtered_df = filtered_df[filtered_df['bias_rating'].isin(selected_bias_ratings)]
                 if selected_topics:
-                    filtered_df = filtered_df[filtered_df['topic'].str.contains('|'.join(selected_topics))]
+                    filtered_df['topic_name'] = filtered_df['topic_name'].fillna("")
+                    filtered_df = filtered_df[filtered_df['topic_name'].str.contains('|'.join(selected_topics))]
                     topics = 'having any of the selected topics'
 
                 # label_map = {
@@ -559,14 +592,15 @@ def register_callbacks(app):
 
                     # Ensure this category is correctly mapped
                     category_map = {
-                        'Generalisation': 'generalisation',
-                        'Omit Due Prominence': 'prominence',
-                        'Negative Behaviour': 'negative_behaviour',
-                        'Misrepresentation': 'misrepresentation',
-                        'Headline': 'headline_or_imagery'
+                        'Generalisation': 'generalization_tag',
+                        'Omit Due Prominence': 'omit_due_prominence_tag',
+                        'Negative Behaviour': 'negative_aspects_tag',
+                        'Misrepresentation': 'misrepresentation_tag',
+                        'Headline': 'headline_bias_tag'
                     }
 
                     # Apply the bias category filter
+                    filtered_df[category_map[bias]] = pd.to_numeric(filtered_df[category_map[bias]], errors='coerce')
                     filtered_df = filtered_df[filtered_df[category_map[bias]] > 0]
 
                     # Table title
@@ -590,46 +624,50 @@ def register_callbacks(app):
                     #     ],
                     #     '#2E2C2B'
                     # )
-                    filtered_df['title_label'] = "<a href='" + filtered_df['article_url'] + "' target='_blank' style='color:" + filtered_df['color'] + ";'>" + filtered_df['title'] + "</a>"
+                    filtered_df['url'] = filtered_df['url'].astype(str)
+                    filtered_df['color'] = filtered_df['color'].astype(str)
+                    filtered_df['headline'] = filtered_df['headline'].astype(str)
+
+                    filtered_df['title_label'] = "<a href='" + filtered_df['url'] + "' target='_blank' style='color:" + filtered_df['color'] + ";'>" + filtered_df['headline'] + "</a>"
                     filtered_df['bias_rating_label'] = np.select(
                         [
-                            filtered_df['bias_rating'] == -1,
                             filtered_df['bias_rating'] == 0,
+                            filtered_df['bias_rating'] == -1,
                             filtered_df['bias_rating'] == 1,
                             filtered_df['bias_rating'] == 2
                         ],
                         [
-                            'Inconclusive',
                             'Not Biased',
+                            'Inconclusive',
                             'Biased',
                             'Very Biased'
                         ],
                         default='Unknown'
                     )
 
-                    categories = ['generalisation', 'prominence', 'negative_behaviour', 'misrepresentation', 'headline_or_imagery']
+                    categories = ['generalization_tag', 'omit_due_prominence_tag', 'negative_aspects_tag', 'misrepresentation_tag', 'headline_bias_tag']
                     for category in categories:
                         filtered_df[category] = np.where(filtered_df[category] == 1, 'Y', 'N')
-                    filtered_df['date_published_label_(yyyy-mm-dd)'] = filtered_df['date_published'].dt.date
+                    filtered_df['date_published_label_(yyyy-mm-dd)'] = filtered_df['publish_date'].dt.date
                     filtered_df['explore_further'] = "<a href='" + '' + "' target='_blank' style='color:#2E2C2B;'>" + "<b>Explore model results ➡️</b>" + "</a>"
 
                     # Save to csv
-                    csv_df = filtered_df[['publisher', 'title', 'article_url', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label'] + categories]
-                    csv_df.columns = ['Publisher', 'Title', 'Article URL', 'Date Published (YYYY-MM-DD)', 'Topic', 'Bias Rating'] + [c.upper() for c in categories]
+                    csv_df = filtered_df[['publisher', 'headline', 'url', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label'] + categories]
+                    csv_df.columns = ['Publisher', 'headline', 'Article URL', 'Date Published (YYYY-MM-DD)', 'Topic', 'Bias Rating'] + [c.upper() for c in categories]
                     csv_string = "data:text/csv;charset=utf-8,%EF%BB%BF" + urllib.parse.quote(csv_df.to_csv(index=False, encoding='utf-8'))
 
                     # Mapping for specific columns to their new names
                     column_name_map = {
                         'publisher': 'Publisher',
-                        'title_label': 'Title',
+                        'title_label': 'headline',
                         'date_published_label_(yyyy-mm-dd)': 'Date Published (YYYY-MM-DD)',
                         'topic': 'Topic',
                         'bias_rating_label': 'Bias Rating',
-                        'generalisation': 'G',
-                        'prominence': 'O',
-                        'negative_behaviour': 'N',
-                        'misrepresentation': 'M',
-                        'headline_or_imagery': 'H',
+                        'generalization_tag': 'G',
+                        'omit_due_prominence_tag': 'O',
+                        'negative_aspects_tag': 'N',
+                        'misrepresentation_tag': 'M',
+                        'headline_bias_tag': 'H',
                         'explore_further': 'Explore Further'
                     }
 
@@ -637,7 +675,7 @@ def register_callbacks(app):
                     filtered_df = filtered_df.sort_values('date_published_label_(yyyy-mm-dd)', ascending=False)[['publisher', 'title_label', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label'] + categories + ['explore_further']]
                     table = dash_table.DataTable(
                         css=[dict(selector="p", rule="margin:0; text-align:left")],
-                        columns=[{'id': x, 'name': column_name_map.get(x, x.replace('_', ' ').title()), 'presentation': 'markdown'} if 'title' in x or 'explore' in x else {'id': x, 'name': column_name_map.get(x, x.replace('_', ' ').replace('label', '').title().replace('Or', 'or').replace('Yyyy-Mm-Dd', 'yyyy-mm-dd'))} for x in filtered_df.columns],
+                        columns=[{'id': x, 'name': column_name_map.get(x, x.replace('_', ' ').title()), 'presentation': 'markdown'} if 'headline' in x or 'explore' in x else {'id': x, 'name': column_name_map.get(x, x.replace('_', ' ').replace('label', '').title().replace('Or', 'or').replace('Yyyy-Mm-Dd', 'yyyy-mm-dd'))} for x in filtered_df.columns],
                         markdown_options={"html": True},
                         data=filtered_df.to_dict('records'),
                         sort_action='native',
@@ -674,11 +712,11 @@ def register_callbacks(app):
                             {'if': {'column_id': 'date_published_label_(yyyy-mm-dd)'}, 'width': '150px'},
                             {'if': {'column_id': 'topic'}, 'width': '200px', 'textAlign': 'left'},
                             {'if': {'column_id': 'bias_rating_label'}, 'width': '150px'},
-                            {'if': {'column_id': 'generalisation'}, 'width': '50px'},
-                            {'if': {'column_id': 'prominence'}, 'width': '50px'},
-                            {'if': {'column_id': 'negative_behaviour'}, 'width': '50px'},
-                            {'if': {'column_id': 'misrepresentation'}, 'width': '50px'},
-                            {'if': {'column_id': 'headline_or_imagery'}, 'width': '50px'},
+                            {'if': {'column_id': 'generalization_tag'}, 'width': '50px'},
+                            {'if': {'column_id': 'omit_due_prominence_tag'}, 'width': '50px'},
+                            {'if': {'column_id': 'negative_aspects_tag'}, 'width': '50px'},
+                            {'if': {'column_id': 'misrepresentation_tag'}, 'width': '50px'},
+                            {'if': {'column_id': 'headline_bias_tag'}, 'width': '50px'},
                             {'if': {'column_id': 'explore_further'}, 'width': '200px'}
                         ]
                     )
@@ -729,13 +767,14 @@ def register_callbacks(app):
                 if (selected_start_date is not None) & (selected_end_date is not None):
                     start_date = pd.to_datetime(str(selected_start_date))
                     end_date = pd.to_datetime(str(selected_end_date))
-                    filtered_df = filtered_df[(filtered_df['date_published'] >= start_date) & (filtered_df['date_published'] <= end_date)]
+                    filtered_df = filtered_df[(filtered_df['publish_date'] >= start_date) & (filtered_df['publish_date'] <= end_date)]
                 if selected_publishers:
                     filtered_df = filtered_df[filtered_df['publisher'].isin(selected_publishers)]
                 if selected_bias_ratings:
                     filtered_df = filtered_df[filtered_df['bias_rating'].isin(selected_bias_ratings)]
                 if selected_topics:
-                    filtered_df = filtered_df[filtered_df['topic'].str.contains('|'.join(selected_topics))]
+                    filtered_df['topic_name'] = filtered_df['topic_name'].fillna("")
+                    filtered_df = filtered_df[filtered_df['topic_name'].str.contains('|'.join(selected_topics))]
                     topics = 'having any of the selected topics'
 
                 # label_map = {
@@ -752,14 +791,15 @@ def register_callbacks(app):
 
                     # Ensure this category is correctly mapped
                     category_map = {
-                        'Generalisation': 'generalisation',
-                        'Omit Due Prominence': 'prominence',
-                        'Negative Behaviour': 'negative_behaviour',
-                        'Misrepresentation': 'misrepresentation',
-                        'Headline': 'headline_or_imagery'
+                        'Generalisation': 'generalization_tag',
+                        'Omit Due Prominence': 'omit_due_prominence_tag',
+                        'Negative Behaviour': 'negative_aspects_tag',
+                        'Misrepresentation': 'misrepresentation_tag',
+                        'Headline': 'headline_bias_tag'
                     }
 
                     # Apply the bias category filter
+                    filtered_df[category_map[bias]] = pd.to_numeric(filtered_df[category_map[bias]], errors='coerce')
                     filtered_df = filtered_df[filtered_df[category_map[bias]] > 0]
 
                     # Table title
@@ -783,46 +823,50 @@ def register_callbacks(app):
                     #     ],
                     #     '#2E2C2B'
                     # )
-                    filtered_df['title_label'] = "<a href='" + filtered_df['article_url'] + "' target='_blank' style='color:" + filtered_df['color'] + ";'>" + filtered_df['title'] + "</a>"
+                    filtered_df['url'] = filtered_df['url'].astype(str)
+                    filtered_df['color'] = filtered_df['color'].astype(str)
+                    filtered_df['headline'] = filtered_df['headline'].astype(str)
+
+                    filtered_df['title_label'] = "<a href='" + filtered_df['url'] + "' target='_blank' style='color:" + filtered_df['color'] + ";'>" + filtered_df['headline'] + "</a>"
                     filtered_df['bias_rating_label'] = np.select(
                         [
-                            filtered_df['bias_rating'] == -1,
                             filtered_df['bias_rating'] == 0,
+                            filtered_df['bias_rating'] == -1,
                             filtered_df['bias_rating'] == 1,
                             filtered_df['bias_rating'] == 2
                         ],
                         [
-                            'Inconclusive',
                             'Not Biased',
+                            'Inconclusive',
                             'Biased',
                             'Very Biased'
                         ],
                         default='Unknown'
                     )
 
-                    categories = ['generalisation', 'prominence', 'negative_behaviour', 'misrepresentation', 'headline_or_imagery']
+                    categories = ['generalization_tag', 'omit_due_prominence_tag', 'negative_aspects_tag', 'misrepresentation_tag', 'headline_bias_tag']
                     for category in categories:
                         filtered_df[category] = np.where(filtered_df[category] == 1, 'Y', 'N')
-                    filtered_df['date_published_label_(yyyy-mm-dd)'] = filtered_df['date_published'].dt.date
+                    filtered_df['date_published_label_(yyyy-mm-dd)'] = filtered_df['publish_date'].dt.date
                     filtered_df['explore_further'] = "<a href='" + '' + "' target='_blank' style='color:#2E2C2B;'>" + "<b>Explore model results ➡️</b>" + "</a>"
 
                     # Save to csv
-                    csv_df = filtered_df[['publisher', 'title', 'article_url', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label'] + categories]
-                    csv_df.columns = ['Publisher', 'Title', 'Article URL', 'Date Published (YYYY-MM-DD)', 'Topic', 'Bias Rating'] + [c.upper() for c in categories]
+                    csv_df = filtered_df[['publisher', 'headline', 'url', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label'] + categories]
+                    csv_df.columns = ['Publisher', 'headline', 'Article URL', 'Date Published (YYYY-MM-DD)', 'Topic', 'Bias Rating'] + [c.upper() for c in categories]
                     csv_string = "data:text/csv;charset=utf-8,%EF%BB%BF" + urllib.parse.quote(csv_df.to_csv(index=False, encoding='utf-8'))
 
                     # Mapping for specific columns to their new names
                     column_name_map = {
                         'publisher': 'Publisher',
-                        'title_label': 'Title',
+                        'title_label': 'headline',
                         'date_published_label_(yyyy-mm-dd)': 'Date Published (YYYY-MM-DD)',
                         'topic': 'Topic',
                         'bias_rating_label': 'Bias Rating',
-                        'generalisation': 'G',
-                        'prominence': 'O',
-                        'negative_behaviour': 'N',
-                        'misrepresentation': 'M',
-                        'headline_or_imagery': 'H',
+                        'generalization_tag': 'G',
+                        'omit_due_prominence_tag': 'O',
+                        'negative_aspects_tag': 'N',
+                        'misrepresentation_tag': 'M',
+                        'headline_bias_tag': 'H',
                         'explore_further': 'Explore Further'
                     }
 
@@ -830,7 +874,7 @@ def register_callbacks(app):
                     filtered_df = filtered_df.sort_values('date_published_label_(yyyy-mm-dd)', ascending=False)[['publisher', 'title_label', 'date_published_label_(yyyy-mm-dd)', 'topic', 'bias_rating_label'] + categories + ['explore_further']]
                     table = dash_table.DataTable(
                         css=[dict(selector="p", rule="margin:0; text-align:left")],
-                        columns=[{'id': x, 'name': column_name_map.get(x, x.replace('_', ' ').title()), 'presentation': 'markdown'} if 'title' in x or 'explore' in x else {'id': x, 'name': column_name_map.get(x, x.replace('_', ' ').replace('label', '').title().replace('Or', 'or').replace('Yyyy-Mm-Dd', 'yyyy-mm-dd'))} for x in filtered_df.columns],
+                        columns=[{'id': x, 'name': column_name_map.get(x, x.replace('_', ' ').title()), 'presentation': 'markdown'} if 'headline' in x or 'explore' in x else {'id': x, 'name': column_name_map.get(x, x.replace('_', ' ').replace('label', '').title().replace('Or', 'or').replace('Yyyy-Mm-Dd', 'yyyy-mm-dd'))} for x in filtered_df.columns],
                         markdown_options={"html": True},
                         data=filtered_df.to_dict('records'),
                         sort_action='native',
@@ -867,11 +911,11 @@ def register_callbacks(app):
                             {'if': {'column_id': 'date_published_label_(yyyy-mm-dd)'}, 'width': '150px'},
                             {'if': {'column_id': 'topic'}, 'width': '200px', 'textAlign': 'left'},
                             {'if': {'column_id': 'bias_rating_label'}, 'width': '150px'},
-                            {'if': {'column_id': 'generalisation'}, 'width': '50px'},
-                            {'if': {'column_id': 'prominence'}, 'width': '50px'},
-                            {'if': {'column_id': 'negative_behaviour'}, 'width': '50px'},
-                            {'if': {'column_id': 'misrepresentation'}, 'width': '50px'},
-                            {'if': {'column_id': 'headline_or_imagery'}, 'width': '50px'},
+                            {'if': {'column_id': 'generalization_tag'}, 'width': '50px'},
+                            {'if': {'column_id': 'omit_due_prominence_tag'}, 'width': '50px'},
+                            {'if': {'column_id': 'negative_aspects_tag'}, 'width': '50px'},
+                            {'if': {'column_id': 'misrepresentation_tag'}, 'width': '50px'},
+                            {'if': {'column_id': 'headline_bias_tag'}, 'width': '50px'},
                             {'if': {'column_id': 'explore_further'}, 'width': '200px'}
                         ]
                     )
